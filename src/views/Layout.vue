@@ -3,9 +3,9 @@
     <nav class="headerNav navbar navbar-expand-md navbar-light bg-light position-sticky">
       <div class="container">
         <h1 class="h6 mb-0">
-          <a class="navbar-brand" href="#">
+          <router-link to="/" class="navbar-brand">
             <img width="80" src="https://upload.cc/i1/2020/09/02/X38KBL.png" alt /> Pet Trip
-          </a>
+          </router-link>
         </h1>
         <button
           class="navbar-toggler"
@@ -27,12 +27,12 @@
               </router-link>
             </li>
             <li class="nav-item hoveritem">
-               <router-link to="/FirmList" class="nav-link">
+              <router-link to="/FirmList" class="nav-link">
                 <i class="fas fa-paw mr-1"></i>尋找寄宿
               </router-link>
             </li>
             <li class="nav-item hoveritem">
-                <router-link to="/Login" class="nav-link">
+              <router-link to="/Login" class="nav-link">
                 <i class="fas fa-paw mr-1"></i>註冊 / 登入
               </router-link>
             </li>
