@@ -48,7 +48,7 @@ const routes = [
         children:
         [
           {
-            path: 'FirmOrder',
+            path: '',
             component: () => import('../views/FirmBackstage/FirmOrder.vue')
           },
           {
@@ -67,7 +67,7 @@ const routes = [
         children:
         [
           {
-            path: 'MemberOrder',
+            path: '',
             component: () => import('../views/MemberBackstage/MemberOrder.vue')
           },
           {
