@@ -10,7 +10,7 @@
       />
     </div>
     <nav class="sideBar show bg-light position-absolute">
-      <a href="#" class="sidebarBtn btn btn-dark rounded-0 position-absolute">
+      <a href="#" id="sidebarBtn" class="sidebarBtn btn btn-dark rounded-0 position-absolute" @click.prevent="toggleSidebar">
         <i class="change other fas fa-chevron-left d-none"></i>
         <i class="change fas fa-chevron-right d-none"></i>
       </a>
@@ -56,16 +56,15 @@
 
 <script>
 /* global $ */
-$(document).ready(function () {
-  $('.sidebarBtn').click(function (event) {
-    event.preventDefault()
-    $('.sideBar').toggleClass('show')
-    $('.change').toggleClass('other')
-  })
-})
 export default {
   data () {
     return {
+    }
+  },
+  methods: {
+    toggleSidebar: function () {
+      $('.sideBar').toggleClass('show')
+      $('.change').toggleClass('other')
     }
   }
 }
