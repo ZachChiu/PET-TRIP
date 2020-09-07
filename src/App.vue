@@ -32,5 +32,19 @@
   .opacityZero {
     opacity: 0;
   }
+  .hoverLine .hoveritem > a {
+    &:after {
+      content: "";
+      display: block;
+      height: 1.5px;
+      background: #fbc02d;
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+    &:hover:after {
+      transform: scaleX(1);
+      transition: transform 0.3s;
+    }
+  }
 }
 </style>
