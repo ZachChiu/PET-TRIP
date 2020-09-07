@@ -29,5 +29,8 @@
     right: 0;
     left: 0;
   }
+  .opacityZero {
+    opacity: 0;
+  }
 }
 </style>

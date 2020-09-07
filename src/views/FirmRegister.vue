@@ -12,7 +12,7 @@
     <div class="container py-5">
       <div class="row">
         <div class="col-lg-6 col-11 mx-auto border rounded">
-          <form class="py-5 px-2 px-sm-5">
+          <form class="py-5 px-2 px-sm-5" @submit.prevent="firmRegister">
             <h3 class="text-center mb-3">廠商註冊</h3>
             <div class="form-group">
               <label for="firmName">廠商名稱</label>
@@ -84,29 +84,9 @@
               <label for="date">有效日期</label>
               <input type="date" class="form-control" id="date" v-model="register.effectivedate" />
             </div>
-
-            <div class="form-group d-flex">
-              <label for="upload" class="w-100 btn btn-dark">
-                廠商頭像上傳
-                <input type="file" id="upload" class="d-none" />
-              </label>
-            </div>
-            <div
-              class="rounded-circle overflow-hidden"
-              :style="{backgroundImage: 'url(' + preview + ')'}"
-              style="background-size: cover;"
-            >
-              <img
-                src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
-                :class="{opacityZero:preview != null}"
-                class="w-100 img-fluid"
-                alt
-              />
-            </div>
-
             <div class="form-group d-flex mt-4">
               <router-link to="/Login" class="w-50 mr-2  btn btn-outline-primary">返回上一頁</router-link>
-              <button type="button" class="w-50 ml-2 btn btn-primary" @click="firmRegister">廠商註冊</button>
+              <button type="submit" class="w-50 ml-2 btn btn-primary">廠商註冊</button>
             </div>
           </form>
         </div>
@@ -123,7 +103,7 @@ export default {
         companyname: '子庭',
         companybrand: '子庭',
         phone: '1',
-        email: '1',
+        email: '1111@gmail.com',
         pwd: '1',
         pwdcheck: '1',
         country: '高雄市',
@@ -131,14 +111,37 @@ export default {
         address: '大昌路',
         pblicense: '1',
         effectivedate: '2020-08-01',
-        pic: null
+        avatar: null
       },
-      preview: null
+      fileUploading: false
     }
   },
   methods: {
-    firmRegister: function () {}
-
+    firmRegister: function () {
+      const config = {
+        method: 'post',
+        url: 'http://pettrip.rocket-coding.com/api/Company/Register',
+        data: {
+          companyname: `${this.register.companyname}`,
+          companybrand: `${this.register.companybrand}`,
+          phone: `${this.register.phone}`,
+          email: `${this.register.email}`,
+          pwd: `${this.register.pwd}`,
+          country: `${this.register.country}`,
+          area: `${this.register.area}`,
+          address: `${this.register.address}`,
+          pblicense: `${this.register.pblicense}`,
+          effectivedate: `${this.register.effectivedate}`
+        }
+      }
+      this.$http(config)
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
   }
 }
 </script>
