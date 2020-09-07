@@ -106,14 +106,14 @@
             <div class="form-group row">
               <label class="col-md-3 col-lg-2 col-form-label font-weight-bold" for="spaceName">主頁相片</label>
               <div class="col-md-9 col-lg-10">
-                <input type="text" class="form-control" id="spaceName" placeholder="圖片連結" />
+                <input type="text" class="form-control" id="spaceName" placeholder="圖片連結" v-model="companyData.bannerimg"/>
               </div>
             </div>
 
             <div class="form-group d-flex">
               <label for="upload" class="ml-auto btn btn-dark">
                 主頁照片上傳
-                <input type="file" id="upload" class="d-none" @change="updateFirmAvatar" />
+                <input type="file" id="upload" class="d-none" @change="updateFirmPic" />
               </label>
             </div>
             <div
@@ -123,7 +123,7 @@
             >
               <img
                 src="https://upload.cc/i1/2020/09/04/0MY4iy.png"
-                :class="{opacityZero:companyData.imgurl != null}"
+                :class="{opacityZero:companyData.bannerimg != null}"
                 class="w-100 img-fluid"
                 alt
               />
@@ -150,9 +150,9 @@
                 />
               </div>
               <div class="form-group d-flex my-4">
-                <label for="upload" class="btn btn-primary mx-auto">
+                <label for="uploadAvatar" class="btn btn-primary mx-auto">
                   更新頭像
-                  <input type="file" id="upload" class="d-none" @change="updateFirmAvatar" />
+                  <input ref="file" type="file" id="uploadAvatar" class="d-none" @change="updateFirmAvatar" />
                 </label>
               </div>
             </div>
@@ -248,11 +248,11 @@
           role="tabpanel"
           aria-labelledby="passwordChange-tab"
         >
-          <form action="#" class>
+          <form action="#" class @submit.prevent="savePassword">
             <div class="form-group row">
               <label class="col-md-3 col-lg-2 col-form-label font-weight-bold" for="password">新密碼</label>
               <div class="col-md-9 col-lg-10">
-                <input type="text" class="form-control" id="password" />
+                <input type="password" class="form-control" id="password" v-model="updatePwd.pwd" autocomplete='off'/>
               </div>
             </div>
             <div class="form-group row">
@@ -261,11 +261,11 @@
                 for="passwordAgain"
               >再次輸入新密碼</label>
               <div class="col-md-9 col-lg-10">
-                <input type="text" class="form-control" id="passwordAgain" />
+                <input type="password" class="form-control" id="passwordAgain" v-model="updatePwd.pwdCheck" autocomplete='off'/>
               </div>
             </div>
             <div class="form-group d-flex justify-content-center mt-4">
-              <button type="button" class="btn btn-primary" @click="saveFirmData">儲存</button>
+              <button type="submit" class="btn btn-primary">修改</button>
             </div>
           </form>
         </div>
@@ -278,8 +278,20 @@
 export default {
   data () {
     return {
-      companyData: {},
-      token: ''
+      companyData: {
+        introduce: '',
+        morning: false,
+        afternoon: false,
+        night: false,
+        midnight: false,
+        bannerimg: ''
+      },
+      updatePwd: {
+        pwd: '',
+        pwdCheck: ''
+      },
+      token: '',
+      fileUploading: false
     }
   },
   created () {
@@ -287,24 +299,91 @@ export default {
   },
   methods: {
     updateFirmAvatar: function () {
-
+      const uploadedFile = this.$refs.file.files[0]
+      const formData = new FormData()
+      formData.append('file', uploadedFile)
+      // const url = 'https://9409bc01ef8b.ngrok.io/api/Company/Uploadimg'
+      const url = 'http://pettrip.rocket-coding.com/api/Company/Uploadimg'
+      this.fileUploading = true
+      this.$http.post(url, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((response) => {
+        this.fileUploading = false
+        console.log(response)
+        this.getOne()
+      }).catch(() => {
+        alert('上傳失敗')
+        this.fileUploading = false
+      })
+    },
+    updateFirmPic: function (event) {
+      const uploadedFile = event.target.files[0]
+      const formData = new FormData()
+      formData.append('file', uploadedFile)
+      const url = 'http://pettrip.rocket-coding.com/api/Uploadimg'
+      // const url = 'https://9409bc01ef8b.ngrok.io/api/Uploadimg'
+      this.fileUploading = true
+      this.$http.post(url, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((response) => {
+        this.fileUploading = false
+        console.log(response)
+        this.companyData.bannerimg = response.data.result
+      }).catch(() => {
+        alert('上傳失敗')
+        this.fileUploading = false
+      })
     },
     saveFirmData: function () {
-
+      var config = {
+        method: 'patch',
+        url: 'http://pettrip.rocket-coding.com/api/Company/Patchcompany',
+        headers: { },
+        data: {
+          introduce: `${this.companyData.introduce}`,
+          morning: `${this.companyData.morning}`,
+          afternoon: `${this.companyData.afternoon}`,
+          night: `${this.companyData.night}`,
+          midnight: `${this.companyData.midnight}`,
+          bannerimg: `${this.companyData.bannerimg}`
+        }
+      }
+      this.$http(config)
+        .then(function (response) {
+          console.log(response)
+          this.getOne()
+        })
+        .catch(function (error) {
+          console.log(error)
+          alert('儲存失敗')
+        })
+    },
+    savePassword: function () {
+      var config = {
+        method: 'patch',
+        url: 'http://pettrip.rocket-coding.com/api/Company/Resetpwd',
+        data: {
+          pwd: `${this.updatePwd.pwd}`
+        }
+      }
+      this.$http(config)
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+          alert('修改失敗')
+        })
     },
     getOne: function () {
       const vm = this
-      this.token = document.cookie.replace(
-        /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
-        '$1'
-      )
       const config = {
         method: 'get',
-        url: 'http://pettrip.rocket-coding.com/api/Company/GetOne',
-        // url: 'https://9409bc01ef8b.ngrok.io/api/Company/GetOne',
-        headers: {
-          Authorization: `Bearer ${this.token}`
-        }
+        url: 'http://pettrip.rocket-coding.com/api/Company/GetOne'
       }
       this.$http(config)
         .then(function (res) {
