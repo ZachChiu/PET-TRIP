@@ -1,5 +1,7 @@
 <template>
   <div class="firmSet">
+    <loading :active.sync="isLoading"
+       loader="bars"></loading>
     <div class="container mx-auto py-5">
       <ul class="nav nav-tabs nav-fill text-center" id="myTab" role="tablist">
         <li class="nav-item">
@@ -106,24 +108,24 @@
             <div class="form-group row">
               <label class="col-md-3 col-lg-2 col-form-label font-weight-bold" for="spaceName">主頁相片</label>
               <div class="col-md-9 col-lg-10">
-                <input type="text" class="form-control" id="spaceName" placeholder="圖片連結" v-model="companyData.bannerimg"/>
+                <input type="text" class="form-control" id="spaceName" placeholder="圖片連結" v-model.trim="companyData.bannerimg"/>
               </div>
             </div>
 
             <div class="form-group d-flex">
-              <label for="upload" class="ml-auto btn btn-dark">
-                主頁照片上傳
-                <input type="file" id="upload" class="d-none" @change="updateFirmPic" />
+              <label for="upload" class="ml-auto btn btn-dark" :class="{disabled:FirmPicUploading}">
+                <i v-if="FirmPicUploading" class="fas fa-spinner fa-spin"></i>主頁照片上傳
+                <input type="file" id="upload" class="d-none" @change="updateFirmPic" :disabled="FirmPicUploading"/>
               </label>
             </div>
             <div
               class="mx-auto"
               :style="{backgroundImage: 'url(' + companyData.bannerimg + ')'}"
-              style="background-size: cover;"
+              style="background-size: cover;background-position:center"
             >
               <img
                 src="https://upload.cc/i1/2020/09/04/0MY4iy.png"
-                :class="{opacityZero:companyData.bannerimg != null}"
+                :class="{opacityZero:companyData.bannerimg != ''}"
                 class="w-100 img-fluid"
                 alt
               />
@@ -144,15 +146,15 @@
               >
                 <img
                   src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
-                  :class="{opacityZero:companyData.avatar != null}"
+                  :class="{opacityZero:companyData.avatar != ''}"
                   class="w-100 img-fluid"
                   alt
                 />
               </div>
               <div class="form-group d-flex my-4">
-                <label for="uploadAvatar" class="btn btn-primary mx-auto">
-                  更新頭像
-                  <input ref="file" type="file" id="uploadAvatar" class="d-none" @change="updateFirmAvatar" />
+                <label for="uploadAvatar" class="btn btn-primary mx-auto" :class="{disabled:FirmAvatarUploading}">
+                  <i v-if="FirmAvatarUploading" class="fas fa-spinner fa-spin"></i>更新頭像
+                  <input type="file" id="uploadAvatar" class="d-none" @change="updateFirmAvatar" :disabled="FirmAvatarUploading"/>
                 </label>
               </div>
             </div>
@@ -275,6 +277,9 @@
 </template>
 
 <script>
+import VueLoading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
+
 export default {
   data () {
     return {
@@ -291,31 +296,36 @@ export default {
         pwdCheck: ''
       },
       token: '',
-      fileUploading: false
+      FirmPicUploading: false,
+      FirmAvatarUploading: false,
+      isLoading: false
     }
+  },
+  components: {
+    loading: VueLoading
   },
   created () {
     this.getOne()
   },
   methods: {
-    updateFirmAvatar: function () {
-      const uploadedFile = this.$refs.file.files[0]
+    updateFirmAvatar: function (event) {
+      const uploadedFile = event.target.files[0]
       const formData = new FormData()
       formData.append('file', uploadedFile)
       // const url = 'https://9409bc01ef8b.ngrok.io/api/Company/Uploadimg'
       const url = 'http://pettrip.rocket-coding.com/api/Company/Uploadimg'
-      this.fileUploading = true
+      this.FirmAvatarUploading = true
       this.$http.post(url, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       }).then((response) => {
-        this.fileUploading = false
+        this.FirmAvatarUploading = false
         console.log(response)
         this.getOne()
       }).catch(() => {
         alert('上傳失敗')
-        this.fileUploading = false
+        this.FirmAvatarUploading = false
       })
     },
     updateFirmPic: function (event) {
@@ -324,21 +334,23 @@ export default {
       formData.append('file', uploadedFile)
       const url = 'http://pettrip.rocket-coding.com/api/Uploadimg'
       // const url = 'https://9409bc01ef8b.ngrok.io/api/Uploadimg'
-      this.fileUploading = true
+      this.FirmPicUploading = true
       this.$http.post(url, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       }).then((response) => {
-        this.fileUploading = false
+        this.FirmPicUploading = false
         console.log(response)
         this.companyData.bannerimg = response.data.result
       }).catch(() => {
         alert('上傳失敗')
-        this.fileUploading = false
+        this.FirmPicUploading = false
       })
     },
     saveFirmData: function () {
+      this.isLoading = true
+      const vm = this
       var config = {
         method: 'patch',
         url: 'http://pettrip.rocket-coding.com/api/Company/Patchcompany',
@@ -355,14 +367,17 @@ export default {
       this.$http(config)
         .then(function (response) {
           console.log(response)
-          this.getOne()
+          vm.getOne()
         })
         .catch(function (error) {
           console.log(error)
           alert('儲存失敗')
+          this.isLoading = false
         })
     },
     savePassword: function () {
+      this.isLoading = true
+      const vm = this
       var config = {
         method: 'patch',
         url: 'http://pettrip.rocket-coding.com/api/Company/Resetpwd',
@@ -373,13 +388,16 @@ export default {
       this.$http(config)
         .then(function (response) {
           console.log(response)
+          vm.getOne()
         })
         .catch(function (error) {
           console.log(error)
           alert('修改失敗')
+          this.isLoading = false
         })
     },
     getOne: function () {
+      this.isLoading = true
       const vm = this
       const config = {
         method: 'get',
@@ -389,9 +407,11 @@ export default {
         .then(function (res) {
           console.log(res)
           vm.companyData = res.data
+          vm.isLoading = false
         })
         .catch(function (error) {
           console.log(error)
+          this.isLoading = false
         })
     }
   }
