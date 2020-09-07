@@ -61,10 +61,21 @@ export default {
     return {
     }
   },
+  created () {
+    this.getToken()
+  },
   methods: {
     toggleSidebar: function () {
       $('.sideBar').toggleClass('show')
       $('.change').toggleClass('other')
+    },
+    getToken: function () {
+      const token = document.cookie.replace(
+        /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
+        '$1'
+      )
+      this.$http.defaults.headers.common.Authorization = `Bearer ${token}`
+      console.log(token)
     }
   }
 }
