@@ -16,18 +16,18 @@
       </a>
       <h5 class="text-center my-4">廠商後台管理</h5>
       <ul class="nav nav-pills nav-fill flex-column text-center">
-        <li class="nav-item">
-          <router-link to="/FirmBackstage" class="nav-link active"><i class="fas fa-clipboard-list"></i>
+        <li class="nav-item" @click="pageCurrent = '/FirmBackstage'">
+          <router-link to="/FirmBackstage" class="nav-link" :class="{active:pageCurrent == '/FirmBackstage'}"><i class="fas fa-clipboard-list"></i>
             訂單列表</router-link>
         </li>
-        <li class="nav-item">
-            <router-link to="/FirmBackstage/FirmRoom" class="nav-link"><i class="fas fa-box-open"></i>空間管理</router-link>
+        <li class="nav-item" @click="pageCurrent = '/FirmBackstage/FirmRoom'">
+            <router-link to="/FirmBackstage/FirmRoom" class="nav-link" :class="{active:pageCurrent == '/FirmBackstage/FirmRoom'}"><i class="fas fa-box-open"></i>空間管理</router-link>
         </li>
-        <li class="nav-item">
-            <router-link to="/FirmBackstage" class="nav-link"><i class="fas fa-question"></i>問與答QA</router-link>
+        <li class="nav-item" @click="pageCurrent = '/FirmBackstage/FirmQA'">
+            <router-link to="/FirmBackstage" class="nav-link" :class="{active:pageCurrent == '/FirmBackstage/FirmQA'}"><i class="fas fa-question"></i>問與答QA</router-link>
         </li>
-        <li class="nav-item">
-          <router-link to="/FirmBackstage/FirmSet" class="nav-link"><i class="fas fa-cog"></i>廠商設定</router-link>
+        <li class="nav-item" @click="pageCurrent = '/FirmBackstage/FirmSet'">
+          <router-link to="/FirmBackstage/FirmSet" class="nav-link" :class="{active:pageCurrent == '/FirmBackstage/FirmSet'}"><i class="fas fa-cog"></i>廠商設定</router-link>
         </li>
       </ul>
     </nav>
@@ -59,17 +59,20 @@
 export default {
   data () {
     return {
+      pageCurrent: 'order'
     }
   },
   created () {
-    this.getToken()
+    this.getFirmBakcstageData()
   },
   methods: {
     toggleSidebar: function () {
       $('.sideBar').toggleClass('show')
       $('.change').toggleClass('other')
     },
-    getToken: function () {
+    getFirmBakcstageData: function () {
+      this.pageCurrent = this.$route.path
+      console.log(this.$route.path)
       const token = document.cookie.replace(
         /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
         '$1'
