@@ -4,6 +4,7 @@ import router from './router'
 import $ from 'jquery'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VCalendar from 'v-calendar'
 import { ValidationObserver, ValidationProvider, extend, localize, configure } from 'vee-validate'
 import * as rules from 'vee-validate/dist/rules'
 import { required, email } from 'vee-validate/dist/rules'
@@ -13,6 +14,10 @@ localize('zh_TW', zhTW)
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
+Vue.use(VCalendar, {
+  componentPrefix: 'vc'
+})
+
 window.$ = $
 new Vue({
   router,
