@@ -195,7 +195,7 @@
                     <label class="col-sm-3 col-lg-4 col-form-label" for="can">提供罐頭</label>
                     <div class="col-sm-9 col-lg-8">
                       <select class="form-control" name id="can" v-model="temData.canned">
-                        <option value selected disabled>請選擇</option>
+                        <option value="" selected disabled>請選擇</option>
                         <option value="true">有</option>
                         <option value="false">無</option>
                       </select>
@@ -233,7 +233,7 @@
                     <label class="col-sm-3 col-lg-4 col-form-label" for="visit">看管程度</label>
                     <div class="col-sm-9 col-lg-8">
                       <select class="form-control" name id="visit" v-model="temData.visit">
-                        <option value selected disabled>請選擇</option>
+                        <option value='0' selected disabled>請選擇</option>
                         <option value="24">24小時</option>
                         <option value="22">22小時</option>
                         <option value="20">20小時</option>
@@ -613,7 +613,40 @@ export default {
       const vm = this
       if (item === 'new') {
         this.modalStatus = 'new'
-        this.temData = {}
+        this.temData = {
+          roomseq: '',
+          roomname: '',
+          introduce: '',
+          pettype_cat: false,
+          pettype_dog: false,
+          pettype_other: false,
+          petsizes: '',
+          petsizee: '',
+          roomamount: '',
+          roomprice: '',
+          roomamount_amt: '',
+          walk: '',
+          canned: '',
+          feed: '',
+          catlitter: '',
+          visit: '0',
+          medicine_infeed: false,
+          medicine_infeed_amt: '',
+          medicine_pill: false,
+          medicine_pill_amt: '',
+          medicine_paste: false,
+          medicine_paste_amt: '',
+          bath: false,
+          bath_amt: '',
+          hair: false,
+          hair_amt: '',
+          nails: false,
+          nails_amt: '',
+          img1: '',
+          img2: '',
+          img3: '',
+          img4: ''
+        }
         $('#editModal').modal('show')
       } else if (item === 'del') {
         this.temData = data
@@ -708,6 +741,7 @@ export default {
         config.url = 'http://pettrip.rocket-coding.com/api/Room/Edit'
       }
       config.data = {
+        roomseq: `${this.temData.roomseq}`,
         roomname: `${this.temData.roomname}`,
         introduce: `${this.temData.introduce}`,
         pettype_cat: this.temData.pettype_cat,
