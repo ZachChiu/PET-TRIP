@@ -153,7 +153,7 @@
               </div>
               <div class="form-group d-flex my-4">
                 <label for="uploadAvatar" class="btn btn-primary mx-auto" :class="{disabled:FirmAvatarUploading}">
-                  <i v-if="FirmAvatarUploading" class="fas fa-spinner fa-spin"></i>更新頭像
+                  <i v-if="FirmAvatarUploading" class="mr-1 fas fa-spinner fa-spin"></i>更新頭像
                   <input type="file" id="uploadAvatar" class="d-none" @change="updateFirmAvatar" :disabled="FirmAvatarUploading"/>
                 </label>
               </div>
@@ -250,26 +250,34 @@
           role="tabpanel"
           aria-labelledby="passwordChange-tab"
         >
+        <ValidationObserver v-slot="{ invalid }">
           <form action="#" class @submit.prevent="savePassword">
+            <ValidationProvider name="confirm"  rules="required" v-slot="{ errors,classes }">
             <div class="form-group row">
               <label class="col-md-3 col-lg-2 col-form-label font-weight-bold" for="password">新密碼</label>
               <div class="col-md-9 col-lg-10">
-                <input type="password" class="form-control" id="password" v-model="updatePwd.pwd" autocomplete='off'/>
+                <input type="password" class="form-control" :class="classes" id="password" v-model="updatePwd.pwd" autocomplete='off'/>
+                <span class="text-danger">{{ errors[0] }}</span>
               </div>
             </div>
+            </ValidationProvider>
+            <ValidationProvider rules="required|password:@confirm" v-slot="{ errors,classes }">
             <div class="form-group row">
               <label
                 class="col-md-3 col-lg-2 col-form-label font-weight-bold"
                 for="passwordAgain"
               >再次輸入新密碼</label>
               <div class="col-md-9 col-lg-10">
-                <input type="password" class="form-control" id="passwordAgain" v-model="updatePwd.pwdCheck" autocomplete='off'/>
+                <input type="password" class="form-control" :class="classes" id="passwordAgain" v-model="updatePwd.pwdCheck" autocomplete='off'/>
+                <span class="text-danger">{{ errors[0] }}</span>
               </div>
             </div>
+            </ValidationProvider>
             <div class="form-group d-flex justify-content-center mt-4">
-              <button type="submit" class="btn btn-primary">修改</button>
+              <button type="submit" :disabled="invalid" :class="{disabled:invalid}" class="btn btn-primary">修改</button>
             </div>
           </form>
+        </ValidationObserver>
         </div>
       </div>
     </div>
