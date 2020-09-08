@@ -31,7 +31,7 @@
         </li>
       </ul>
     </nav>
-    <router-view></router-view>
+    <router-view @checkStatus="getFirmBackstageData"></router-view>
   </div>
 </template>
 
