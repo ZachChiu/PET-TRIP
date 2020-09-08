@@ -45,5 +45,28 @@
 
 <script>
 export default {
+  data () {
+    return {
+      pageCurrent: '/MemberBackstage'
+    }
+  },
+  created () {
+    this.getMemberBackstageData()
+  },
+  methods: {
+    getMemberBackstageData: function () {
+      this.pageCurrent = this.$route.path
+      console.log(this.$route.path)
+      const token = document.cookie.replace(
+        /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
+        '$1'
+      )
+      this.$http.defaults.headers.common.Authorization = `Bearer ${token}`
+      if (token === '' || token == null || token === undefined) {
+        this.$router.push('/')
+      }
+      console.log(token)
+    }
+  }
 }
 </script>
