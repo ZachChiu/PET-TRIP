@@ -24,7 +24,10 @@
                     class="form-control"
                     required
                     v-model="register.companyname"
-                    :class="classes" autocomplete='off' placeholder="xx股份有限公司"/>
+                    :class="classes"
+                    autocomplete="off"
+                    placeholder="xx股份有限公司"
+                  />
                   <span class="text-danger">{{errors[0]}}</span>
                 </div>
               </ValidationProvider>
@@ -36,7 +39,8 @@
                     id="brandName"
                     class="form-control"
                     v-model="register.companybrand"
-                    :class="classes" autocomplete='off'
+                    :class="classes"
+                    autocomplete="off"
                   />
                   <span class="text-danger">{{errors[0]}}</span>
                 </div>
@@ -49,7 +53,8 @@
                     id="phone"
                     class="form-control"
                     v-model="register.phone"
-                    :class="classes" autocomplete='off'
+                    :class="classes"
+                    autocomplete="off"
                   />
                   <span class="text-danger">{{errors[0]}}</span>
                 </div>
@@ -62,7 +67,8 @@
                     class="form-control"
                     id="email"
                     v-model="register.email"
-                    :class="classes" autocomplete='off'
+                    :class="classes"
+                    autocomplete="off"
                   />
                   <span class="text-danger">{{errors[0]}}</span>
                 </div>
@@ -75,12 +81,16 @@
                     class="form-control"
                     id="password"
                     v-model="register.pwd"
-                    :class="classes" autocomplete='off'
+                    :class="classes"
+                    autocomplete="off"
                   />
                   <span class="text-danger">{{errors[0]}}</span>
                 </div>
               </ValidationProvider>
-              <ValidationProvider rules="required|password:@密碼|alpha_num" v-slot="{ errors,classes }">
+              <ValidationProvider
+                rules="required|password:@密碼|alpha_num"
+                v-slot="{ errors,classes }"
+              >
                 <div class="form-group">
                   <label for="確認密碼">再次確認密碼</label>
                   <input
@@ -88,7 +98,8 @@
                     class="form-control"
                     id="確認密碼"
                     v-model="register.pwdcheck"
-                    :class="classes" autocomplete='off'
+                    :class="classes"
+                    autocomplete="off"
                   />
                   <span class="text-danger">{{ errors[0] }}</span>
                 </div>
@@ -104,7 +115,7 @@
                       v-model="register.country"
                       :class="classes"
                     >
-                      <option value="" selected disabled>請選擇</option>
+                      <option value selected disabled>請選擇</option>
                       <option>高雄市</option>
                       <option>台北市</option>
                     </select>
@@ -119,7 +130,7 @@
                       v-model="register.area"
                       :class="classes"
                     >
-                      <option value="" selected disabled>請選擇</option>
+                      <option value selected disabled>請選擇</option>
                       <option>三民區</option>
                       <option>前鎮區</option>
                     </select>
@@ -148,7 +159,8 @@
                     class="form-control"
                     id="identify"
                     v-model="register.pblicense"
-                    :class="classes" autocomplete='off'
+                    :class="classes"
+                    autocomplete="off"
                     placeholder="特寵業繁字第********號"
                   />
                   <span class="text-danger">{{errors[0]}}</span>
@@ -157,13 +169,13 @@
               <ValidationProvider rules="required" v-slot="{ errors,classes }">
                 <div class="form-group">
                   <label for="date">有效日期</label>
-                  <input
-                    type="date"
-                    class="form-control"
-                    id="date"
-                    v-model="register.effectivedate"
-                    :class="classes"
-                  />
+                  <vc-date-picker  :min-date="new Date()" :value="Object" v-model="register.effectivedate"><input
+          id="date"
+          slot-scope="{ inputProps, inputEvents }"
+           class="form-control"
+          :class="classes"
+          v-bind="inputProps"
+          v-on="inputEvents" ></vc-date-picker>
                   <span class="text-danger">{{errors[0]}}</span>
                 </div>
               </ValidationProvider>
@@ -188,6 +200,7 @@
 export default {
   data () {
     return {
+      change: '',
       register: {
         companyname: '',
         companybrand: '',
@@ -199,16 +212,19 @@ export default {
         area: '',
         address: '',
         pblicense: '',
-        effectivedate: ''
+        effectivedate: new Date()
       },
       fileUploading: false
     }
   },
   methods: {
     firmRegister: function () {
+      const vm = this
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Company/Register',
+        // url: 'https://9409bc01ef8b.ngrok.io/api/Company/Register',
+
         data: {
           companyname: `${this.register.companyname}`,
           companybrand: `${this.register.companybrand}`,
@@ -219,12 +235,15 @@ export default {
           area: `${this.register.area}`,
           address: `${this.register.address}`,
           pblicense: `${this.register.pblicense}`,
-          effectivedate: `${this.register.effectivedate}`
+          effectivedate: `new Date(${this.register.effectivedate}).toLocaleDateString()`
         }
       }
       this.$http(config)
         .then(function (response) {
           console.log(response)
+          if (response.data.result === '註冊成功') {
+            vm.$router.push('/Login')
+          }
         })
         .catch(function (error) {
           console.log(error)
