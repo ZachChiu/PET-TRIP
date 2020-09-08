@@ -1,5 +1,7 @@
 <template>
   <div class="layout">
+    <loading :active.sync="isLoading"
+       loader="bars"></loading>
     <nav class="headerNav navbar navbar-expand-md navbar-light bg-light position-sticky">
       <div class="container">
         <h1 class="h6 mb-0">
@@ -18,9 +20,8 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="hoverLine navbar-nav ml-auto">
+          <ul class="hoverLine navbar-nav ml-auto align-items-md-center">
             <li class="nav-item hoveritem active">
               <router-link to="/" class="nav-link">
                 <i class="fas fa-paw mr-1"></i>首頁
@@ -31,17 +32,59 @@
                 <i class="fas fa-paw mr-1"></i>尋找寄宿
               </router-link>
             </li>
-            <li class="nav-item hoveritem">
+            <li class="nav-item hoveritem" v-if="identify.identity != '廠商' && identify.identity != '會員'">
               <router-link to="/Login" class="nav-link">
                 <i class="fas fa-paw mr-1"></i>註冊 / 登入
               </router-link>
             </li>
+            <li class="firmDrop nav-item dropdown" v-if="identify.identity == '廠商' ">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <span class="d-inline d-md-none">
+                  <i class="fas fa-paw mr-1"></i>管理後台
+                </span>
+                <img style="width:40px;height:40px;object-fit: cover;"
+                  class="d-md-inline d-none img-fluid rounded-circle"
+                  :src="identify.avatar"
+                  alt
+                />
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <router-link to="/FirmBackstage/FirmSet" class="dropdown-item">廠商設定</router-link>
+                <router-link to="/FirmBackstage" class="dropdown-item">訂單列表</router-link>
+                <router-link to="/FirmBackstage/FirmRoom" class="dropdown-item">空間管理</router-link>
+                <router-link to="/FirmBackstage" class="dropdown-item">問與答</router-link>
+                <div class="dropdown-divider"></div>
+                <a @click="signout" class="dropdown-item" href="#">登出</a>
+              </div>
+            </li>
+            <li class="memberDrop nav-item dropdown" v-if="identify.identity == '會員' ">
+                        <a class="nav-link dropdown-toggle" ref="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="d-inline d-md-none"><i class="fas fa-paw mr-1"></i>我的頁面</span>
+                            <img style="width:40px;height:40px;object-fit: cover;" class="d-md-inline d-none img-fluid rounded-circle" :src="identify.avatar" alt="">
+                        </a>
+                        <div class="dropdown-menu  dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <router-link to="/MemberBackstage/MemberSet" class="dropdown-item">會員設定</router-link>
+                            <router-link to="/MemberBackstage" class="dropdown-item">訂單列表</router-link>
+                            <router-link to="/MemberBackstage" class="dropdown-item">問與答</router-link>
+                            <div class="dropdown-divider"></div>
+                            <a @click="signout" class="dropdown-item" href="#">登出</a>
+                        </div>
+                    </li>
           </ul>
         </div>
       </div>
     </nav>
     <main>
-      <router-view></router-view>
+      <router-view  @page-refresh="getIdentify"></router-view>
     </main>
     <footer class="bg-dark">
       <div class="container">
@@ -104,3 +147,64 @@
     </footer>
   </div>
 </template>
+
+<script>
+import VueLoading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
+
+export default {
+  data () {
+    return {
+      identify: {},
+      isLoading: false
+    }
+  },
+  components: {
+    loading: VueLoading
+  },
+  created () {
+    this.getIdentify()
+  },
+  methods: {
+    getIdentify: function (get) {
+      this.isLoading = true
+      const vm = this
+      const token = document.cookie.replace(
+        /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
+        '$1'
+      )
+      const config = {
+        method: 'get',
+        url: 'http://pettrip.rocket-coding.com/api/GetIdentity',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+      this.$http(config)
+        .then(function (response) {
+          console.log(response)
+          vm.identify = response.data.result
+          if (vm.identify.avatar == null) {
+            vm.identify.avatar = 'https://upload.cc/i1/2020/09/08/AqaTzN.png'
+          }
+          vm.isLoading = false
+          if (get === '廠商') {
+            vm.$router.push('/FirmBackstage')
+          } else if (get === '會員') {
+            vm.$router.push('/')
+          }
+        })
+        .catch(function (error) {
+          console.log(error)
+          vm.isLoading = false
+        })
+    },
+    signout: function () {
+      this.isLoading = true
+      document.cookie = `pet='';expires=${new Date(-1)}; path=/`
+      this.getIdentify()
+      this.$router.push('46546')
+    }
+  }
+}
+</script>
