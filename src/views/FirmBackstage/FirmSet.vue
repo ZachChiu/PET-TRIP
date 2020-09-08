@@ -405,6 +405,7 @@ export default {
         })
     },
     getOne: function () {
+      this.$emit('checkStatus', 'check')
       this.isLoading = true
       const vm = this
       const config = {

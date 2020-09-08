@@ -592,6 +592,7 @@ export default {
   },
   methods: {
     getData: function () {
+      this.$emit('checkStatus', 'check')
       const vm = this
       this.isLoading = true
       const config = {
