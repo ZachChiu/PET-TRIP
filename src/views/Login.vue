@@ -1,5 +1,7 @@
 <template>
   <div class="login">
+    <loading :active.sync="isLoading"
+       loader="bars"></loading>
     <div class="banner position-relative">
       <div class="bannerText position-absolute text-dark display-4 font-weight-bold">登入</div>
       <img
@@ -155,17 +157,26 @@
 </template>
 
 <script>
+import VueLoading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
+
 export default {
   data () {
     return {
       login: {
         email: '',
         password: ''
-      }
+      },
+      isLoading: false
     }
+  },
+  components: {
+    loading: VueLoading
   },
   methods: {
     firmLogin: function () {
+      this.isLoading = true
+      const vm = this
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Company/Login',
@@ -183,13 +194,18 @@ export default {
             document.cookie = `pet=${token};expires=${
               new Date() * 1000
             }; path=/`
+            vm.$emit('page-refresh', '廠商')
+            vm.isLoading = false
           }
         })
         .catch(function (error) {
           console.log(error)
+          vm.isLoading = false
         })
     },
     memberLogin: function () {
+      this.isLoading = true
+      const vm = this
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Member/Login',
@@ -207,10 +223,13 @@ export default {
             document.cookie = `pet=${token};expires=${
               new Date() * 1000
             }; path=/`
+            vm.$emit('page-refresh', '會員')
           }
+          vm.isLoading = false
         })
         .catch(function (error) {
           console.log(error)
+          vm.isLoading = false
         })
     }
   }

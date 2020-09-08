@@ -31,7 +31,7 @@
         </li>
       </ul>
     </nav>
-    <router-view></router-view>
+    <router-view @checkStatus="getFirmBackstageData"></router-view>
   </div>
 </template>
 
@@ -59,18 +59,18 @@
 export default {
   data () {
     return {
-      pageCurrent: 'order'
+      pageCurrent: '/FirmBackstage'
     }
   },
   created () {
-    this.getFirmBakcstageData()
+    this.getFirmBackstageData()
   },
   methods: {
     toggleSidebar: function () {
       $('.sideBar').toggleClass('show')
       $('.change').toggleClass('other')
     },
-    getFirmBakcstageData: function () {
+    getFirmBackstageData: function () {
       this.pageCurrent = this.$route.path
       console.log(this.$route.path)
       const token = document.cookie.replace(
@@ -78,6 +78,9 @@ export default {
         '$1'
       )
       this.$http.defaults.headers.common.Authorization = `Bearer ${token}`
+      if (token === '' || token == null || token === undefined) {
+        this.$router.push('/')
+      }
       console.log(token)
     }
   }

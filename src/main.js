@@ -25,7 +25,7 @@ extend('secret', {
 })
 Object.keys(rules).forEach(rule => {
   extend(rule, {
-    ...rules[rule], // copies rule configuration
+    ...rules[rule]
   })
 })
 extend('required', {

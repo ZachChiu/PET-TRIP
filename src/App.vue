@@ -14,6 +14,11 @@
   h1 {
     font-family: "Patrick Hand", cursive;
   }
+  main {
+    min-height: calc(100vh - 82px - 85px);
+    flex: 1;
+    background: rgb(252, 252, 252);
+  }
   .headerNav {
     top: 0;
     z-index: 10;

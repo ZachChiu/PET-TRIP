@@ -280,3 +280,21 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+
+    }
+  },
+  created () {
+    this.getData()
+  },
+  methods: {
+    getData: function () {
+      this.$emit('checkStatus', 'check')
+    }
+  }
+}
+</script>
