@@ -12,22 +12,22 @@
     <div class="container py-4">
       <div class="row">
         <div class="col-md-3 col-12 mb-3">
-          <nav class="bg-light">
+          <nav class="bg-secondary">
             <ul class="nav nav-pills nav-fill flex-md-column text-center">
-              <li class="nav-item">
-                <router-link to="/MemberBackstage" class="nav-link active">
+              <li class="nav-item" @click="pageCurrent = '/MemberBackstage'">
+                <router-link to="/MemberBackstage" class="nav-link" :class="{active:pageCurrent == '/MemberBackstage'}">
                   <i class="fas fa-clipboard-list"></i>
                   訂單列表
                 </router-link>
               </li>
-              <li class="nav-item">
-                <router-link to="/MemberBackstage" class="nav-link">
+              <li class="nav-item"  @click="pageCurrent = '/MemberBackstage/QA'">
+                <router-link to="/MemberBackstage" class="nav-link" :class="{active:pageCurrent == '/MemberBackstage/QA'}">
                   <i class="fas fa-question"></i>
                   問與答QA
                 </router-link>
               </li>
-              <li class="nav-item">
-                 <router-link to="/MemberBackstage/MemberSet" class="nav-link">
+              <li class="nav-item"  @click="pageCurrent = '/MemberBackstage/MemberSet'">
+                 <router-link to="/MemberBackstage/MemberSet" class="nav-link" :class="{active:pageCurrent == '/MemberBackstage/MemberSet'}">
                    <i class="fas fa-cog"></i>
                   會員設定
                 </router-link>
@@ -36,7 +36,7 @@
           </nav>
         </div>
         <div class="col-md-9 col-12">
-          <router-view></router-view>
+          <router-view @checkStatus="getMemberBackstageData"></router-view>
         </div>
       </div>
     </div>
@@ -56,7 +56,6 @@ export default {
   methods: {
     getMemberBackstageData: function () {
       this.pageCurrent = this.$route.path
-      console.log(this.$route.path)
       const token = document.cookie.replace(
         /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
         '$1'
@@ -65,7 +64,6 @@ export default {
       if (token === '' || token == null || token === undefined) {
         this.$router.push('/')
       }
-      console.log(token)
     }
   }
 }
