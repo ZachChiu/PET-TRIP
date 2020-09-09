@@ -339,5 +339,17 @@ $(document).ready(function () {
 })
 
 export default {
+  data () {
+    return {
+    }
+  },
+  created () {
+    this.getData()
+  },
+  methods: {
+    getData: function () {
+      this.$emit('checkStatus', 'check')
+    }
+  }
 }
 </script>
