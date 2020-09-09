@@ -35,11 +35,11 @@ const routes = [
         component: () => import('../views/MemberRegister.vue')
       },
       {
-        path: '/FirmId/:FirmId',
+        path: '/FirmPage/:FirmId',
         component: () => import('../views/FirmPage.vue')
       },
       {
-        path: '/FirmId/:FirmId/RoomId/:RoomId',
+        path: '/FirmPage/:FirmId/Room/:RoomId',
         component: () => import('../views/Room.vue')
       },
       {
