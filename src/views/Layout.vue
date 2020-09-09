@@ -86,7 +86,7 @@
     <main>
       <router-view  @page-refresh="getIdentify"></router-view>
     </main>
-    <footer class="bg-dark">
+    <footer style="background:rgb(4 24 58);">
       <div class="container">
         <div class="row no-gutters align-items-sm-center">
           <div class="col-6 col-sm-9">

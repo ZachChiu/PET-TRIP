@@ -138,7 +138,7 @@ export default {
       const uploadedFile = event.target.files[0]
       const formData = new FormData()
       formData.append('file', uploadedFile)
-      const url = 'http://pettrip.rocket-coding.com/Member/Uploadimg'
+      const url = 'http://pettrip.rocket-coding.com/api/Member/Uploadimg'
       this.MemberPicUploading = true
       this.$http.post(url, formData, {
         headers: {

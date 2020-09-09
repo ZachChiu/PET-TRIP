@@ -114,7 +114,7 @@
 
             <div class="form-group d-flex">
               <label for="upload" class="ml-auto btn btn-dark" :class="{disabled:FirmPicUploading}">
-                <i v-if="FirmPicUploading" class="fas fa-spinner fa-spin"></i>主頁照片上傳
+                <i v-if="FirmPicUploading" class="mr-1 fas fa-spinner fa-spin"></i>主頁照片上傳
                 <input type="file" id="upload" class="d-none" @change="updateFirmPic" :disabled="FirmPicUploading"/>
               </label>
             </div>
@@ -252,7 +252,7 @@
         >
         <ValidationObserver v-slot="{ invalid }">
           <form action="#" class @submit.prevent="savePassword">
-            <ValidationProvider name="confirm"  rules="required" v-slot="{ errors,classes }">
+            <ValidationProvider name="密碼" rules="required|alpha_num" v-slot="{ errors,classes }">
             <div class="form-group row">
               <label class="col-md-3 col-lg-2 col-form-label font-weight-bold" for="password">新密碼</label>
               <div class="col-md-9 col-lg-10">
@@ -261,14 +261,14 @@
               </div>
             </div>
             </ValidationProvider>
-            <ValidationProvider rules="required|password:@confirm" v-slot="{ errors,classes }">
+            <ValidationProvider rules="required|password:@密碼|alpha_num" v-slot="{ errors,classes }">
             <div class="form-group row">
               <label
                 class="col-md-3 col-lg-2 col-form-label font-weight-bold"
-                for="passwordAgain"
+                for="密碼"
               >再次輸入新密碼</label>
               <div class="col-md-9 col-lg-10">
-                <input type="password" class="form-control" :class="classes" id="passwordAgain" v-model="updatePwd.pwdCheck" autocomplete='off'/>
+                <input type="password" class="form-control" :class="classes" id="密碼" v-model="updatePwd.pwdCheck" autocomplete='off'/>
                 <span class="text-danger">{{ errors[0] }}</span>
               </div>
             </div>

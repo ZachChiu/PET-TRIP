@@ -79,7 +79,7 @@
                         v-model="login.password"
                         :class="classes"
                       />
-                      <a href="#">忘記密碼?</a>
+                      <a class="text-danger" href="#">忘記密碼?</a>
                     </div>
                   </ValidationProvider>
 
@@ -134,7 +134,7 @@
                         v-model="login.password"
                         :class="classes"
                       />
-                      <a href="#">忘記密碼?</a>
+                      <a class="text-danger" href="#">忘記密碼?</a>
                     </div>
                   </ValidationProvider>
 
