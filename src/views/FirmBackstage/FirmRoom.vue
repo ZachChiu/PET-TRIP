@@ -501,12 +501,12 @@
         <div class="col-12 mx-auto py-5 position-relative">
           <button
             type="button"
-            class="addRoomBtn btn btn-danger position-absolute"
+            class="addRoomBtn btn btn-primary position-absolute"
             @click="openModal('new')"
           >新增空間</button>
           <div class="table-responsive-xl">
             <table class="table text-nowrap border rounded table-hover">
-              <thead class="thead-dark">
+              <thead class="thead-light">
                 <tr>
                   <th scope="col">空間名稱</th>
                   <th scope="col">寵物類型</th>
@@ -514,7 +514,7 @@
                   <th scope="col">操作</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="bg-white">
                 <tr v-for="(item,index) in orderList" :key="index">
                   <th scope="row">{{item.roomname}}</th>
                   <td>{{item.pettype}}</td>
@@ -537,7 +537,7 @@
                     <div class="btn-group" role="group" aria-label="Basic example">
                       <button
                         type="button"
-                        class="btn btn-outline-dark"
+                        class="btn btn-outline-secondary"
                         @click="openModal('edit',item)"
                       >編輯</button>
                       <button
