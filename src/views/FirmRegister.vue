@@ -235,9 +235,10 @@ export default {
           area: `${this.register.area}`,
           address: `${this.register.address}`,
           pblicense: `${this.register.pblicense}`,
-          effectivedate: `new Date(${this.register.effectivedate}).toLocaleDateString()`
+          effectivedate: new Date(this.register.effectivedate).toLocaleDateString()
         }
       }
+      console.log(config)
       this.$http(config)
         .then(function (response) {
           console.log(response)
