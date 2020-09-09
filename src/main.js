@@ -51,7 +51,7 @@ extend('password', {
 
 configure({
   classes: {
-    valid: 'is-valid',
+    // valid: 'is-valid',
     invalid: 'is-invalid'
   }
 })
