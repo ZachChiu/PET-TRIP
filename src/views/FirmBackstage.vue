@@ -9,8 +9,8 @@
         alt
       />
     </div>
-    <nav class="sideBar show bg-light position-absolute">
-      <a href="#" id="sidebarBtn" class="sidebarBtn btn btn-dark rounded-0 position-absolute" @click.prevent="toggleSidebar">
+    <nav class="sideBar show bg-white position-absolute">
+      <a href="#" id="sidebarBtn" class="sidebarBtn btn btn-secondary rounded-0 position-absolute" @click.prevent="toggleSidebar">
         <i class="change other fas fa-chevron-left d-none"></i>
         <i class="change fas fa-chevron-right d-none"></i>
       </a>
@@ -72,7 +72,6 @@ export default {
     },
     getFirmBackstageData: function () {
       this.pageCurrent = this.$route.path
-      console.log(this.$route.path)
       const token = document.cookie.replace(
         /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
         '$1'
@@ -81,7 +80,6 @@ export default {
       if (token === '' || token == null || token === undefined) {
         this.$router.push('/')
       }
-      console.log(token)
     }
   }
 }
