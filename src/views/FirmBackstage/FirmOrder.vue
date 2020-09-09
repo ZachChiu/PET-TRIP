@@ -125,7 +125,7 @@
           >已取消</a>
         </li>
       </ul>
-      <div class="text-nowrap tab-content border border-top-0" id="myTabContent">
+      <div class="bg-white text-nowrap tab-content border border-top-0" id="myTabContent">
         <div
           class="tab-pane p-3 fade show active"
           id="whole"
@@ -134,7 +134,7 @@
         >
           <div class="table-responsive-md">
             <table class="table table-hover">
-              <thead class="thead-dark">
+              <thead class="thead-light">
                 <tr>
                   <th scope="col">訂單編號</th>
                   <th scope="col">日期</th>
@@ -155,7 +155,7 @@
                   <td>
                     <button
                       type="button"
-                      class="btn btn-danger"
+                      class="btn btn-primary"
                       data-toggle="modal"
                       data-target="#orderInfoModal"
                     >詳情</button>
@@ -170,7 +170,7 @@
                   <td>六角原價屋</td>
                   <td>已完成</td>
                   <td>
-                    <button type="button" class="btn btn-danger">詳情</button>
+                    <button type="button" class="btn btn-primary">詳情</button>
                   </td>
                 </tr>
                 <tr>
@@ -182,7 +182,7 @@
                   <td>子庭不妙屋</td>
                   <td>已取消</td>
                   <td>
-                    <button type="button" class="btn btn-danger">詳情</button>
+                    <button type="button" class="btn btn-primary">詳情</button>
                   </td>
                 </tr>
               </tbody>
