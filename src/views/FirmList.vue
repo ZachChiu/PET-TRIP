@@ -1,5 +1,5 @@
 <template>
-  <div class="firmList">
+  <div class="firmList" v-if="firmList[0] != null">
     <div class="banner position-relative">
       <div class="bannerText position-absolute text-dark display-4 font-weight-bold">尋找寄宿</div>
       <img
@@ -179,29 +179,6 @@
           </div>
         </div>
       </div>
-      <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-          <li class="page-item disabled">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li class="page-item active">
-            <a class="page-link" href="#">1</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">2</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">3</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
     </div>
   </div>
 </template>
@@ -211,23 +188,25 @@ export default {
   data () {
     return {
       range: {},
-      firmList: {}
+      firmList: {},
+      pagelist: {}
     }
   },
   created () {
     this.getData()
   },
   methods: {
-    getData: function () {
+    getData: function (page = 1) {
       const vm = this
       const config = {
         method: 'get',
-        url: 'http://pettrip.rocket-coding.com/api/Room/GetCompanys?page=1'
+        url: `http://pettrip.rocket-coding.com/api/Room/GetCompanys?page=${page}&paged=6`
       }
       this.$http(config)
         .then(function (response) {
           console.log(response)
           vm.firmList = response.data.companies
+          vm.pagelist = response.data.meta
         })
         .catch(function (error) {
           console.log(error)
