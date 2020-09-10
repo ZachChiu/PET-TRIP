@@ -185,7 +185,7 @@ export default {
           console.log(response)
           vm.identify = response.data.result
           if (vm.identify.avatar == null) {
-            vm.identify.avatar = 'https://upload.cc/i1/2020/09/08/AqaTzN.png'
+            vm.identify.avatar = 'https://upload.cc/i1/2020/09/09/wa8QmM.png'
           }
           vm.isLoading = false
           if (get === '廠商') {

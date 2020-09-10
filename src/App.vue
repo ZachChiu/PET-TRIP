@@ -36,6 +36,8 @@
   }
   .opacityZero {
     opacity: 0;
+    z-index: -1;
+    position: relative;
   }
   .hoverLine .hoveritem > a {
     &:after {
