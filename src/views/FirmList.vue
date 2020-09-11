@@ -179,11 +179,13 @@
           </div>
         </div>
       </div>
+      <page :page-data="pagelist" @page-change="getData"></page>
     </div>
   </div>
 </template>
 
 <script>
+import page from '@/components/page.vue'
 export default {
   data () {
     return {
@@ -195,6 +197,7 @@ export default {
   created () {
     this.getData()
   },
+  components: { page },
   methods: {
     getData: function (page = 1) {
       const vm = this
@@ -211,6 +214,8 @@ export default {
         .catch(function (error) {
           console.log(error)
         })
+    },
+    changePage: function () {
     }
   }
 }
