@@ -1,5 +1,6 @@
 <template>
   <div class="firmOrder py-5">
+    <loading :active.sync="isLoading" loader="bars"></loading>
     <div
       class="orderInfoModal modal fade"
       id="orderInfoModal"
@@ -89,6 +90,7 @@
             role="tab"
             aria-controls="whole"
             aria-selected="true"
+            @click="changeState('0')"
           >全部</a>
         </li>
         <li class="nav-item">
@@ -100,6 +102,7 @@
             role="tab"
             aria-controls="pay"
             aria-selected="false"
+            @click="changeState('0')"
           >已付款</a>
         </li>
         <li class="nav-item">
@@ -111,6 +114,7 @@
             role="tab"
             aria-controls="complete"
             aria-selected="false"
+            @click="changeState('3')"
           >已完成</a>
         </li>
         <li class="nav-item">
@@ -122,6 +126,7 @@
             role="tab"
             aria-controls="decline"
             aria-selected="false"
+            @click="changeState('1')"
           >已取消</a>
         </li>
       </ul>
@@ -144,14 +149,20 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">ASB4100002</th>
+                <tr v-for="(order,index) in orderList" :key="index">
+                  <th scope="row">{{order.orderseq}}</th>
                   <td>
-                    2020/07/20 ~
-                    <br />2020/07/23
+                    {{order.orderdates}} ~
+                    <br />
+                    {{order.orderdatee}}
                   </td>
-                  <td>美麗妙妙屋</td>
-                  <td>已付款</td>
+                  <td>{{order.roomname}}</td>
+                  <td>
+                    <span v-if="order.state == 0">已付款</span>
+                    <span v-if="order.state == 1">已取消</span>
+                    <span v-if="order.state == 2">已退款</span>
+                    <span v-if="order.state == 3">已完成</span>
+                  </td>
                   <td>
                     <button
                       type="button"
@@ -161,38 +172,15 @@
                     >詳情</button>
                   </td>
                 </tr>
-                <tr>
-                  <th scope="row">ASB4100003</th>
-                  <td>
-                    2020/08/02 ~
-                    <br />2020/08/05
-                  </td>
-                  <td>六角原價屋</td>
-                  <td>已完成</td>
-                  <td>
-                    <button type="button" class="btn btn-primary">詳情</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">ASB4100004</th>
-                  <td>
-                    2020/06/11 ~
-                    <br />2020/06/14
-                  </td>
-                  <td>子庭不妙屋</td>
-                  <td>已取消</td>
-                  <td>
-                    <button type="button" class="btn btn-primary">詳情</button>
-                  </td>
-                </tr>
               </tbody>
             </table>
+            <page v-if="pagelist.total != 0" class="mt-3" :page-data="pagelist" @page-change="getData"></page>
           </div>
         </div>
         <div class="tab-pane p-3 fade" id="pay" role="tabpanel" aria-labelledby="pay-tab">
           <div class="table-responsive-md">
             <table class="table table-hover">
-              <thead class="thead-dark">
+              <thead class="thead-light">
                 <tr>
                   <th scope="col">訂單編號</th>
                   <th scope="col">日期</th>
@@ -202,26 +190,38 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">ASB4100002</th>
+                <tr v-for="(order,index) in orderList" :key="index">
+                  <th scope="row">{{order.orderseq}}</th>
                   <td>
-                    2020/07/20 ~
-                    <br />2020/07/23
+                    {{order.orderdates}} ~
+                    <br />
+                    {{order.orderdatee}}
                   </td>
-                  <td>美麗妙妙屋</td>
-                  <td>已付款</td>
+                  <td>{{order.roomname}}</td>
                   <td>
-                    <button type="button" class="btn btn-danger">詳情</button>
+                    <span v-if="order.state == 0">已付款</span>
+                    <span v-if="order.state == 1">已取消</span>
+                    <span v-if="order.state == 2">已退款</span>
+                    <span v-if="order.state == 3">已完成</span>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      data-toggle="modal"
+                      data-target="#orderInfoModal"
+                    >詳情</button>
                   </td>
                 </tr>
               </tbody>
             </table>
+            <page v-if="pagelist.total != 0" class="mt-3" :page-data="pagelist" @page-change="getData"></page>
           </div>
         </div>
         <div class="tab-pane p-3 fade" id="complete" role="tabpanel" aria-labelledby="complete-tab">
           <div class="table-responsive-md">
             <table class="table table-hover">
-              <thead class="thead-dark">
+              <thead class="thead-light">
                 <tr>
                   <th scope="col">訂單編號</th>
                   <th scope="col">日期</th>
@@ -231,26 +231,38 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">ASB4100003</th>
+                <tr v-for="(order,index) in orderList" :key="index">
+                  <th scope="row">{{order.orderseq}}</th>
                   <td>
-                    2020/08/02 ~
-                    <br />2020/08/05
+                    {{order.orderdates}} ~
+                    <br />
+                    {{order.orderdatee}}
                   </td>
-                  <td>六角原價屋</td>
-                  <td>已完成</td>
+                  <td>{{order.roomname}}</td>
                   <td>
-                    <button type="button" class="btn btn-danger">詳情</button>
+                    <span v-if="order.state == 0">已付款</span>
+                    <span v-if="order.state == 1">已取消</span>
+                    <span v-if="order.state == 2">已退款</span>
+                    <span v-if="order.state == 3">已完成</span>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      data-toggle="modal"
+                      data-target="#orderInfoModal"
+                    >詳情</button>
                   </td>
                 </tr>
               </tbody>
             </table>
+            <page v-if="pagelist.total != 0" class="mt-3" :page-data="pagelist" @page-change="getData"></page>
           </div>
         </div>
         <div class="tab-pane p-3 fade" id="decline" role="tabpanel" aria-labelledby="decline-tab">
           <div class="table-responsive-md">
             <table class="table table-hover">
-              <thead class="thead-dark">
+              <thead class="thead-light">
                 <tr>
                   <th scope="col">訂單編號</th>
                   <th scope="col">日期</th>
@@ -260,40 +272,91 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">ASB4100004</th>
+                <tr v-for="(order,index) in orderList" :key="index">
+                  <th scope="row">{{order.orderseq}}</th>
                   <td>
-                    2020/06/11 ~
-                    <br />2020/06/14
+                    {{order.orderdates}} ~
+                    <br />
+                    {{order.orderdatee}}
                   </td>
-                  <td>子庭不妙屋</td>
-                  <td>已取消</td>
+                  <td>{{order.roomname}}</td>
                   <td>
-                    <button type="button" class="btn btn-danger">詳情</button>
+                    <span v-if="order.state == 0">已付款</span>
+                    <span v-if="order.state == 1">已取消</span>
+                    <span v-if="order.state == 2">已退款</span>
+                    <span v-if="order.state == 3">已完成</span>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      data-toggle="modal"
+                      data-target="#orderInfoModal"
+                    >詳情</button>
                   </td>
                 </tr>
               </tbody>
             </table>
+            <page v-if="pagelist.total != 0" class="mt-3" :page-data="pagelist" @page-change="getData"></page>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
+import VueLoading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
+import page from '@/components/page.vue'
+
 export default {
   data () {
     return {
-
+      orderList: {},
+      pagelist: {},
+      state: 0,
+      isLoading: false
     }
   },
   created () {
     this.getData()
   },
+  components: { page, loading: VueLoading },
   methods: {
-    getData: function () {
+    getData: function (page = 1) {
+      this.isLoading = true
+      const vm = this
       this.$emit('checkStatus', 'check')
+      var config = {
+        method: 'get',
+        url: `http://pettrip.rocket-coding.com/api/Order/Getorder?state=${this.state}&page=${page}&paged=6`
+      }
+      this.$http(config)
+        .then(function (response) {
+          vm.orderList = response.data.order
+          vm.pagelist = response.data.meta
+          console.log(response)
+          vm.isLoading = false
+        })
+        .catch(function (error) {
+          console.log(error)
+          vm.isLoading = false
+        })
+    },
+    changeState: function (state) {
+      if (state === '0') {
+        this.state = 0
+        this.getData(1, 0)
+      } else if (state === '1') {
+        this.state = 1
+        this.getData(1)
+      } else if (state === '2') {
+        this.state = 2
+        this.getData(1)
+      } else if (state === '3') {
+        this.state = 3
+        this.getData(1)
+      }
     }
   }
 }
