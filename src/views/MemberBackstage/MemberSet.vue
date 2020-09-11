@@ -1,5 +1,6 @@
 <template>
   <div class="memberSet">
+    <loading :active.sync="isLoading" loader="bars"></loading>
     <div class="row no-gutters text-wrap align-items-center">
       <div class="col-lg-6 col-12">
         <div
@@ -15,9 +16,19 @@
           />
         </div>
         <div class="form-group d-flex my-4">
-          <label for="upload" class="btn btn-primary mx-auto" :class="{disabled:MemberPicUploading}">
+          <label
+            for="upload"
+            class="btn btn-primary mx-auto"
+            :class="{disabled:MemberPicUploading}"
+          >
             <i v-if="MemberPicUploading" class="mr-1 fas fa-spinner fa-spin"></i>更新頭像
-            <input type="file" id="upload" class="d-none" @change="updateMemberAvatar" :disabled="MemberPicUploading"/>
+            <input
+              type="file"
+              id="upload"
+              class="d-none"
+              @change="updateMemberAvatar"
+              :disabled="MemberPicUploading"
+            />
           </label>
         </div>
       </div>
@@ -87,18 +98,28 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import VueLoading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
+import 'sweetalert2/src/sweetalert2.scss'
+
 export default {
   data () {
     return {
       memberData: {},
-      MemberPicUploading: false
+      MemberPicUploading: false,
+      isLoading: false
     }
   },
   created () {
     this.getData()
   },
+  components: {
+    loading: VueLoading
+  },
   methods: {
     getData: function () {
+      this.isLoading = true
       const vm = this
       this.$emit('checkStatus', 'check')
       const config = {
@@ -110,12 +131,15 @@ export default {
         .then(function (response) {
           console.log(response)
           vm.memberData = response.data
+          vm.isLoading = false
         })
         .catch(function (error) {
           console.log(error)
+          vm.isLoading = false
         })
     },
     saveMemberData: function () {
+      this.isLoading = true
       const vm = this
       const config = {
         method: 'patch',
@@ -127,10 +151,27 @@ export default {
       this.$http(config)
         .then(function (response) {
           console.log(response)
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '更新密碼成功',
+            showConfirmButton: false,
+            timer: 2000
+          })
           vm.getData()
         })
         .catch(function (error) {
           console.log(error)
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: '更新密碼失敗',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          vm.isLoading = false
         })
     },
     updateMemberAvatar: function () {
@@ -140,18 +181,47 @@ export default {
       formData.append('file', uploadedFile)
       const url = 'http://pettrip.rocket-coding.com/api/Member/Uploadimg'
       this.MemberPicUploading = true
-      this.$http.post(url, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then((response) => {
-        vm.getData()
-        this.MemberPicUploading = false
-        console.log(response)
-      }).catch(() => {
-        alert('上傳失敗')
-        this.MemberPicUploading = false
-      })
+      this.$http
+        .post(url, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then((response) => {
+          vm.getData()
+          this.MemberPicUploading = false
+          if (response.data.result === '圖片格式錯誤') {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: '圖片格式錯誤',
+              showConfirmButton: false,
+              timer: 2000
+            })
+          } else {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'success',
+              title: '頭像上傳成功',
+              showConfirmButton: false,
+              timer: 2000
+            })
+          }
+          console.log(response)
+        })
+        .catch(() => {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '頭像上傳失敗',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          this.MemberPicUploading = false
+        })
     }
   }
 }
