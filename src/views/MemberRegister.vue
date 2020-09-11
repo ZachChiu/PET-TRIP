@@ -93,6 +93,9 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
+
 export default {
   data () {
     return {
@@ -120,7 +123,24 @@ export default {
         .then(function (response) {
           console.log(response)
           if (response.data.result === '註冊成功') {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'success',
+              title: '註冊成功，請重新登入',
+              showConfirmButton: false,
+              timer: 2000
+            })
             vm.$router.push('/Login')
+          } else {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: response.data.result,
+              showConfirmButton: false,
+              timer: 2000
+            })
           }
         })
         .catch(function (error) {

@@ -167,7 +167,6 @@ export default {
   },
   methods: {
     getIdentify: function (get) {
-      this.isLoading = true
       const vm = this
       const token = document.cookie.replace(
         /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
@@ -203,7 +202,7 @@ export default {
       this.isLoading = true
       document.cookie = `pet='';expires=${new Date(-1)}; path=/`
       this.getIdentify()
-      this.$router.push('46546')
+      this.$router.push('/46546')
     }
   }
 }

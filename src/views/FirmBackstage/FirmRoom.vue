@@ -42,7 +42,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form >
+            <form>
               <div class="form-group row">
                 <label class="col-sm-3 col-lg-2 col-form-label" for="spaceName">空間名稱</label>
                 <div class="col-sm-9 col-lg-10">
@@ -195,7 +195,7 @@
                     <label class="col-sm-3 col-lg-4 col-form-label" for="can">提供罐頭</label>
                     <div class="col-sm-9 col-lg-8">
                       <select class="form-control" name id="can" v-model="temData.canned">
-                        <option value="" selected disabled>請選擇</option>
+                        <option value selected disabled>請選擇</option>
                         <option value="true">有</option>
                         <option value="false">無</option>
                       </select>
@@ -233,7 +233,7 @@
                     <label class="col-sm-3 col-lg-4 col-form-label" for="visit">看管程度</label>
                     <div class="col-sm-9 col-lg-8">
                       <select class="form-control" name id="visit" v-model="temData.visit">
-                        <option value='0' selected disabled>請選擇</option>
+                        <option value="0" selected disabled>請選擇</option>
                         <option value="24">24小時</option>
                         <option value="22">22小時</option>
                         <option value="20">20小時</option>
@@ -404,16 +404,26 @@
                   </div>
                 </div>
               </div>
-              <hr/>
+              <hr />
               <div
                 class="form-group justify-content-start justify-content-lg-end align-items-center row"
               >
                 <label class="col-sm-3 col-lg-2 col-form-label" for="spaceIntroduce">空間照片</label>
                 <div class="col-lg-5">
                   <div class="form-group mb-0 d-flex">
-                    <label for="upload1" class="w-100 mb-0 btn btn-dark" :class="{disabled:load.imgLoad1}">
+                    <label
+                      for="upload1"
+                      class="w-100 mb-0 btn btn-dark"
+                      :class="{disabled:load.imgLoad1}"
+                    >
                       <i v-if="load.imgLoad1" class="mr-1 fas fa-spinner fa-spin"></i>空間照片1上傳
-                      <input type="file" id="upload1" class="d-none" :disabled="load.imgLoad1" @change="uploadImg('1')"/>
+                      <input
+                        type="file"
+                        id="upload1"
+                        class="d-none"
+                        :disabled="load.imgLoad1"
+                        @change="uploadImg('1')"
+                      />
                     </label>
                   </div>
                   <div
@@ -424,15 +434,25 @@
                     <img
                       src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
                       :class="{opacityZero:temData.img1 != ''}"
-                      class=" w-100 img-fluid"
+                      class="w-100 img-fluid"
                     />
                   </div>
                 </div>
                 <div class="col-lg-5">
                   <div class="form-group mb-0 d-flex">
-                    <label for="upload2" class="w-100 mb-0 btn btn-dark" :class="{disabled:load.imgLoad2}">
+                    <label
+                      for="upload2"
+                      class="w-100 mb-0 btn btn-dark"
+                      :class="{disabled:load.imgLoad2}"
+                    >
                       <i v-if="load.imgLoad2" class="mr-1 fas fa-spinner fa-spin"></i>空間照片2上傳
-                      <input type="file" id="upload2" class="d-none" :disabled="load.imgLoad2" @change="uploadImg('2')"/>
+                      <input
+                        type="file"
+                        id="upload2"
+                        class="d-none"
+                        :disabled="load.imgLoad2"
+                        @change="uploadImg('2')"
+                      />
                     </label>
                   </div>
                   <div
@@ -449,9 +469,19 @@
                 </div>
                 <div class="col-lg-5">
                   <div class="form-group mb-0 d-flex">
-                    <label for="upload3" class="w-100 mb-0 btn btn-dark" :class="{disabled:load.imgLoad3}">
+                    <label
+                      for="upload3"
+                      class="w-100 mb-0 btn btn-dark"
+                      :class="{disabled:load.imgLoad3}"
+                    >
                       <i v-if="load.imgLoad3" class="mr-1 fas fa-spinner fa-spin"></i>空間照片3上傳
-                      <input type="file" id="upload3" class="d-none" :disabled="load.imgLoad3" @change="uploadImg('3')"/>
+                      <input
+                        type="file"
+                        id="upload3"
+                        class="d-none"
+                        :disabled="load.imgLoad3"
+                        @change="uploadImg('3')"
+                      />
                     </label>
                   </div>
                   <div
@@ -468,9 +498,19 @@
                 </div>
                 <div class="col-lg-5">
                   <div class="form-group mb-0 d-flex">
-                    <label for="upload4" class="w-100 mb-0 btn btn-dark" :class="{disabled:load.imgLoad4}">
+                    <label
+                      for="upload4"
+                      class="w-100 mb-0 btn btn-dark"
+                      :class="{disabled:load.imgLoad4}"
+                    >
                       <i v-if="load.imgLoad4" class="mr-1 fas fa-spinner fa-spin"></i>空間照片4上傳
-                      <input type="file" id="upload4" class="d-none" :disabled="load.imgLoad4" @change="uploadImg('4')"/>
+                      <input
+                        type="file"
+                        id="upload4"
+                        class="d-none"
+                        :disabled="load.imgLoad4"
+                        @change="uploadImg('4')"
+                      />
                     </label>
                   </div>
                   <div
@@ -517,7 +557,14 @@
               <tbody class="bg-white">
                 <tr v-for="(item,index) in orderList" :key="index">
                   <th scope="row">{{item.roomname}}</th>
-                  <td>{{item.pettype}}</td>
+                  <td>
+                    <span v-if="item.pettype_cat">貓</span>
+                    <span v-if="item.pettype_cat && item.pettype_dog ">、</span>
+                    <span v-if="item.pettype_dog">狗</span>
+                    <span v-if="item.pettype_dog && item.pettype_other ">、</span>
+                    <span v-if="item.pettype_cat && !item.pettype_dog && item.pettype_other ">、</span>
+                    <span v-if="item.pettype_other">貓</span>
+                  </td>
                   <td>
                     <div class="custom-control custom-switch">
                       <input
@@ -568,6 +615,8 @@
 /* global $ */
 import VueLoading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 export default {
   data () {
@@ -667,6 +716,14 @@ export default {
             vm.isLoading = false
           })
           .catch(function (error) {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: '開啟失敗',
+              showConfirmButton: false,
+              timer: 2000
+            })
             console.log(error)
             vm.isLoading = false
           })
@@ -682,20 +739,38 @@ export default {
       const url = 'http://pettrip.rocket-coding.com/api/Uploadimg'
       // const url = 'https://9409bc01ef8b.ngrok.io/api/Uploadimg'
       this.FirmPicUploading = true
-      this.$http.post(url, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then((response) => {
-        this.FirmPicUploading = false
-        console.log(response)
-        vm.load[`imgLoad${num}`] = false
-        this.temData[`img${num}`] = response.data.result
-      }).catch(() => {
-        alert('上傳失敗')
-        this.FirmPicUploading = false
-        vm.load[`imgLoad${num}`] = false
-      })
+      this.$http
+        .post(url, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then((response) => {
+          this.FirmPicUploading = false
+          console.log(response)
+          vm.load[`imgLoad${num}`] = false
+          this.temData[`img${num}`] = response.data.result
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '上傳成功',
+            showConfirmButton: false,
+            timer: 2000
+          })
+        })
+        .catch(() => {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: '上傳成功',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          this.FirmPicUploading = false
+          vm.load[`imgLoad${num}`] = false
+        })
     },
     delRoom: function () {
       this.isLoading = true
@@ -707,11 +782,27 @@ export default {
       this.$http(config)
         .then(function (response) {
           console.log(response.data)
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '刪除成功',
+            showConfirmButton: false,
+            timer: 2000
+          })
           $('#delModal').modal('hide')
           vm.getData()
         })
         .catch(function (error) {
           console.log(error)
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '刪除失敗',
+            showConfirmButton: false,
+            timer: 2000
+          })
           vm.isLoading = false
         })
     },
@@ -725,13 +816,32 @@ export default {
       this.$http(config)
         .then(function (response) {
           console.log(response.data)
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '修改成功',
+            showConfirmButton: false,
+            timer: 2000
+          })
           vm.getData()
         })
         .catch(function (error) {
           console.log(error)
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: '修改失敗',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          vm.isLoading = false
         })
     },
     saveRoomData: function () {
+      this.isLoading = true
+      const { ...data } = this.temData
       const vm = this
       const config = {
         method: 'post',
@@ -741,49 +851,66 @@ export default {
         config.method = 'patch'
         config.url = 'http://pettrip.rocket-coding.com/api/Room/Edit'
       }
-      config.data = {
-        roomseq: `${this.temData.roomseq}`,
-        roomname: `${this.temData.roomname}`,
-        introduce: `${this.temData.introduce}`,
-        pettype_cat: this.temData.pettype_cat,
-        pettype_dog: this.temData.pettype_dog,
-        pettype_other: this.temData.pettype_other,
-        petsizes: `${this.temData.petsizes}`,
-        petsizee: `${this.temData.petsizee}`,
-        roomamount: `${this.temData.roomamount}`,
-        roomprice: `${this.temData.roomprice}`,
-        roomamount_amt: `${this.temData.roomamount_amt}`,
-        walk: `${this.temData.walk}`,
-        canned: this.temData.canned,
-        feed: this.temData.feed,
-        catlitter: this.temData.catlitter,
-        visit: `${this.temData.visit}`,
-        medicine_infeed: this.temData.medicine_infeed,
-        medicine_infeed_amt: `${this.temData.medicine_infeed_amt}`,
-        medicine_pill: this.temData.medicine_pill,
-        medicine_pill_amt: `${this.temData.medicine_pill_amt}`,
-        medicine_paste: this.temData.medicine_paste,
-        medicine_paste_amt: `${this.temData.medicine_paste_amt}`,
-        bath: this.temData.bath,
-        bath_amt: `${this.temData.bath_amt}`,
-        hair: this.temData.hair,
-        hair_amt: `${this.temData.hair_amt}`,
-        nails: this.temData.nails,
-        nails_amt: `${this.temData.nails_amt}`,
-        img1: `${this.temData.img1}`,
-        img2: `${this.temData.img2}`,
-        img3: `${this.temData.img3}`,
-        img4: `${this.temData.img4}`
-      }
-      console.log(config)
+      config.data = data
+      // {
+      //   roomseq: `${this.temData.roomseq}`,
+      //   roomname: `${this.temData.roomname}`,
+      //   introduce: `${this.temData.introduce}`,
+      //   pettype_cat: this.temData.pettype_cat,
+      //   pettype_dog: this.temData.pettype_dog,
+      //   pettype_other: this.temData.pettype_other,
+      //   petsizes: `${this.temData.petsizes}`,
+      //   petsizee: `${this.temData.petsizee}`,
+      //   roomamount: `${this.temData.roomamount}`,
+      //   roomprice: `${this.temData.roomprice}`,
+      //   roomamount_amt: `${this.temData.roomamount_amt}`,
+      //   walk: `${this.temData.walk}`,
+      //   canned: this.temData.canned,
+      //   feed: this.temData.feed,
+      //   catlitter: this.temData.catlitter,
+      //   visit: `${this.temData.visit}`,
+      //   medicine_infeed: this.temData.medicine_infeed,
+      //   medicine_infeed_amt: `${this.temData.medicine_infeed_amt}`,
+      //   medicine_pill: this.temData.medicine_pill,
+      //   medicine_pill_amt: `${this.temData.medicine_pill_amt}`,
+      //   medicine_paste: this.temData.medicine_paste,
+      //   medicine_paste_amt: `${this.temData.medicine_paste_amt}`,
+      //   bath: this.temData.bath,
+      //   bath_amt: `${this.temData.bath_amt}`,
+      //   hair: this.temData.hair,
+      //   hair_amt: `${this.temData.hair_amt}`,
+      //   nails: this.temData.nails,
+      //   nails_amt: `${this.temData.nails_amt}`,
+      //   img1: `${this.temData.img1}`,
+      //   img2: `${this.temData.img2}`,
+      //   img3: `${this.temData.img3}`,
+      //   img4: `${this.temData.img4}`
+      // }
       this.$http(config)
         .then(function (response) {
           console.log(response)
+          Swal.fire({
+            icon: 'success',
+            title: '編輯成功',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000
+          })
           $('#editModal').modal('hide')
           vm.getData()
         })
         .catch(function (error) {
           console.log(error)
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '編輯成功',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          vm.isLoading = true
         })
     }
   }

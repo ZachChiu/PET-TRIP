@@ -1,7 +1,6 @@
 <template>
   <div class="firmSet">
-    <loading :active.sync="isLoading"
-       loader="bars"></loading>
+    <loading :active.sync="isLoading" loader="bars"></loading>
     <div class="container mx-auto py-5">
       <ul class="nav nav-tabs nav-fill text-center" id="myTab" role="tablist">
         <li class="nav-item">
@@ -108,14 +107,26 @@
             <div class="form-group row">
               <label class="col-md-3 col-lg-2 col-form-label font-weight-bold" for="spaceName">主頁相片</label>
               <div class="col-md-9 col-lg-10">
-                <input type="text" class="form-control" id="spaceName" placeholder="圖片連結" v-model.trim="companyData.bannerimg"/>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="spaceName"
+                  placeholder="圖片連結"
+                  v-model.trim="companyData.bannerimg"
+                />
               </div>
             </div>
 
             <div class="form-group d-flex">
               <label for="upload" class="ml-auto btn btn-dark" :class="{disabled:FirmPicUploading}">
                 <i v-if="FirmPicUploading" class="mr-1 fas fa-spinner fa-spin"></i>主頁照片上傳
-                <input type="file" id="upload" class="d-none" @change="updateFirmPic" :disabled="FirmPicUploading"/>
+                <input
+                  type="file"
+                  id="upload"
+                  class="d-none"
+                  @change="updateFirmPic"
+                  :disabled="FirmPicUploading"
+                />
               </label>
             </div>
             <div
@@ -152,9 +163,19 @@
                 />
               </div>
               <div class="form-group d-flex my-4">
-                <label for="uploadAvatar" class="btn btn-primary mx-auto" :class="{disabled:FirmAvatarUploading}">
+                <label
+                  for="uploadAvatar"
+                  class="btn btn-primary mx-auto"
+                  :class="{disabled:FirmAvatarUploading}"
+                >
                   <i v-if="FirmAvatarUploading" class="mr-1 fas fa-spinner fa-spin"></i>更新頭像
-                  <input type="file" id="uploadAvatar" class="d-none" @change="updateFirmAvatar" :disabled="FirmAvatarUploading"/>
+                  <input
+                    type="file"
+                    id="uploadAvatar"
+                    class="d-none"
+                    @change="updateFirmAvatar"
+                    :disabled="FirmAvatarUploading"
+                  />
                 </label>
               </div>
             </div>
@@ -250,34 +271,56 @@
           role="tabpanel"
           aria-labelledby="passwordChange-tab"
         >
-        <ValidationObserver v-slot="{ invalid }">
-          <form action="#" class @submit.prevent="savePassword">
-            <ValidationProvider name="密碼" rules="required|alpha_num" v-slot="{ errors,classes }">
-            <div class="form-group row">
-              <label class="col-md-3 col-lg-2 col-form-label font-weight-bold" for="password">新密碼</label>
-              <div class="col-md-9 col-lg-10">
-                <input type="password" class="form-control" :class="classes" id="password" v-model="updatePwd.pwd" autocomplete='off'/>
-                <span class="text-danger">{{ errors[0] }}</span>
+          <ValidationObserver v-slot="{ invalid }">
+            <form action="#" class @submit.prevent="savePassword">
+              <ValidationProvider name="密碼" rules="required|alpha_num" v-slot="{ errors,classes }">
+                <div class="form-group row">
+                  <label
+                    class="col-md-3 col-lg-2 col-form-label font-weight-bold"
+                    for="password"
+                  >新密碼</label>
+                  <div class="col-md-9 col-lg-10">
+                    <input
+                      type="password"
+                      class="form-control"
+                      :class="classes"
+                      id="password"
+                      v-model="updatePwd.pwd"
+                      autocomplete="off"
+                    />
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider
+                rules="required|password:@密碼|alpha_num"
+                v-slot="{ errors,classes }"
+              >
+                <div class="form-group row">
+                  <label class="col-md-3 col-lg-2 col-form-label font-weight-bold" for="密碼">再次輸入新密碼</label>
+                  <div class="col-md-9 col-lg-10">
+                    <input
+                      type="password"
+                      class="form-control"
+                      :class="classes"
+                      id="密碼"
+                      v-model="updatePwd.pwdCheck"
+                      autocomplete="off"
+                    />
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </div>
+                </div>
+              </ValidationProvider>
+              <div class="form-group d-flex justify-content-center mt-4">
+                <button
+                  type="submit"
+                  :disabled="invalid"
+                  :class="{disabled:invalid}"
+                  class="btn btn-primary"
+                >修改</button>
               </div>
-            </div>
-            </ValidationProvider>
-            <ValidationProvider rules="required|password:@密碼|alpha_num" v-slot="{ errors,classes }">
-            <div class="form-group row">
-              <label
-                class="col-md-3 col-lg-2 col-form-label font-weight-bold"
-                for="密碼"
-              >再次輸入新密碼</label>
-              <div class="col-md-9 col-lg-10">
-                <input type="password" class="form-control" :class="classes" id="密碼" v-model="updatePwd.pwdCheck" autocomplete='off'/>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </div>
-            </div>
-            </ValidationProvider>
-            <div class="form-group d-flex justify-content-center mt-4">
-              <button type="submit" :disabled="invalid" :class="{disabled:invalid}" class="btn btn-primary">修改</button>
-            </div>
-          </form>
-        </ValidationObserver>
+            </form>
+          </ValidationObserver>
         </div>
       </div>
     </div>
@@ -287,6 +330,8 @@
 <script>
 import VueLoading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 export default {
   data () {
@@ -320,21 +365,38 @@ export default {
       const uploadedFile = event.target.files[0]
       const formData = new FormData()
       formData.append('file', uploadedFile)
-      // const url = 'https://9409bc01ef8b.ngrok.io/api/Company/Uploadimg'
       const url = 'http://pettrip.rocket-coding.com/api/Company/Uploadimg'
       this.FirmAvatarUploading = true
-      this.$http.post(url, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then((response) => {
-        this.FirmAvatarUploading = false
-        console.log(response)
-        this.getOne()
-      }).catch(() => {
-        alert('上傳失敗')
-        this.FirmAvatarUploading = false
-      })
+      this.$http
+        .post(url, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then((response) => {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '更新成功',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          this.FirmAvatarUploading = false
+          console.log(response)
+          this.getOne()
+        })
+        .catch(() => {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: '更新失敗',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          this.FirmAvatarUploading = false
+        })
     },
     updateFirmPic: function (event) {
       const uploadedFile = event.target.files[0]
@@ -343,18 +405,36 @@ export default {
       const url = 'http://pettrip.rocket-coding.com/api/Uploadimg'
       // const url = 'https://9409bc01ef8b.ngrok.io/api/Uploadimg'
       this.FirmPicUploading = true
-      this.$http.post(url, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then((response) => {
-        this.FirmPicUploading = false
-        console.log(response)
-        this.companyData.bannerimg = response.data.result
-      }).catch(() => {
-        alert('上傳失敗')
-        this.FirmPicUploading = false
-      })
+      this.$http
+        .post(url, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then((response) => {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '上傳成功',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          this.FirmPicUploading = false
+          console.log(response)
+          this.companyData.bannerimg = response.data.result
+        })
+        .catch(() => {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: '上傳失敗',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          this.FirmPicUploading = false
+        })
     },
     saveFirmData: function () {
       this.isLoading = true
@@ -362,7 +442,7 @@ export default {
       var config = {
         method: 'patch',
         url: 'http://pettrip.rocket-coding.com/api/Company/Patchcompany',
-        headers: { },
+        headers: {},
         data: {
           introduce: `${this.companyData.introduce}`,
           morning: `${this.companyData.morning}`,
@@ -375,12 +455,27 @@ export default {
       this.$http(config)
         .then(function (response) {
           console.log(response)
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '儲存成功',
+            showConfirmButton: false,
+            timer: 2000
+          })
           vm.getOne()
         })
         .catch(function (error) {
           console.log(error)
-          alert('儲存失敗')
-          this.isLoading = false
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: '失敗成功',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          vm.isLoading = false
         })
     },
     savePassword: function () {
@@ -396,12 +491,27 @@ export default {
       this.$http(config)
         .then(function (response) {
           console.log(response)
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '密碼修改成功',
+            showConfirmButton: false,
+            timer: 2000
+          })
           vm.getOne()
         })
         .catch(function (error) {
           console.log(error)
-          alert('修改失敗')
-          this.isLoading = false
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: '密碼修改失敗',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          vm.isLoading = false
         })
     },
     getOne: function () {
