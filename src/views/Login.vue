@@ -1,7 +1,6 @@
 <template>
   <div class="login">
-    <loading :active.sync="isLoading"
-       loader="bars"></loading>
+    <loading :active.sync="isLoading" loader="bars"></loading>
     <div class="banner position-relative">
       <div class="bannerText position-absolute text-dark display-4 font-weight-bold">登入</div>
       <img
@@ -143,8 +142,12 @@
                       to="/FirmRegister"
                       class="w-50 mr-2 btn btn btn-outline-primary"
                     >廠商註冊</router-link>
-                    <button type="submit" class="w-50 ml-2 btn btn-primary" :disabled="invalid"
-                      :class="{disabled:invalid}">廠商登入</button>
+                    <button
+                      type="submit"
+                      class="w-50 ml-2 btn btn-primary"
+                      :disabled="invalid"
+                      :class="{disabled:invalid}"
+                    >廠商登入</button>
                   </div>
                 </form>
               </ValidationObserver>
@@ -159,6 +162,8 @@
 <script>
 import VueLoading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 export default {
   data () {
@@ -189,16 +194,41 @@ export default {
         .then(function (response) {
           console.log(response)
           if (response.data.result === '登入成功') {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'success',
+              title: '登入成功',
+              showConfirmButton: false,
+              timer: 2000
+            })
             const token = response.data.token
             document.cookie = `pet=${token};expires=${
               new Date() * 1000
             }; path=/`
             vm.$emit('page-refresh', '廠商')
-            vm.isLoading = false
+          } else {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: response.data.result,
+              showConfirmButton: false,
+              timer: 2000
+            })
           }
+          vm.isLoading = false
         })
         .catch(function (error) {
           console.log(error)
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '登入失敗',
+            timer: 2000,
+            showConfirmButton: false
+          })
           vm.isLoading = false
         })
     },
@@ -217,16 +247,41 @@ export default {
         .then(function (response) {
           console.log(response)
           if (response.data.result === '登入成功') {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'success',
+              title: '登入成功',
+              showConfirmButton: false,
+              timer: 2000
+            })
             const token = response.data.token
             document.cookie = `pet=${token};expires=${
               new Date() * 1000
             }; path=/`
             vm.$emit('page-refresh', '會員')
+          } else {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: response.data.result,
+              showConfirmButton: false,
+              timer: 2000
+            })
           }
           vm.isLoading = false
         })
         .catch(function (error) {
           console.log(error)
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '登入失敗',
+            timer: 2000,
+            showConfirmButton: false
+          })
           vm.isLoading = false
         })
     }
