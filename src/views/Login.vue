@@ -180,7 +180,6 @@ export default {
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Company/Login',
-        // url: 'https://9409bc01ef8b.ngrok.io/api/Company/Login',
         data: {
           email: `${this.login.email}`,
           pwd: `${this.login.password}`
@@ -209,7 +208,6 @@ export default {
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Member/Login',
-        // url: 'https://9409bc01ef8b.ngrok.io/api/Company/Login',
         data: {
           email: `${this.login.email}`,
           pwd: `${this.login.password}`
