@@ -169,13 +169,20 @@
               <ValidationProvider rules="required" v-slot="{ errors,classes }">
                 <div class="form-group">
                   <label for="date">有效日期</label>
-                  <vc-date-picker  :min-date="new Date()" :value="Object" v-model="register.effectivedate"><input
-          id="date"
-          slot-scope="{ inputProps, inputEvents }"
-           class="form-control"
-          :class="classes"
-          v-bind="inputProps"
-          v-on="inputEvents" ></vc-date-picker>
+                  <vc-date-picker
+                    :min-date="new Date()"
+                    :value="Object"
+                    v-model="register.effectivedate"
+                  >
+                    <input
+                      id="date"
+                      slot-scope="{ inputProps, inputEvents }"
+                      class="form-control"
+                      :class="classes"
+                      v-bind="inputProps"
+                      v-on="inputEvents"
+                    />
+                  </vc-date-picker>
                   <span class="text-danger">{{errors[0]}}</span>
                 </div>
               </ValidationProvider>
@@ -197,6 +204,9 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
+
 export default {
   data () {
     return {
@@ -235,7 +245,9 @@ export default {
           area: `${this.register.area}`,
           address: `${this.register.address}`,
           pblicense: `${this.register.pblicense}`,
-          effectivedate: new Date(this.register.effectivedate).toLocaleDateString()
+          effectivedate: new Date(
+            this.register.effectivedate
+          ).toLocaleDateString()
         }
       }
       console.log(config)
@@ -244,6 +256,23 @@ export default {
           console.log(response)
           if (response.data.result === '註冊成功') {
             vm.$router.push('/Login')
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'success',
+              title: '註冊成功，請重新登入',
+              showConfirmButton: false,
+              timer: 2000
+            })
+          } else {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: response.data.result,
+              showConfirmButton: false,
+              timer: 2000
+            })
           }
         })
         .catch(function (error) {
