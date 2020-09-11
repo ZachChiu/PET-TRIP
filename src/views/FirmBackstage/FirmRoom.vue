@@ -602,7 +602,7 @@ export default {
       this.$http(config)
         .then(function (response) {
           console.log(response)
-          vm.orderList = response.data
+          vm.orderList = response.data.room
           vm.isLoading = false
         })
         .catch(function (error) {
