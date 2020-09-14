@@ -224,7 +224,7 @@ export default {
           Swal.fire({
             toast: true,
             position: 'top-end',
-            icon: 'success',
+            icon: 'error',
             title: '登入失敗',
             timer: 2000,
             showConfirmButton: false
@@ -277,7 +277,7 @@ export default {
           Swal.fire({
             toast: true,
             position: 'top-end',
-            icon: 'success',
+            icon: 'error',
             title: '登入失敗',
             timer: 2000,
             showConfirmButton: false
