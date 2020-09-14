@@ -1,31 +1,8 @@
 <template>
   <div class="firmRoom py-5">
     <loading :active.sync="isLoading" loader="bars"></loading>
-    <div
-      class="delModal modal fade"
-      id="delModal"
-      tabindex="-1"
-      aria-labelledby="delModalLabel"
-      aria-hidden="true"
-    >
-      <div id="delModal" class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header bg-danger">
-            <h5 class="modal-title text-white" id="delModalLabel">刪除</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">確定要刪除 <b>{{temData.roomname}}</b> </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-danger" @click="delRoom">確定</button>
-          </div>
-        </div>
-      </div>
-    </div>
-        <roomModal ref="roomModal" :modalStatus="modalStatus" :temData="temData" @get-data="getData"></roomModal>
-
+    <delModal :temData="temData" @get-data="getData"></delModal>
+    <roomModal ref="roomModal" :modalStatus="modalStatus" :temData="temData" @get-data="getData"></roomModal>
     <div class="container">
       <div class="row no-gutters overflow-hidden position-relative">
         <div class="col-12 mx-auto py-5 position-relative">
@@ -108,6 +85,7 @@ import 'vue-loading-overlay/dist/vue-loading.css'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 import roomModal from '@/components/roomModal.vue'
+import delModal from '@/components/delRoomModal.vue'
 
 export default {
   data () {
@@ -128,11 +106,11 @@ export default {
     this.getData()
   },
   components: {
-    loading: VueLoading, roomModal
+    loading: VueLoading, roomModal, delModal
   },
   methods: {
     getData: function () {
-      this.$emit('checkStatus', 'check')
+      this.$emit('checkStatus')
       const vm = this
       this.isLoading = true
       const config = {
@@ -192,7 +170,6 @@ export default {
           img3: '',
           img4: ''
         }
-        // this.$refs.roomModal.openModal('new')
         $('#editModal').modal('show')
       } else if (item === 'edit') {
         this.modalStatus = 'edit'
@@ -221,40 +198,6 @@ export default {
             vm.isLoading = false
           })
       }
-    },
-    delRoom: function () {
-      this.isLoading = true
-      const vm = this
-      const config = {
-        method: 'delete',
-        url: `http://pettrip.rocket-coding.com/api/Room/Delete?id=${this.temData.roomseq}`
-      }
-      this.$http(config)
-        .then(function (response) {
-          console.log(response.data)
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'success',
-            title: '刪除成功',
-            showConfirmButton: false,
-            timer: 2000
-          })
-          $('#delModal').modal('hide')
-          vm.getData()
-        })
-        .catch(function (error) {
-          console.log(error)
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'success',
-            title: '刪除失敗',
-            showConfirmButton: false,
-            timer: 2000
-          })
-          vm.isLoading = false
-        })
     },
     toggleStatus: function (item) {
       const vm = this
