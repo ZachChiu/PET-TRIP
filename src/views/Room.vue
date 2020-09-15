@@ -33,11 +33,21 @@
                   </div>
                   <div class="form-group">
                     <label for="phone">電話</label>
-                    <input type="text" id="phone" class="form-control" v-model.trim="bookingList.phone" />
+                    <input
+                      type="text"
+                      id="phone"
+                      class="form-control"
+                      v-model.trim="bookingList.phone"
+                    />
                   </div>
                   <div class="form-group">
                     <label for="type">寵物品種</label>
-                    <input type="text" id="type" class="form-control" v-model.trim="bookingList.petType" />
+                    <input
+                      type="text"
+                      id="type"
+                      class="form-control"
+                      v-model.trim="bookingList.petType"
+                    />
                   </div>
                   <div class="form-group">
                     <label for="weight">寵物重量(kg)</label>
@@ -45,11 +55,15 @@
                       type="number"
                       id="weight"
                       class="form-control"
-                      v-model.trim="bookingList.weight" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')"
+                      v-model.trim="bookingList.weight"
+                      onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')"
                     />
                   </div>
                   <div class="form-group align-items-center row">
-                    <label class="col-12 col-form-label" for="medical">餵藥服務</label>
+                    <label class="col-12 col-form-label" for="medical">
+                      餵藥服務({{quantity}}隻)
+                      <span></span>
+                    </label>
                     <div class="col-12">
                       <div class="form-check form-check-inline">
                         <input
@@ -64,7 +78,7 @@
                         <label
                           class="form-check-label"
                           for="inside"
-                        >飼料內(${{room.medicine_infeed_amt}})</label>
+                        >飼料內(${{room.medicine_infeed_amt * quantity}})</label>
                       </div>
                       <div class="form-check form-check-inline">
                         <input
@@ -78,7 +92,9 @@
                         />
                         <label class="form-check-label" for="pill">
                           藥丸
-                          <span v-if="room.medicine_pill == true">($ {{room.medicine_pill_amt}})</span>
+                          <span
+                            v-if="room.medicine_pill == true"
+                          >($ {{room.medicine_pill_amt * quantity}})</span>
                         </label>
                       </div>
                       <div class="form-check form-check-inline">
@@ -93,13 +109,15 @@
                         />
                         <label class="form-check-label" for="outside">
                           外用
-                          <span v-if="room.medicine_paste == true">($ {{room.medicine_paste_amt}})</span>
+                          <span
+                            v-if="room.medicine_paste == true"
+                          >($ {{room.medicine_paste_amt * quantity}})</span>
                         </label>
                       </div>
                     </div>
                   </div>
                   <div class="form-group align-items-center row">
-                    <label class="col-12 col-form-label" for="plus">加購服務</label>
+                    <label class="col-12 col-form-label" for="plus">加購服務({{quantity}}隻)</label>
                     <div class="col-12">
                       <div class="form-check form-check-inline">
                         <input
@@ -113,7 +131,7 @@
                         />
                         <label class="form-check-label" for="bath">
                           洗澡
-                          <span v-if="room.bath == true">(${{room.bath_amt}})</span>
+                          <span v-if="room.bath == true">(${{room.bath_amt * quantity}})</span>
                         </label>
                       </div>
                       <div class="form-check form-check-inline">
@@ -128,7 +146,7 @@
                         />
                         <label class="form-check-label" for="cutNails">
                           剪指甲
-                          <span v-if="room.nails == true">(${{room.nails_amt}})</span>
+                          <span v-if="room.nails == true">(${{room.nails_amt * quantity}})</span>
                         </label>
                       </div>
                       <div class="form-check form-check-inline">
@@ -143,7 +161,7 @@
                         />
                         <label class="form-check-label" for="cutHair">
                           剪毛
-                          <span v-if="room.hair == true">(${{room.hair_amt}})</span>
+                          <span v-if="room.hair == true">(${{room.hair_amt * quantity}})</span>
                         </label>
                       </div>
                     </div>
@@ -178,16 +196,24 @@
                   <span v-if="bookingList.addInfeed">飼料內(${{room.medicine_infeed_amt}})</span>
                   <span class="ml-1" v-if="bookingList.addPill">藥丸(${{room.medicine_pill_amt}})</span>
                   <span class="ml-1" v-if="bookingList.addPaste">外用(${{room.medicine_paste_amt}})</span>
-                  <span  v-if="!bookingList.addPaste && !bookingList.addPill && !bookingList.addInfeed">無</span>
+                  <span
+                    v-if="!bookingList.addPaste && !bookingList.addPill && !bookingList.addInfeed"
+                  >無</span>
                 </p>
                 <p>
                   加購服務：
                   <span v-if="bookingList.addBath">洗澡(${{room.bath_amt}})</span>
                   <span class="ml-1" v-if="bookingList.addNails">剪指甲(${{room.nails_amt}})</span>
                   <span class="ml-1" v-if="bookingList.addHair">剪毛(${{room.hair_amt}})</span>
-                  <span  v-if="!bookingList.addHair && !bookingList.addNails && !bookingList.addBath">無</span>
+                  <span
+                    v-if="!bookingList.addHair && !bookingList.addNails && !bookingList.addBath"
+                  >無</span>
                 </p>
-                <p>備註：<span v-if="bookingList.comment != ''">{{bookingList.comment}}</span><span v-if="bookingList.comment == ''">無</span> </p>
+                <p>
+                  備註：
+                  <span v-if="bookingList.comment != ''">{{bookingList.comment}}</span>
+                  <span v-if="bookingList.comment == ''">無</span>
+                </p>
                 <hr />
                 <p class="text-center h4 text-danger my-3">訂單總額：共 $ {{bookingTotalPrice}} 元</p>
               </tab-content>
@@ -237,6 +263,7 @@
             <div class="col-lg-12 col-md-6 text-center col-12">
               <vc-date-picker
                 :min-date="new Date()"
+                :disabled-dates="this.disabledDate"
                 is-expanded
                 v-model="dates"
                 mode="range"
@@ -442,6 +469,7 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 export default {
   data () {
     return {
+      removeDate: [],
       imgList: [],
       dates: {},
       company: {},
@@ -501,6 +529,11 @@ export default {
       return (
         Number(this.bookingList.addTotal) + Number(this.bookingList.totalPrice)
       )
+    },
+    disabledDate () {
+      return this.removeDate.map(function (item) {
+        return { start: new Date(item.orderdates), end: new Date(item.orderdatee) }
+      })
     }
   },
   methods: {
@@ -515,6 +548,8 @@ export default {
           console.log(response)
           vm.company = response.data.company
           vm.room = response.data.room
+          vm.removeDate = response.data.remove
+          console.log(vm.removeDate)
           if (
             vm.company.morning &&
             vm.company.afternoon &&
@@ -567,7 +602,8 @@ export default {
         $('#bookingModel').modal('show')
         this.bookingList.totalDay =
           (new Date(this.dates.end) - new Date(this.dates.start)) /
-          (1000 * 60 * 60 * 24)
+            (1000 * 60 * 60 * 24) +
+          1
         this.bookingList.totalPrice =
           (this.room.roomprice +
             (this.quantity - 1) * this.room.roomamount_amt) *
@@ -578,22 +614,25 @@ export default {
     addService: function () {
       this.bookingList.addTotal = 0
       if (this.bookingList.addInfeed === true) {
-        this.bookingList.addTotal += this.room.medicine_infeed_amt
+        this.bookingList.addTotal +=
+          this.room.medicine_infeed_amt * this.quantity
       }
       if (this.bookingList.addPill === true) {
-        this.bookingList.addTotal += this.room.medicine_pill_amt
+        this.bookingList.addTotal +=
+          this.room.medicine_pill_amt * this.quantity
       }
       if (this.bookingList.addPaste === true) {
-        this.bookingList.addTotal += this.room.medicine_paste_amt
+        this.bookingList.addTotal +=
+          this.room.medicine_paste_amt * this.quantity
       }
       if (this.bookingList.addBath === true) {
-        this.bookingList.addTotal += this.room.bath_amt
+        this.bookingList.addTotal += this.room.bath_amt * this.quantity
       }
       if (this.bookingList.addNails === true) {
-        this.bookingList.addTotal += this.room.nails_amt
+        this.bookingList.addTotal += this.room.nails_amt * this.quantity
       }
       if (this.bookingList.addHair === true) {
-        this.bookingList.addTotal += this.room.hair_amt
+        this.bookingList.addTotal += this.room.hair_amt * this.quantity
       }
       console.log(this.bookingList.addTotal)
     },
