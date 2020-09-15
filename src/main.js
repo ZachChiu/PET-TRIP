@@ -4,6 +4,7 @@ import router from './router'
 import $ from 'jquery'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import StarRating from 'vue-star-rating'
 import VCalendar from 'v-calendar'
 import { ValidationObserver, ValidationProvider, extend, localize, configure } from 'vee-validate'
 import * as rules from 'vee-validate/dist/rules'
@@ -56,5 +57,6 @@ configure({
   }
 })
 
+Vue.component('star-rating', StarRating)
 Vue.component('ValidationObserver', ValidationObserver)
 Vue.component('ValidationProvider', ValidationProvider)
