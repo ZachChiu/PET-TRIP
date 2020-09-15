@@ -374,17 +374,28 @@ export default {
           }
         })
         .then((response) => {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'success',
-            title: '更新成功',
-            showConfirmButton: false,
-            timer: 2000
-          })
+          if (response.data.result === '圖片格式錯誤') {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: '圖片格式錯誤',
+              showConfirmButton: false,
+              timer: 2000
+            })
+          } else {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'success',
+              title: '更新成功',
+              showConfirmButton: false,
+              timer: 2000
+            })
+            this.getOne()
+          }
           this.FirmAvatarUploading = false
           console.log(response)
-          this.getOne()
         })
         .catch(() => {
           Swal.fire({

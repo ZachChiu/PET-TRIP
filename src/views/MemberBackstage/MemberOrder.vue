@@ -1,76 +1,8 @@
 <template>
   <div class="firmOrder">
-    <div class="orderInfoModal modal fade" id="orderInfoModal" tabindex="-1" aria-labelledby="orderInfoModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header bg-dark">
-                        <h5 class="modal-title text-white" id="orderInfoModalLabel">訂單資訊</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>訂單編號：AAAA000013132</p>
-                        <p>狀態：已付款</p>
-                        <p>廠商名稱：子庭寵物寄宿</p>
-                        <p>空間名稱：喵喵毛毛屋A01</p>
-                        <p>預定日期：2020/09/04~2020/09~06</p>
-                        <p>寄宿總價：$3,400</p>
-                        <hr>
-                        <p>訂購者：邱廷鈺</p>
-                        <p>電話：0900000000</p>
-                        <p>數量：2隻</p>
-                        <p>寵物品種：米克斯</p>
-                        <p>餵藥服務：飼料內($200)</p>
-                        <p>加購服務：洗澡($200)</p>
-                        <p>備註：我家貓咪會打呼</p>
-                        <hr>
-                        <p class="text-right h5 text-danger my-3">訂單總額：共 $ 3,800 元</p>
-                        <p class=" text-secondary">如欲取消訂單，請先與賣家取得共識，如為單方面取消訂單，將無法取消。</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-dark" id="openBtn">取消訂單</button>
-                        <button type="button" class="btn btn-dark" data-dismiss="modal">關閉</button>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="cancelModal modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog  modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header bg-danger">
-                        <h5 class="modal-title text-white" id="cancelModalLabel">取消訂單</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="text-center modal-body">
-                        <p>確定要取消此筆訂單？</p>
-                        <p>訂單編號：AAAA000013132</p>
-                        <div class="form-group">
-                            <label class="h5 text-danger" for="reason">取消原因</label>
-                            <select class="form-control" name="" id="reason">
-                                <option value="" disabled selected>請選擇</option>
-                                <option value="找到更便宜的平台">找到更便宜的平台</option>
-                                <option value="在此平台找到更適合我的空間">在此平台找到更適合我的空間</option>
-                                <option value="已與賣家協議取消訂單">已與賣家協議取消訂單</option>
-                                <option value="平台功能不足">平台功能不足</option>
-                                <option value="與賣家溝通不良">與賣家溝通不良</option>
-                            </select>
-                        </div>
-                        <p class=" text-secondary">如欲取消訂單，請先與賣家取得共識，如為單方面取消訂單，將無法取消。</p>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">關閉</button>
-                        <button type="button" class="btn btn-danger">取消訂單</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <loading :active.sync="isLoading" loader="bars"></loading>
+    <orderModal :who="who" :orderList="orderList" :orderDetail="orderDetail"></orderModal>
+    <delOrderModal :who="who" :delData="orderDetail" @change-state="changeState" @get-data="getData" ></delOrderModal>
     <ul class="nav nav-tabs nav-fill text-center" id="myTab" role="tablist">
       <li class="nav-item">
         <a
@@ -81,6 +13,7 @@
           role="tab"
           aria-controls="whole"
           aria-selected="true"
+          @click="changeState('all')"
         >全部</a>
       </li>
       <li class="nav-item">
@@ -92,6 +25,7 @@
           role="tab"
           aria-controls="pay"
           aria-selected="false"
+          @click="changeState('1')"
         >已付款</a>
       </li>
       <li class="nav-item">
@@ -103,6 +37,7 @@
           role="tab"
           aria-controls="complete"
           aria-selected="false"
+          @click="changeState('4')"
         >已完成</a>
       </li>
       <li class="nav-item">
@@ -114,6 +49,7 @@
           role="tab"
           aria-controls="decline"
           aria-selected="false"
+          @click="changeState('2')"
         >已取消</a>
       </li>
       <li class="nav-item">
@@ -125,230 +61,124 @@
           role="tab"
           aria-controls="refund"
           aria-selected="false"
+          @click="changeState('3')"
         >已退款</a>
       </li>
     </ul>
-    <div class="text-nowrap tab-content border border-top-0" id="myTabContent">
+    <div class="bg-white text-nowrap tab-content border border-top-0" id="myTabContent">
       <div
         class="tab-pane p-3 fade show active"
         id="whole"
         role="tabpanel"
         aria-labelledby="whole-tab"
+        v-if="!isLoading"
       >
-        <div class="table-responsive-md">
-          <table class="table table-hover">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">訂單編號</th>
-                <th scope="col">日期</th>
-                <th scope="col">空間</th>
-                <th scope="col">狀態</th>
-                <th scope="col">操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">ASB4100002</th>
-                <td>
-                  2020/07/20 ~
-                  <br />2020/07/23
-                </td>
-                <td>美麗妙妙屋</td>
-                <td>已付款</td>
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    data-toggle="modal"
-                    data-target="#orderInfoModal"
-                  >詳情</button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">ASB4100003</th>
-                <td>
-                  2020/08/02 ~
-                  <br />2020/08/05
-                </td>
-                <td>六角原價屋</td>
-                <td>已完成</td>
-                <td>
-                  <button type="button" class="btn btn-danger">詳情</button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">ASB4100004</th>
-                <td>
-                  2020/06/11 ~
-                  <br />2020/06/14
-                </td>
-                <td>子庭不妙屋</td>
-                <td>已取消</td>
-                <td>
-                  <button type="button" class="btn btn-danger">詳情</button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">ASB4100008</th>
-                <td>
-                  2020/06/11 ~
-                  <br />2020/06/14
-                </td>
-                <td>子庭哭哭屋</td>
-                <td>已退款</td>
-                <td>
-                  <button type="button" class="btn btn-danger">詳情</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <order :orderList="orderList" @open-detail="openDetail"></order>
+        <page v-if="pagelist.total != 0" class="mt-3" :page-data="pagelist" @page-change="getData"></page>
       </div>
-      <div class="tab-pane p-3 fade" id="pay" role="tabpanel" aria-labelledby="pay-tab">
-        <div class="table-responsive-md">
-          <table class="table table-hover">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">訂單編號</th>
-                <th scope="col">日期</th>
-                <th scope="col">空間</th>
-                <th scope="col">狀態</th>
-                <th scope="col">操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">ASB4100002</th>
-                <td>
-                  2020/07/20 ~
-                  <br />2020/07/23
-                </td>
-                <td>美麗妙妙屋</td>
-                <td>已付款</td>
-                <td>
-                  <button type="button" class="btn btn-danger">詳情</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div v-if="!isLoading" class="tab-pane p-3 fade" id="pay" role="tabpanel" aria-labelledby="pay-tab">
+        <order :orderList="orderList" @open-detail="openDetail"></order>
+        <page v-if="pagelist.total != 0" class="mt-3" :page-data="pagelist" @page-change="getData"></page>
       </div>
-      <div class="tab-pane p-3 fade" id="complete" role="tabpanel" aria-labelledby="complete-tab">
-        <div class="table-responsive-md">
-          <table class="table table-hover">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">訂單編號</th>
-                <th scope="col">日期</th>
-                <th scope="col">空間</th>
-                <th scope="col">狀態</th>
-                <th scope="col">操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">ASB4100003</th>
-                <td>
-                  2020/08/02 ~
-                  <br />2020/08/05
-                </td>
-                <td>六角原價屋</td>
-                <td>已完成</td>
-                <td>
-                  <button type="button" class="btn btn-danger">詳情</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div v-if="!isLoading" class="tab-pane p-3 fade" id="complete" role="tabpanel" aria-labelledby="complete-tab">
+        <order :orderList="orderList" @open-detail="openDetail"></order>
+        <page v-if="pagelist.total != 0" class="mt-3" :page-data="pagelist" @page-change="getData"></page>
       </div>
-      <div class="tab-pane p-3 fade" id="decline" role="tabpanel" aria-labelledby="decline-tab">
-        <div class="table-responsive-md">
-          <table class="table table-hover">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">訂單編號</th>
-                <th scope="col">日期</th>
-                <th scope="col">空間</th>
-                <th scope="col">狀態</th>
-                <th scope="col">操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">ASB4100004</th>
-                <td>
-                  2020/06/11 ~
-                  <br />2020/06/14
-                </td>
-                <td>子庭不妙屋</td>
-                <td>已取消</td>
-                <td>
-                  <button type="button" class="btn btn-danger">詳情</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div v-if="!isLoading" class="tab-pane p-3 fade" id="decline" role="tabpanel" aria-labelledby="decline-tab">
+        <order  :orderList="orderList" @open-detail="openDetail"></order>
+        <page v-if="pagelist.total != 0" class="mt-3" :page-data="pagelist" @page-change="getData"></page>
       </div>
-      <div class="tab-pane p-3 fade" id="refund" role="tabpanel" aria-labelledby="refund-tab">
-        <div class="table-responsive-md">
-          <table class="table table-hover">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">訂單編號</th>
-                <th scope="col">日期</th>
-                <th scope="col">空間</th>
-                <th scope="col">狀態</th>
-                <th scope="col">操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">ASB4100008</th>
-                <td>
-                  2020/06/11 ~
-                  <br />2020/06/14
-                </td>
-                <td>子庭哭哭屋</td>
-                <td>已退款</td>
-                <td>
-                  <button type="button" class="btn btn-danger">詳情</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div v-if="!isLoading" class="tab-pane p-3 fade" id="refund" role="tabpanel" aria-labelledby="refund-tab">
+        <order :orderList="orderList" @open-detail="openDetail"></order>
+        <page v-if="pagelist.total != 0" class="mt-3" :page-data="pagelist" @page-change="getData"></page>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss">
-
 </style>
 
 <script>
 /* global $ */
-$(document).ready(function () {
-  $('#openBtn').click(function (e) {
-    e.preventDefault()
-    $('#cancelModal').modal('show')
-    $('#orderInfoModal').modal('hide')
-  })
-})
+import VueLoading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
+import page from '@/components/page.vue'
+import order from '@/components/orderList.vue'
+import orderModal from '@/components/orderModal.vue'
+import delOrderModal from '@/components/delOrderModal.vue'
 
 export default {
   data () {
     return {
+      who: 'user',
+      orderList: {},
+      pagelist: {},
+      state: null,
+      orderDetail: {},
+      isLoading: false
     }
   },
   created () {
     this.getData()
   },
+  components: { page, order, delOrderModal, orderModal, loading: VueLoading },
   methods: {
-    getData: function () {
-      this.$emit('checkStatus', 'check')
+    getData: function (page = 1) {
+      $('#orderInfoModal').modal('hide')
+      $('#cancelModal').modal('hide')
+      this.$emit('checkStatus')
+      this.isLoading = true
+      const vm = this
+      var config = {
+        method: 'get',
+        url: `http://pettrip.rocket-coding.com/api/Order/Getorder?state=${this.state}&page=${page}&paged=6`
+      }
+      this.$http(config)
+        .then(function (response) {
+          vm.orderList = response.data.order
+          vm.pagelist = response.data.meta
+          console.log(response)
+          vm.isLoading = false
+        })
+        .catch(function (error) {
+          console.log(error)
+          vm.isLoading = false
+        })
+    },
+    changeState: function (state) {
+      if (state === 'all') {
+        this.state = null
+        this.getData(1)
+      } else if (state === '1') {
+        this.state = 1
+        this.getData(1)
+      } else if (state === '2') {
+        this.state = 2
+        this.getData(1)
+      } else if (state === '3') {
+        this.state = 3
+        this.getData(1)
+      } else if (state === '4') {
+        this.state = 4
+        this.getData(1)
+      }
+    },
+    openDetail: function (order) {
+      const vm = this
+      const config = {
+        method: 'get',
+        url: `http://pettrip.rocket-coding.com/api/Order/Getorder?id=${order.orderseq}`
+      }
+      this.$http(config)
+        .then(function (response) {
+          console.log(response)
+          vm.orderDetail = response.data
+          $('#orderInfoModal').modal('show')
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   }
 }
