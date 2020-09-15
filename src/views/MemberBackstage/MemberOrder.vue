@@ -2,7 +2,13 @@
   <div class="firmOrder">
     <loading :active.sync="isLoading" loader="bars"></loading>
     <orderModal :who="who" :orderList="orderList" :orderDetail="orderDetail"></orderModal>
-    <delOrderModal :who="who" :delData="orderDetail" @change-state="changeState" @get-data="getData" ></delOrderModal>
+    <delOrderModal
+      :who="who"
+      :delData="orderDetail"
+      @change-state="changeState"
+      @get-data="getData"
+    ></delOrderModal>
+    <memberEvaluateModal :evaluationData="evaluationList" ></memberEvaluateModal>
     <ul class="nav nav-tabs nav-fill text-center" id="myTab" role="tablist">
       <li class="nav-item">
         <a
@@ -73,23 +79,47 @@
         aria-labelledby="whole-tab"
         v-if="!isLoading"
       >
-        <order :orderList="orderList" @open-detail="openDetail"></order>
+        <order :orderList="orderList" @open-detail="openDetail" @open-evaluation="openEvaluation"></order>
         <page v-if="pagelist.total != 0" class="mt-3" :page-data="pagelist" @page-change="getData"></page>
       </div>
-      <div v-if="!isLoading" class="tab-pane p-3 fade" id="pay" role="tabpanel" aria-labelledby="pay-tab">
-        <order :orderList="orderList" @open-detail="openDetail"></order>
+      <div
+        v-if="!isLoading"
+        class="tab-pane p-3 fade"
+        id="pay"
+        role="tabpanel"
+        aria-labelledby="pay-tab"
+      >
+        <order :orderList="orderList" @open-detail="openDetail" @open-evaluation="openEvaluation"></order>
         <page v-if="pagelist.total != 0" class="mt-3" :page-data="pagelist" @page-change="getData"></page>
       </div>
-      <div v-if="!isLoading" class="tab-pane p-3 fade" id="complete" role="tabpanel" aria-labelledby="complete-tab">
-        <order :orderList="orderList" @open-detail="openDetail"></order>
+      <div
+        v-if="!isLoading"
+        class="tab-pane p-3 fade"
+        id="complete"
+        role="tabpanel"
+        aria-labelledby="complete-tab"
+      >
+        <order :orderList="orderList" @open-detail="openDetail" @open-evaluation="openEvaluation"></order>
         <page v-if="pagelist.total != 0" class="mt-3" :page-data="pagelist" @page-change="getData"></page>
       </div>
-      <div v-if="!isLoading" class="tab-pane p-3 fade" id="decline" role="tabpanel" aria-labelledby="decline-tab">
-        <order  :orderList="orderList" @open-detail="openDetail"></order>
+      <div
+        v-if="!isLoading"
+        class="tab-pane p-3 fade"
+        id="decline"
+        role="tabpanel"
+        aria-labelledby="decline-tab"
+      >
+        <order :orderList="orderList" @open-detail="openDetail" @open-evaluation="openEvaluation"></order>
         <page v-if="pagelist.total != 0" class="mt-3" :page-data="pagelist" @page-change="getData"></page>
       </div>
-      <div v-if="!isLoading" class="tab-pane p-3 fade" id="refund" role="tabpanel" aria-labelledby="refund-tab">
-        <order :orderList="orderList" @open-detail="openDetail"></order>
+      <div
+        v-if="!isLoading"
+        class="tab-pane p-3 fade"
+        id="refund"
+        role="tabpanel"
+        aria-labelledby="refund-tab"
+      >
+        <order :orderList="orderList" @open-detail="openDetail" @open-evaluation="openEvaluation"></order>
         <page v-if="pagelist.total != 0" class="mt-3" :page-data="pagelist" @page-change="getData"></page>
       </div>
     </div>
@@ -107,6 +137,7 @@ import page from '@/components/page.vue'
 import order from '@/components/orderList.vue'
 import orderModal from '@/components/orderModal.vue'
 import delOrderModal from '@/components/delOrderModal.vue'
+import memberEvaluateModal from '@/components/memberEvaluateModal.vue'
 
 export default {
   data () {
@@ -114,6 +145,7 @@ export default {
       who: 'user',
       orderList: {},
       pagelist: {},
+      evaluationList: {},
       state: null,
       orderDetail: {},
       isLoading: false
@@ -122,7 +154,14 @@ export default {
   created () {
     this.getData()
   },
-  components: { page, order, delOrderModal, orderModal, loading: VueLoading },
+  components: {
+    page,
+    order,
+    delOrderModal,
+    memberEvaluateModal,
+    orderModal,
+    loading: VueLoading
+  },
   methods: {
     getData: function (page = 1) {
       $('#orderInfoModal').modal('hide')
@@ -175,6 +214,23 @@ export default {
           console.log(response)
           vm.orderDetail = response.data
           $('#orderInfoModal').modal('show')
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    openEvaluation: function (order) {
+      const vm = this
+      const config = {
+        method: 'get',
+        url: `http://pettrip.rocket-coding.com/api/Evaluation/Get?id=${order.orderseq}`
+      }
+
+      this.$http(config)
+        .then(function (response) {
+          console.log(response)
+          vm.evaluationList = response.data
+          $('#evaluationModal').modal('show')
         })
         .catch(function (error) {
           console.log(error)

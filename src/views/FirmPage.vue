@@ -4,13 +4,13 @@
       <div
         class="mx-auto"
         :style="{backgroundImage: 'url(' + firmData.company.bannerimg + ')'}"
-        style="background-size: cover;"
+        style="background-size: cover; background-position:center"
       >
         <img
           src="https://upload.cc/i1/2020/09/09/GIaohq.jpg"
           :class="{opacityZero:firmData.company.bannerimg != ''}"
           class="w-100 img-fluid"
-          style="height: 200px;object-fit: cover;"
+          style="height: 300px;object-fit: cover;"
           alt
         />
       </div>
@@ -52,15 +52,10 @@
           class="py-3 col-lg-5 col-md-6 col-sm-10 bg-white border d-flex flex-column justify-content-center"
         >
           <div class="d-md-block d-none">
-            <p class="text-warning mb-0">
-              <span class="text-dark mr-2">評價：70筆</span>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <span>4.8</span>
-            </p>
+            <div class="text-warning mb-0  d-flex align-items-end">
+              <span class="text-dark mr-2">評價：{{firmData.company.evaluation_count}}筆</span>
+               <star-rating v-model="firmData.company.evaluation" :rounded-corners="true" :inline="true" :increment="0.1" :read-only="true" :star-size="22"></star-rating>
+            </div>
             <p v-if="!all" class="mb-0">
               回覆時段：
                <span v-if="firmData.company.morning">早上</span>

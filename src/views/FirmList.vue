@@ -154,14 +154,8 @@
                   </div>
                 </div>
                 <div class="col-7">
-                  <p class="text-warning">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <span>4.8</span>
-                  </p>
+             <star-rating v-model="firm.evaluation" :increment="0.1" :read-only="true" :star-size="15"></star-rating>
+                    <p>共{{firm.evaluation_count}}筆</p>
                   <h5 class="card-title">{{firm.companybrand}}</h5>
                   <p class="mb-1 card-text">{{firm.country}},{{firm.area}}</p>
                   <p class="mb-1 card-text">{{firm.pettype}}</p>
