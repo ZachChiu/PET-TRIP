@@ -36,6 +36,12 @@
               data-toggle="modal"
               @click="openDetail(order)"
             >詳情</button>
+            <button
+              type="button"
+              class="btn btn-danger ml-2"
+              data-toggle="modal" v-if="order.btn_Evalution"
+              @click="openEvaluation(order)"
+            >評價</button>
           </td>
         </tr>
       </tbody>
@@ -53,6 +59,9 @@ export default {
   methods: {
     openDetail: function (order) {
       this.$emit('open-detail', order)
+    },
+    openEvaluation: function (order) {
+      this.$emit('open-evaluation', order)
     }
   }
 }
