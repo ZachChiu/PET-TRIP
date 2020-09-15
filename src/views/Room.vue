@@ -262,7 +262,6 @@
           <div class="row">
             <div class="col-lg-12 col-md-6 text-center col-12">
               <vc-date-picker
-                :min-date="new Date()"
                 :disabled-dates="this.disabledDate"
                 is-expanded
                 v-model="dates"
@@ -345,16 +344,9 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 col-6 d-none d-sm-flex flex-column justify-content-center text-center">
-          <p>評價 50 則</p>
-          <p class="text-warning">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <span class="ml-1">4.8</span>
-          </p>
+        <div class="col-md-4 col-6 d-none d-sm-flex flex-column align-items-center">
+          <p>評價{{company.evaluation_count}}則</p>
+          <star-rating v-model="company.evaluation" :rounded-corners="true" :inline="true" :increment="0.1" :read-only="true" :star-size="20"></star-rating>
         </div>
         <div class="col-md-4 d-none d-md-flex flex-column justify-content-center text-center">
           <p v-if="!all" class="mb-0">
@@ -400,7 +392,7 @@
         </p>
         <p>
           <i class="mr-1 far fa-eye"></i>
-          看管程度：{{room.visit}}小時
+          看管程度：<span v-if="room.visit != 7">{{room.visit}}小時</span> <span v-else>八小時以下</span>
         </p>
         <p>
           <i class="mr-1 fas fa-baby-carriage"></i>
@@ -470,6 +462,7 @@ export default {
   data () {
     return {
       removeDate: [],
+      disabledDate: [],
       imgList: [],
       dates: {},
       company: {},
@@ -529,11 +522,6 @@ export default {
       return (
         Number(this.bookingList.addTotal) + Number(this.bookingList.totalPrice)
       )
-    },
-    disabledDate () {
-      return this.removeDate.map(function (item) {
-        return { start: new Date(item.orderdates), end: new Date(item.orderdatee) }
-      })
     }
   },
   methods: {
@@ -549,7 +537,9 @@ export default {
           vm.company = response.data.company
           vm.room = response.data.room
           vm.removeDate = response.data.remove
-          console.log(vm.removeDate)
+          vm.removeDate.forEach(function (item) {
+            vm.disabledDate.push({ start: item.orderdates, end: item.orderdatee })
+          })
           if (
             vm.company.morning &&
             vm.company.afternoon &&
