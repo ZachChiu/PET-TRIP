@@ -1,5 +1,6 @@
 <template>
   <div class="firmRegister">
+    <loading :active.sync="isLoading" loader="bars"></loading>
     <div class="banner position-relative">
       <div class="bannerText position-absolute text-dark display-4 font-weight-bold">註冊</div>
       <img
@@ -26,7 +27,7 @@
                     v-model="register.companyname"
                     :class="classes"
                     autocomplete="off"
-                    placeholder="xx股份有限公司"
+                    placeholder="Pet trip 股份有限公司"
                   />
                   <span class="text-danger">{{errors[0]}}</span>
                 </div>
@@ -41,6 +42,7 @@
                     v-model="register.companybrand"
                     :class="classes"
                     autocomplete="off"
+                    placeholder="Pet trip"
                   />
                   <span class="text-danger">{{errors[0]}}</span>
                 </div>
@@ -107,18 +109,23 @@
 
               <div class="form-row">
                 <div class="form-group col-6">
-                  <ValidationProvider rules="required" v-slot="{ classes }">
+                  <ValidationProvider rules="required" v-slot="{ errors,classes }">
                     <label for="inputCity">縣市</label>
                     <select
                       id="inputCity"
                       class="form-control"
                       v-model="register.country"
                       :class="classes"
+                      @change="selectRegion"
                     >
                       <option value selected disabled>請選擇</option>
-                      <option>高雄市</option>
-                      <option>台北市</option>
+                      <option
+                        v-for="(region,index) in regionList"
+                        :value="region"
+                        :key="index"
+                      >{{region}}</option>
                     </select>
+                    <span class="text-danger">{{errors[0]}}</span>
                   </ValidationProvider>
                 </div>
                 <div class="form-group col-6">
@@ -130,9 +137,8 @@
                       v-model="register.area"
                       :class="classes"
                     >
-                      <option value selected disabled>請選擇</option>
-                      <option>三民區</option>
-                      <option>前鎮區</option>
+                      <option value  disabled>請選擇</option>
+                      <option v-for="(area,index) in areaList" :selected="area == '中正區'" :value="area" :key="index">{{area}}</option>
                     </select>
                     <span class="text-danger">{{errors[0]}}</span>
                   </ValidationProvider>
@@ -204,12 +210,17 @@
 </template>
 
 <script>
+/* global $ */
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
+import VueLoading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
+import taiwan from '@/taiwan_districts.json'
 
 export default {
   data () {
     return {
+      isLoading: false,
       change: '',
       register: {
         companyname: '',
@@ -224,11 +235,24 @@ export default {
         pblicense: '',
         effectivedate: new Date()
       },
-      fileUploading: false
+      regionList: [],
+      areaList: [],
+      fileUploading: false,
+      taiwan: taiwan
     }
+  },
+  components: {
+    loading: VueLoading
+  },
+  created () {
+    $('html, body').animate({
+      scrollTop: $('#app').offset().top
+    }, 0)
+    this.getRegion()
   },
   methods: {
     firmRegister: function () {
+      this.isLoading = true
       const vm = this
       const config = {
         method: 'post',
@@ -260,7 +284,7 @@ export default {
               toast: true,
               position: 'top-end',
               icon: 'success',
-              title: '註冊成功，請重新登入',
+              title: '註冊成功，請登入',
               showConfirmButton: false,
               timer: 2000
             })
@@ -274,10 +298,25 @@ export default {
               timer: 2000
             })
           }
+          vm.isLoading = false
         })
         .catch(function (error) {
           console.log(error)
+          vm.isLoading = false
         })
+    },
+    getRegion: function () {
+      this.taiwan.forEach((item) => this.regionList.push(item.name))
+    },
+    selectRegion: function () {
+      const vm = this
+      vm.areaList = []
+      this.taiwan.forEach(function (item) {
+        if (vm.register.country.indexOf(item.name) !== -1) {
+          item.districts.forEach((area) => vm.areaList.push(area.name))
+          vm.register.area = item.districts[0].name
+        }
+      })
     }
   }
 }
