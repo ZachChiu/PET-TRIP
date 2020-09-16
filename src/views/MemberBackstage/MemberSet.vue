@@ -1,7 +1,7 @@
 <template>
   <div class="memberSet">
     <loading :active.sync="isLoading" loader="bars"></loading>
-    <div class="row no-gutters text-wrap align-items-center">
+    <div class="row no-gutters text-wrap align-items-center" v-if="memberData.avatar != null">
       <div class="col-lg-6 col-12">
         <div
           class="rounded-circle mx-auto overflow-hidden"
@@ -98,6 +98,7 @@
 </template>
 
 <script>
+/* global $ */
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import VueLoading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
@@ -113,6 +114,9 @@ export default {
   },
   created () {
     this.getData()
+    $('html, body').animate({
+      scrollTop: $('#app').offset().top
+    }, 0)
   },
   components: {
     loading: VueLoading
