@@ -13,7 +13,7 @@
       <div class="row">
         <div class="col-md-3 col-12 mb-3">
           <nav class="bg-light">
-            <ul class="nav nav-pills nav-fill flex-md-column text-center">
+            <ul class="nav nav-pills flex-md-column text-center">
               <li class="nav-item" @click="pageCurrent = '/MemberBackstage'">
                 <router-link to="/MemberBackstage" class="nav-link" :class="{active:pageCurrent == '/MemberBackstage'}">
                   <i class="fas fa-clipboard-list"></i>
