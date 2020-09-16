@@ -84,7 +84,7 @@
       </div>
     </nav>
     <main>
-      <router-view  @page-refresh="getIdentify"></router-view>
+      <router-view :identify="identify"  @page-refresh="getIdentify"></router-view>
     </main>
     <footer style="background:rgb(4 24 58);">
       <div class="container">
@@ -186,7 +186,6 @@ export default {
           if (vm.identify.avatar == null) {
             vm.identify.avatar = 'https://upload.cc/i1/2020/09/09/wa8QmM.png'
           }
-          vm.isLoading = false
           if (get === '廠商') {
             vm.$router.push('/FirmBackstage')
           } else if (get === '會員') {
@@ -195,11 +194,9 @@ export default {
         })
         .catch(function (error) {
           console.log(error)
-          vm.isLoading = false
         })
     },
     signout: function () {
-      this.isLoading = true
       document.cookie = `pet='';expires=${new Date(-1)}; path=/`
       this.getIdentify()
       this.$router.push('/46546')
