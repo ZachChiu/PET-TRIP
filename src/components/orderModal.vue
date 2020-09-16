@@ -43,9 +43,13 @@
             </p>
             <p v-if="who == 'user'">地址：{{orderDetail.order.country}}{{orderDetail.order.area}}{{orderDetail.order.address}}</p>
             <p>備註：{{orderDetail.detail.memo}}</p>
-            <hr />
             <p class="text-right h5 text-danger my-3">訂單總額：共 $ {{orderDetail.detail.orderprice}}元</p>
             <p class="text-right text-secondary">訂單只可於七天前取消，七天內不予受理。</p>
+            <div v-if="orderDetail.cancel.reason != null" class="cancel">
+             <hr />
+              <p class="text-danger h5">取消原因：{{orderDetail.cancel.reason}}</p>
+              <p class="h5" v-if="orderDetail.cancel.memo != null">原因描述：{{orderDetail.cancel.memo}}</p>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-dark" id="openBtn" @click="cancelOrder" v-if="orderDetail.detail.btn_cancel">取消訂單</button>
