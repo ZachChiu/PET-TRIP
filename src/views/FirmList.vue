@@ -1,5 +1,6 @@
 <template>
-  <div class="firmList" v-if="firmList[0] != null">
+  <div class="firmList bg-light">
+    <loading :active.sync="isLoading" loader="bars"></loading>
     <div class="banner position-relative">
       <div class="bannerText position-absolute text-dark display-4 font-weight-bold">尋找寄宿</div>
       <img
@@ -9,207 +10,168 @@
         alt
       />
     </div>
-    <div class="bg-light">
-      <div class="container py-3">
-        <form class>
-          <div class="form-row">
-            <div class="form-group col-md-6 col-12 align-items-center">
-              <div class="row align-items-center">
-                <label class="col-lg-3 col-form-label" for="petType">寵物類型</label>
-                <div class="col-lg-9">
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="cat" value="cat" />
-                    <label class="form-check-label" for="cat">貓</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="bog" value="dog" />
-                    <label class="form-check-label" for="bog">狗</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="other" value="other" />
-                    <label class="form-check-label" for="other">其他</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-md-6 col-12 align-items-center">
-              <div class="row align-items-center">
-                <label class="col-lg-3 col-form-label" for="petType">條件篩選</label>
-                <div class="col-lg-9">
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="price" value="金額(低-高)" />
-                    <label class="form-check-label" for="price">金額(低-高)</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="evaluation" value="評價(高-低)" />
-                    <label class="form-check-label" for="evaluation">評價(高-低)</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-6 col-12">
-              <div class="row">
-                <label class="col-lg-3 col-form-label" for="petNum">寵物數量</label>
-                <div class="col-lg-9">
-                  <select id="petNum" class="form-control">
-                    <option value selected disabled>請選擇</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">5以上</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-md-6 col-12">
-              <div class="row">
-                <label class="col-lg-3 col-form-label" for="petWeight">接受重量</label>
-                <div class="col-lg-9">
-                  <select id="petWeight" class="form-control">
-                    <option value selected disabled>請選擇</option>
-                    <option value="5">5以下</option>
-                    <option value="10">10以下</option>
-                    <option value="15">15以下</option>
-                    <option value="20">20以下</option>
-                    <option value="25">25以下</option>
-                    <option value="30">25以上</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-6 col-12">
-              <div class="row">
-                <label class="col-lg-3 col-form-label" for="inputCity">縣市</label>
-                <div class="col-lg-9">
-                  <select id="inputCity" class="form-control">
-                    <option selected disabled>請選擇</option>
-                    <option>高雄市</option>
-                    <option>台北市</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-md-6 col-12">
-              <div class="row">
-                <label class="col-lg-3 col-form-label" for="inputState">區域</label>
-                <div class="col-lg-9">
-                  <select id="inputState" class="form-control">
-                    <option selected disabled>請選擇</option>
-                    <option>三民區</option>
-                    <option>前鎮區</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-6 col-12">
-              <div class="form-group row">
-                <label class="col-lg-3 col-form-label" for="petSize">期間</label>
-                <div class="col-lg-9">
-                  <vc-date-picker mode="range" v-model="range" :min-date="new Date()" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="container py-5">
-      <div class="row justify-content-lg-start justify-content-md-between">
-        <div class="col-lg-4 col-md-5 mb-3" v-for="(firm,index) in firmList" :key="index">
-          <div class="card w-100">
-            <div
-                    class="w-100"
-                    :style="{backgroundImage: 'url(' + firm.bannerimg + ')'}"
-                    style="background-size: cover;"
-                  >
-                    <img
-                      src="https://upload.cc/i1/2020/09/09/GIaohq.jpg"
-                      :class="{opacityZero:firm.bannerimg != ''}"
-                      class="card-img-top"
-                      alt
-                    />
-                  </div>
-            <div class="card-body">
-              <div class="row align-items-start">
-                <div class="col-5">
-                  <div
-                    class="rounded-circle mx-auto overflow-hidden"
-                    :style="{backgroundImage: 'url(' + firm.avatar + ')'}"
-                    style="background-size: cover;max-width: 300px;"
-                  >
-                    <img
-                      src="https://upload.cc/i1/2020/09/09/wa8QmM.png"
-                      :class="{opacityZero:firm.avatar != ''}"
-                      class="w-100 img-fluid"
-                      alt
-                    />
-                  </div>
-                </div>
-                <div class="col-7">
-             <star-rating v-model="firm.evaluation" :increment="0.1" :read-only="true" :star-size="15"></star-rating>
-                    <p>共{{firm.evaluation_count}}筆</p>
-                  <h5 class="card-title">{{firm.companybrand}}</h5>
-                  <p class="mb-1 card-text">{{firm.country}},{{firm.area}}</p>
-                  <p class="mb-1 card-text">{{firm.pettype}}</p>
-                  <p class="mb-1 card-text text-secondary">共有{{firm.rooms}}間房間</p>
-                  <p class="mb-1 card-text text-danger">
-                    $ {{firm.roomprice_min}}
-                    <span v-if="firm.roomprice_min != firm.roomprice_max">~{{firm.roomprice_max}}</span> / 天
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="card-footer">
-              <router-link :to="`/FirmPage/${firm.companyseq}`" class="stretched-link w-100 btn btn-primary">查看詳情</router-link>
-            </div>
-          </div>
+
+    <div class="container py-3">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item w-50" role="presentation">
+          <a
+            class="nav-link active"
+            id="firmLst-tab"
+            data-toggle="tab"
+            href="#firmLst"
+            role="tab"
+            aria-controls="firmLst"
+            aria-selected="true"
+          >廠商列表</a>
+        </li>
+        <li class="nav-item w-50" role="presentation">
+          <a
+            class="nav-link"
+            id="roomList-tab"
+            data-toggle="tab"
+            href="#roomList"
+            role="tab"
+            aria-controls="roomList"
+            aria-selected="false"
+          >房間列表</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div
+          class="tab-pane fade show active"
+          id="firmLst"
+          role="tabpanel"
+          aria-labelledby="firmLst-tab"
+        >
+          <firmListFirm :firmList="firmList" @search="searchFirm"></firmListFirm>
+          <page v-if="firmList[0] != null" :page-data="firmPagelist" @page-change="getFirmData"></page>
+        </div>
+        <div class="tab-pane fade" id="roomList" role="tabpanel" aria-labelledby="roomList-tab">
+          <firmListRoom :roomList="roomList" :disabledDate="disabledDate" @search="searchRoom"></firmListRoom>
+          <page v-if="roomList[0] != null" :page-data="roomPagelist" @page-change="getRoomData"></page>
         </div>
       </div>
-      <page :page-data="pagelist" @page-change="getData"></page>
     </div>
+    <div class="container py-5"></div>
   </div>
 </template>
 
 <script>
+/* global $ */
+import VueLoading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
 import page from '@/components/page.vue'
+import firmListFirm from '@/components/firmListFirm.vue'
+import firmListRoom from '@/components/firmListRoom.vue'
+
 export default {
   data () {
     return {
-      range: {},
+      disabledDate: [],
       firmList: {},
-      pagelist: {}
+      roomList: {},
+      firmPagelist: {},
+      roomPagelist: {},
+      isLoading: false,
+      searchFirmConfig: {
+        keyword: '',
+        evaluation: '',
+        money: '',
+        area: '',
+        country: ''
+      },
+      searchRoomConfig: {
+        chk_cat: false,
+        chk_other: false,
+        chk_dog: false,
+        amount: '',
+        datee: '',
+        dates: '',
+        size: '',
+        money: ''
+      }
     }
   },
   created () {
-    this.getData()
+    this.isLoading = true
+    const vm = this
+    $('html, body').animate(
+      {
+        scrollTop: $('#app').offset().top
+      },
+      0
+    )
+    this.$http
+      .all([
+        this.$http(
+          'http://pettrip.rocket-coding.com/api/Room/GetRoom?page=1paged=6'
+        ),
+        this.$http(
+          'http://pettrip.rocket-coding.com/api/Room/GetCompanys?page=1paged=6'
+        )
+      ])
+      .then(function (results) {
+        vm.firmList = results[1].data.companies
+        vm.firmPagelist = results[1].data.meta
+        vm.roomList = results[0].data.rooms
+        results[0].data.remove.forEach(function (item) {
+          vm.disabledDate.push({
+            start: item.orderdates,
+            end: item.orderdatee
+          })
+        })
+        vm.roomPagelist = results[0].data.meta
+        vm.isLoading = false
+      })
   },
-  components: { page },
+  components: { page, loading: VueLoading, firmListFirm, firmListRoom },
   methods: {
-    getData: function (page = 1) {
+    getFirmData: function (page = 1) {
+      this.isLoading = true
       const vm = this
       const config = {
         method: 'get',
-        url: `http://pettrip.rocket-coding.com/api/Room/GetCompanys?page=${page}&paged=6`
+        url: `http://pettrip.rocket-coding.com/api/Room/GetCompanys?page=${page}&paged=6&keyword=${this.searchFirmConfig.keyword}&money=${this.searchFirmConfig.money}&evaluation=${this.searchFirmConfig.evaluation}&country=${this.searchFirmConfig.country}&area=${this.searchFirmConfig.area}`
       }
       this.$http(config)
         .then(function (response) {
           console.log(response)
           vm.firmList = response.data.companies
-          vm.pagelist = response.data.meta
+          vm.firmPagelist = response.data.meta
+          vm.isLoading = false
         })
         .catch(function (error) {
           console.log(error)
+          vm.isLoading = false
         })
     },
-    changePage: function () {
+    searchFirm: function (data) {
+      this.searchFirmConfig = data
+      this.getFirmData()
+    },
+    searchRoom: function (data) {
+      console.log(data)
+      this.searchRoomConfig = data
+      this.getRoomData()
+    },
+    getRoomData: function (page = 1) {
+      this.isLoading = true
+      const vm = this
+      const config = {
+        method: 'get',
+        url: `http://pettrip.rocket-coding.com/api/Room/GetRoom?page=${page}&paged=6&chk_cat=${this.searchRoomConfig.chk_cat}&chk_dog=${this.searchRoomConfig.chk_dog}&chk_other=${this.searchRoomConfig.chk_other}&dates=${this.searchRoomConfig.dates}&datee=${this.searchRoomConfig.datee}&size=${this.searchRoomConfig.size}&amount=${this.searchRoomConfig.amount}&money=${this.searchRoomConfig.money}`
+      }
+      this.$http(config)
+        .then(function (response) {
+          console.log(response)
+          vm.roomList = response.data.rooms
+          vm.roomPagelist = response.data.meta
+          vm.isLoading = false
+        })
+        .catch(function (error) {
+          console.log(error)
+          vm.isLoading = false
+        })
     }
   }
 }
