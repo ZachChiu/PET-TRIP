@@ -56,6 +56,10 @@ const routes = [
             component: () => import('../views/FirmBackstage/FirmRoom.vue')
           },
           {
+            path: 'FirmQA',
+            component: () => import('../views/FirmBackstage/FirmQA.vue')
+          },
+          {
             path: 'FirmSet',
             component: () => import('../views/FirmBackstage/FirmSet.vue')
           }
@@ -73,6 +77,10 @@ const routes = [
           {
             path: 'MemberSet',
             component: () => import('../views/MemberBackstage/MemberSet.vue')
+          },
+          {
+            path: 'MemberQA',
+            component: () => import('../views/MemberBackstage/MemberQA.vue')
           }
         ]
       }
