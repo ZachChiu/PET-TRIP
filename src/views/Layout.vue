@@ -60,7 +60,7 @@
                 <router-link to="/FirmBackstage/FirmSet" class="dropdown-item">廠商設定</router-link>
                 <router-link to="/FirmBackstage" class="dropdown-item">訂單列表</router-link>
                 <router-link to="/FirmBackstage/FirmRoom" class="dropdown-item">空間管理</router-link>
-                <router-link to="/FirmBackstage" class="dropdown-item">問與答</router-link>
+                <router-link to="/FirmBackstage/FirmQA" class="dropdown-item">問與答</router-link>
                 <div class="dropdown-divider"></div>
                 <a @click="signout" class="dropdown-item" href="#">登出</a>
               </div>
@@ -74,7 +74,7 @@
                         <div class="dropdown-menu  dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <router-link to="/MemberBackstage/MemberSet" class="dropdown-item">會員設定</router-link>
                             <router-link to="/MemberBackstage" class="dropdown-item">訂單列表</router-link>
-                            <router-link to="/MemberBackstage" class="dropdown-item">問與答</router-link>
+                            <router-link to="/MemberBackstage/MemberQA" class="dropdown-item">問與答</router-link>
                             <div class="dropdown-divider"></div>
                             <a @click="signout" class="dropdown-item" href="#">登出</a>
                         </div>

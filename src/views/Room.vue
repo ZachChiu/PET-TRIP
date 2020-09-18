@@ -8,7 +8,7 @@
       :company="company"
       :quantity="quantity"
     ></bookingModal>
-    <div class="container pt-4 mb-5">
+    <div class="container pt-4 mb-5" v-if="room != null">
       <h2 class="text-center pb-3 mb-3 border-bottom">{{room.roomname}}</h2>
       <div class="row align-items-center bg-white">
         <div class="col-lg-6 col-12">
@@ -90,42 +90,42 @@
                   </div>
                 </div>
                 <div class="col-4">
-                  <button
-                    type="button"
-                    class="w-100 btn btn-outline-primary"
-                    @click="booking"
-                  >預定</button>
+                  <button type="button" class="w-100 btn btn-outline-primary" @click="booking">預定</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="row py-3">
+      <div id="roomCenter" class="row no-gutters py-3">
         <div class="col-md-4 col-sm-6 col-12 d-flex align-items-center">
-          <div class="mx-auto d-flex align-items-center">
-            <div
-              class="rounded-circle w-25 overflow-hidden"
-              :style="{backgroundImage: 'url(' + company.avatar + ')'}"
-              style="background-size: cover;max-width: 300px;"
-            >
-              <img
-                src="https://upload.cc/i1/2020/09/09/wa8QmM.png"
-                :class="{opacityZero:company.avatar != ''}"
-                class="img-fluid"
-                alt
-              />
+          <div class="row align-items-center">
+            <div class="col-4">
+              <div
+                class="rounded-circle overflow-hidden"
+                :style="{backgroundImage: 'url(' + company.avatar + ')'}"
+                style="background-size: cover;max-width: 300px;"
+              >
+                <img
+                  src="https://upload.cc/i1/2020/09/09/wa8QmM.png"
+                  :class="{opacityZero:company.avatar != ''}"
+                  class="img-fluid"
+                  alt
+                />
+              </div>
             </div>
-            <div class="ml-3">
-              <p class="text-warning d-sm-none d-block">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <span>4.8</span>
+            <div class="col-8">
+              <p class="d-sm-none d-block">
+                <star-rating
+                  v-model="company.evaluation"
+                  :rounded-corners="true"
+                  :inline="true"
+                  :increment="0.1"
+                  :read-only="true"
+                  :star-size="20"
+                ></star-rating>
               </p>
-              <h5>{{company.companybrand}}</h5>
+              <p class="text-truncate h5">{{company.companybrand}}</p>
               <router-link
                 :to="`/FirmPage/${room.companyseq}`"
                 class="btn border rounded-pill"
@@ -133,7 +133,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 col-6 d-none d-sm-flex flex-column align-items-center">
+        <div class="col-md-4 col-6 d-none d-sm-flex flex-column align-items-center justify-content-center">
           <p class="mb-1">評價{{company.evaluation_count}}則</p>
           <star-rating
             v-model="company.evaluation"
@@ -163,71 +163,44 @@
           <p v-if="all" class="mb-0">回覆時段：24小時</p>
         </div>
       </div>
-      <div class="border rounded p-3">
-        <h5>
-          關於{{company.companybrand}}的
-          <b>{{room.roomname}}</b>
-        </h5>
-        <p>{{room.introduce}}</p>
-        <p>
-          <i class="mr-1 fas fa-paw"></i>接受寵物類型：
-          <span v-if="room.pettype_cat">貓</span>
-          <span v-if="room.pettype_cat && room.pettype_dog ">、</span>
-          <span v-if="room.pettype_dog">狗</span>
-          <span v-if="room.pettype_dog && room.pettype_other ">、</span>
-          <span v-if="room.pettype_cat && !room.pettype_dog && room.pettype_other ">、</span>
-          <span v-if="room.pettype_other">其他</span>
-        </p>
-        <p>
-          <i class="mr-1 fas fa-sort-numeric-down"></i>
-          可容納數量：{{room.roomamount}}隻
-        </p>
-        <p>
-          <i class="mr-1 fas fa-expand-alt"></i>
-          接受寵物重量：{{room.petsizes}}~{{room.petsizee}}公斤
-        </p>
-        <p>
-          <i class="mr-1 far fa-eye"></i>
-          看管程度：
-          <span v-if="room.visit != 7">{{room.visit}}小時</span>
-          <span v-else>八小時以下</span>
-        </p>
-        <p>
-          <i class="mr-1 fas fa-baby-carriage"></i>
-          散步次數：{{room.walk}} / 天
-        </p>
-        <p>
-          <i class="mr-1 fas fa-bone"></i>提供飼料：
-          <span v-if="room.feed">有</span>
-          <span v-if="!room.feed">無</span>
-        </p>
-        <p>
-          <i class="mr-1 fas fa-utensils"></i>提供罐頭：
-          <span v-if="room.canned">有</span>
-          <span v-if="!room.canned">無</span>
-        </p>
-        <p>
-          <i class="mr-1 fas fa-poo"></i>提供貓砂：
-          <span v-if="room.catlitter">有</span>
-          <span v-if="!room.catlitter">無</span>
-        </p>
-        <p>
-          <i class="mr-1 fas fa-pills"></i>餵藥服務：
-          <span v-if="room.medicine_pill || room.medicine_infeed || room.medicine_paste">有</span>
-          <span v-else>無</span>
-        </p>
-        <p>
-          <i class="mr-1 fas fa-map-marker-alt"></i>
-          地點：{{company.country}}{{company.area}}{{company.address}}
-        </p>
-        <iframe
-          :src="`https://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=${company.country}${company.area}${company.address}&z=16&output=embed&t=`"
-          width="600"
-          height="400"
-          frameborder="0"
-          style="border:0;width: 100%;"
-          allowfullscreen
-        ></iframe>
+
+      <ul class="nav nav-tabs" id="roomTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a
+            class="nav-link active"
+            id="roomInfo-tab"
+            data-toggle="tab"
+            href="#roomInfo"
+            role="tab"
+            aria-controls="roomInfo"
+            aria-selected="true"
+          >空間介紹</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a
+            class="nav-link"
+            id="qa-tab"
+            data-toggle="tab"
+            href="#qa"
+            role="tab"
+            aria-controls="qa"
+            aria-selected="false"
+          >問與答</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div
+          class="tab-pane fade show active bg-white"
+          id="roomInfo"
+          role="tabpanel"
+          aria-labelledby="roomInfo-tab"
+        >
+          <roomInfo :room="room" :company="company"></roomInfo>
+        </div>
+        <div class="tab-pane fade bg-white" id="qa" role="tabpanel" aria-labelledby="qa-tab">
+          <roomQA :identify="identify" :QA="QA" :room="room" @refresh="getData"></roomQA>
+          <page :page-data="page" @page-change="getData"></page>
+        </div>
       </div>
     </div>
   </div>
@@ -252,6 +225,10 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 import bookingModal from '@/components/bookingModal.vue'
+import roomInfo from '@/components/roomInfo.vue'
+import roomQA from '@/components/roomQA.vue'
+import page from '@/components/page.vue'
+
 export default {
   data () {
     return {
@@ -260,8 +237,10 @@ export default {
       imgList: [],
       dates: {},
       company: {},
-      room: {},
+      room: null,
+      QA: [],
       id: {},
+      page: {},
       payData: [
         {
           Key: '1',
@@ -306,10 +285,11 @@ export default {
   },
   props: ['identify'],
   components: {
-    // FormWizard,
-    // TabContent,
+    roomQA,
+    roomInfo,
     bookingModal,
-    loading: VueLoading
+    loading: VueLoading,
+    page
   },
   created () {
     console.log(this.identify)
@@ -330,19 +310,31 @@ export default {
     }
   },
   methods: {
-    getData: function () {
+    getData: function (page = 1) {
       this.isLoading = true
       const vm = this
+      const token = document.cookie.replace(
+        /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
+        '$1'
+      )
       const config = {
         method: 'get',
-        url: `http://pettrip.rocket-coding.com/api/Room/GetRoomsFront?id=${this.id.RoomId}`
+        url: `http://pettrip.rocket-coding.com/api/Room/GetRoomsFront?id=${this.id.RoomId}&page=${page}`
       }
+      if (token !== '') {
+        config.headers = {
+          Authorization: `Bearer ${token}`
+        }
+      }
+      console.log(config)
       this.$http(config)
         .then(function (response) {
           console.log(response)
           vm.company = response.data.company
           vm.room = response.data.room
           vm.removeDate = response.data.remove
+          vm.QA = response.data.qa
+          vm.page = response.data.meta
           vm.removeDate.forEach(function (item) {
             vm.disabledDate.push({
               start: item.orderdates,
@@ -363,7 +355,6 @@ export default {
               vm.room[`img${i}`] !== undefined &&
               vm.room[`img${i}`] !== null
             ) {
-              console.log(vm.room[`img${i}`])
               vm.imgList.push(vm.room[`img${i}`])
             }
           }

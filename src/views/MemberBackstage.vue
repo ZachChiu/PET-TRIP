@@ -15,20 +15,32 @@
           <nav class="bg-light">
             <ul class="nav nav-pills flex-md-column text-center">
               <li class="nav-item" @click="pageCurrent = '/MemberBackstage'">
-                <router-link to="/MemberBackstage" class="nav-link" :class="{active:pageCurrent == '/MemberBackstage'}">
+                <router-link
+                  to="/MemberBackstage"
+                  class="nav-link"
+                  :class="{active:pageCurrent == '/MemberBackstage'}"
+                >
                   <i class="fas fa-clipboard-list"></i>
                   訂單列表
                 </router-link>
               </li>
-              <li class="nav-item"  @click="pageCurrent = '/MemberBackstage/QA'">
-                <router-link to="/MemberBackstage" class="nav-link" :class="{active:pageCurrent == '/MemberBackstage/QA'}">
+              <li class="nav-item" @click="pageCurrent = '/MemberBackstage/MemberQA'">
+                <router-link
+                  to="/MemberBackstage/MemberQA"
+                  class="nav-link"
+                  :class="{active:pageCurrent == '/MemberBackstage/MemberQA'}"
+                >
                   <i class="fas fa-question"></i>
                   問與答QA
                 </router-link>
               </li>
-              <li class="nav-item"  @click="pageCurrent = '/MemberBackstage/MemberSet'">
-                 <router-link to="/MemberBackstage/MemberSet" class="nav-link" :class="{active:pageCurrent == '/MemberBackstage/MemberSet'}">
-                   <i class="fas fa-cog"></i>
+              <li class="nav-item" @click="pageCurrent = '/MemberBackstage/MemberSet'">
+                <router-link
+                  to="/MemberBackstage/MemberSet"
+                  class="nav-link"
+                  :class="{active:pageCurrent == '/MemberBackstage/MemberSet'}"
+                >
+                  <i class="fas fa-cog"></i>
                   會員設定
                 </router-link>
               </li>
@@ -36,7 +48,7 @@
           </nav>
         </div>
         <div class="col-md-9 col-12">
-          <router-view @checkStatus="getMemberBackstageData"></router-view>
+          <router-view :identify="identify" @checkStatus="getMemberBackstageData"></router-view>
         </div>
       </div>
     </div>
@@ -50,8 +62,14 @@ export default {
       pageCurrent: '/MemberBackstage'
     }
   },
+  props: ['identify'],
   created () {
     this.getMemberBackstageData()
+  },
+  watch: {
+    identify: function (value) {
+      console.log('1')
+    }
   },
   methods: {
     getMemberBackstageData: function () {
@@ -60,8 +78,13 @@ export default {
         /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
         '$1'
       )
+      console.log(this.identify)
       this.$http.defaults.headers.common.Authorization = `Bearer ${token}`
-      if (token === '' || token == null || token === undefined) {
+      if (
+        token === '' ||
+        token == null ||
+        token === undefined
+      ) {
         this.$router.push('/')
       }
     }
