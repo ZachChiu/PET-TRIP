@@ -1,5 +1,8 @@
 <template>
   <div class="memberBackstage">
+    <div class="loader" v-show="isLoading">
+      <hash-loader class="custom-class" :color="'#FFDE47'" :loading="isLoading" :size="70"></hash-loader>
+    </div>
     <div class="banner position-relative">
       <div class="bannerText position-absolute text-dark display-4 font-weight-bold">會員後台</div>
       <img
@@ -12,9 +15,9 @@
     <div class="container py-4">
       <div class="row">
         <div class="col-md-3 col-12 mb-3">
-          <nav class="bg-light">
+          <nav class="border bg-light">
             <ul class="nav nav-pills flex-md-column text-center">
-              <li class="nav-item" @click="pageCurrent = '/MemberBackstage'">
+              <li class="nav-item w-100" @click="pageCurrent = '/MemberBackstage'">
                 <router-link
                   to="/MemberBackstage"
                   class="nav-link"
@@ -24,7 +27,7 @@
                   訂單列表
                 </router-link>
               </li>
-              <li class="nav-item" @click="pageCurrent = '/MemberBackstage/MemberQA'">
+              <li class="nav-item w-100 " @click="pageCurrent = '/MemberBackstage/MemberQA'">
                 <router-link
                   to="/MemberBackstage/MemberQA"
                   class="nav-link"
@@ -34,7 +37,7 @@
                   問與答QA
                 </router-link>
               </li>
-              <li class="nav-item" @click="pageCurrent = '/MemberBackstage/MemberSet'">
+              <li class="nav-item w-100" @click="pageCurrent = '/MemberBackstage/MemberSet'">
                 <router-link
                   to="/MemberBackstage/MemberSet"
                   class="nav-link"
@@ -48,7 +51,11 @@
           </nav>
         </div>
         <div class="col-md-9 col-12">
-          <router-view :identify="identify" @checkStatus="getMemberBackstageData"></router-view>
+          <router-view
+            :identify="identify"
+            @checkStatus="getMemberBackstageData"
+            @loadAction="loading"
+          ></router-view>
         </div>
       </div>
     </div>
@@ -59,7 +66,8 @@
 export default {
   data () {
     return {
-      pageCurrent: '/MemberBackstage'
+      pageCurrent: '/MemberBackstage',
+      isLoading: false
     }
   },
   props: ['identify'],
@@ -80,12 +88,18 @@ export default {
       )
       console.log(this.identify)
       this.$http.defaults.headers.common.Authorization = `Bearer ${token}`
-      if (
-        token === '' ||
-        token == null ||
-        token === undefined
-      ) {
+      if (token === '' || token == null || token === undefined) {
         this.$router.push('/')
+      }
+    },
+    loading: function (data) {
+      switch (data) {
+        case false:
+          this.isLoading = false
+          break
+        default:
+          this.isLoading = true
+          break
       }
     }
   }

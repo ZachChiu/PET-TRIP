@@ -118,7 +118,7 @@ export default {
           })
           $('#decline-tab').click()
           vm.$emit('change-state', '2')
-          vm.$emit('get-data', 1)
+          $('.nav-tabs a[href="#decline"]').tab('show')
         })
         .catch(function (error) {
           console.log(error)
