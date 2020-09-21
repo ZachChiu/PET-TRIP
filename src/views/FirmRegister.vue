@@ -1,6 +1,5 @@
 <template>
   <div class="firmRegister">
-    <loading :active.sync="isLoading" loader="bars"></loading>
     <div class="banner position-relative">
       <div class="bannerText position-absolute text-dark display-4 font-weight-bold">註冊</div>
       <img
@@ -47,12 +46,12 @@
                   <span class="text-danger">{{errors[0]}}</span>
                 </div>
               </ValidationProvider>
-              <ValidationProvider rules="required" v-slot="{ errors,classes }">
+              <ValidationProvider rules="required|numeric" v-slot="{ errors,classes }">
                 <div class="form-group">
-                  <label for="phone">電話</label>
+                  <label for="電話">電話</label>
                   <input
                     type="text"
-                    id="phone"
+                    id="電話"
                     class="form-control"
                     v-model="register.phone"
                     :class="classes"
@@ -137,8 +136,13 @@
                       v-model="register.area"
                       :class="classes"
                     >
-                      <option value  disabled>請選擇</option>
-                      <option v-for="(area,index) in areaList" :selected="area == '中正區'" :value="area" :key="index">{{area}}</option>
+                      <option value disabled>請選擇</option>
+                      <option
+                        v-for="(area,index) in areaList"
+                        :selected="area == '中正區'"
+                        :value="area"
+                        :key="index"
+                      >{{area}}</option>
                     </select>
                     <span class="text-danger">{{errors[0]}}</span>
                   </ValidationProvider>
@@ -213,14 +217,11 @@
 /* global $ */
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
-import VueLoading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
 import taiwan from '@/taiwan_districts.json'
 
 export default {
   data () {
     return {
-      isLoading: false,
       change: '',
       register: {
         companyname: '',
@@ -241,19 +242,19 @@ export default {
       taiwan: taiwan
     }
   },
-  components: {
-    loading: VueLoading
-  },
   created () {
-    $('html, body').animate({
-      scrollTop: $('#app').offset().top
-    }, 0)
+    $('html, body').animate(
+      {
+        scrollTop: $('#app').offset().top
+      },
+      0
+    )
     this.getRegion()
   },
   methods: {
     firmRegister: function () {
-      this.isLoading = true
       const vm = this
+      vm.$emit('loadAction', true)
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Company/Register',
@@ -274,10 +275,8 @@ export default {
           ).toLocaleDateString()
         }
       }
-      console.log(config)
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           if (response.data.result === '註冊成功') {
             vm.$router.push('/Login')
             Swal.fire({
@@ -298,11 +297,10 @@ export default {
               timer: 2000
             })
           }
-          vm.isLoading = false
+          vm.$emit('loadAction', false)
         })
-        .catch(function (error) {
-          console.log(error)
-          vm.isLoading = false
+        .catch(function () {
+          vm.$emit('loadAction', false)
         })
     },
     getRegion: function () {

@@ -1,7 +1,8 @@
 <template>
   <div class="layout">
-    <loading :active.sync="isLoading"
-       loader="bars"></loading>
+    <div class="loader" v-show="isLoading">
+      <hash-loader class="custom-class" :color="'#FFDE47'" :loading="isLoading" :size="70"></hash-loader>
+    </div>
     <nav class="headerNav navbar navbar-expand-md navbar-light bg-light position-sticky">
       <div class="container">
         <h1 class="h6 mb-0">
@@ -32,7 +33,10 @@
                 <i class="fas fa-paw mr-1"></i>尋找寄宿
               </router-link>
             </li>
-            <li class="nav-item hoveritem" v-if="identify.identity != '廠商' && identify.identity != '會員'">
+            <li
+              class="nav-item hoveritem"
+              v-if="identify.identity != '廠商' && identify.identity != '會員'"
+            >
               <router-link to="/Login" class="nav-link">
                 <i class="fas fa-paw mr-1"></i>註冊 / 登入
               </router-link>
@@ -50,7 +54,8 @@
                 <span class="d-inline d-md-none">
                   <i class="fas fa-paw mr-1"></i>管理後台
                 </span>
-                <img style="width:40px;height:40px;object-fit: cover;"
+                <img
+                  style="width:40px;height:40px;object-fit: cover;"
                   class="d-md-inline d-none img-fluid rounded-circle"
                   :src="identify.avatar"
                   alt
@@ -66,27 +71,41 @@
               </div>
             </li>
             <li class="memberDrop nav-item dropdown" v-if="identify.identity == '會員' ">
-                        <a class="nav-link dropdown-toggle" ref="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="d-inline d-md-none"><i class="fas fa-paw mr-1"></i>我的頁面</span>
-                            <img style="width:40px;height:40px;object-fit: cover;" class="d-md-inline d-none img-fluid rounded-circle" :src="identify.avatar" alt="">
-                        </a>
-                        <div class="dropdown-menu  dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <router-link to="/MemberBackstage/MemberSet" class="dropdown-item">會員設定</router-link>
-                            <router-link to="/MemberBackstage" class="dropdown-item">訂單列表</router-link>
-                            <router-link to="/MemberBackstage/MemberQA" class="dropdown-item">問與答</router-link>
-                            <div class="dropdown-divider"></div>
-                            <a @click="signout" class="dropdown-item" href="#">登出</a>
-                        </div>
-                    </li>
+              <a
+                class="nav-link dropdown-toggle"
+                ref="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <span class="d-inline d-md-none">
+                  <i class="fas fa-paw mr-1"></i>我的頁面
+                </span>
+                <img
+                  style="width:40px;height:40px;object-fit: cover;"
+                  class="d-md-inline d-none img-fluid rounded-circle"
+                  :src="identify.avatar"
+                  alt
+                />
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <router-link to="/MemberBackstage/MemberSet" class="dropdown-item">會員設定</router-link>
+                <router-link to="/MemberBackstage" class="dropdown-item">訂單列表</router-link>
+                <router-link to="/MemberBackstage/MemberQA" class="dropdown-item">問與答</router-link>
+                <div class="dropdown-divider"></div>
+                <a @click="signout" class="dropdown-item" href="#">登出</a>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
     <main>
-      <router-view :identify="identify"  @page-refresh="getIdentify"></router-view>
+      <router-view :identify="identify" @page-refresh="getIdentify" @loadAction="loading"></router-view>
     </main>
-    <footer style="background:rgb(4 24 58);">
+    <footer class="py-4" style="background:rgb(0 29 78);">
       <div class="container">
         <div class="row no-gutters align-items-sm-center">
           <div class="col-6 col-sm-9">
@@ -106,12 +125,6 @@
               <li class="my-2">
                 <a href="#" class="text-white">
                   <i class="mr-1 far fa-envelope-open"></i>問題回報
-                </a>
-                <span class="mx-2 d-sm-inline d-none">|</span>
-              </li>
-              <li class="my-2">
-                <a href="#" class="text-white">
-                  <i class="mr-1 fas fa-bullhorn"></i>免責聲明
                 </a>
                 <span class="mx-2 d-sm-inline d-none">|</span>
               </li>
@@ -148,9 +161,31 @@
   </div>
 </template>
 
+<style lang="scss">
+.loader {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.linkColor {
+  color: rgb(12, 83, 189) !important;
+  text-decoration: underline;
+  &:hover {
+    color: rgb(7, 65, 151) !important;
+  }
+}
+</style>
+
 <script>
-import VueLoading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 export default {
   data () {
@@ -159,14 +194,12 @@ export default {
       isLoading: false
     }
   },
-  components: {
-    loading: VueLoading
-  },
   created () {
     this.getIdentify()
   },
   methods: {
     getIdentify: function (get) {
+      this.isLoading = true
       const vm = this
       const token = document.cookie.replace(
         /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
@@ -181,7 +214,7 @@ export default {
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response)
+          vm.isLoading = false
           vm.identify = response.data.result
           if (vm.identify.avatar == null) {
             vm.identify.avatar = 'https://upload.cc/i1/2020/09/09/wa8QmM.png'
@@ -192,14 +225,32 @@ export default {
             vm.$router.push('/')
           }
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
+          vm.isLoading = false
         })
     },
     signout: function () {
       document.cookie = `pet='';expires=${new Date(-1)}; path=/`
       this.getIdentify()
-      this.$router.push('/46546')
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: '登出成功',
+        showConfirmButton: false,
+        timer: 2000
+      })
+      this.$router.push('1')
+    },
+    loading: function (data) {
+      switch (data) {
+        case false:
+          this.isLoading = false
+          break
+        default:
+          this.isLoading = true
+          break
+      }
     }
   }
 }

@@ -1,6 +1,5 @@
 <template>
   <div class="firmPage">
-    <loading :active.sync="isLoading" loader="bars"></loading>
     <div class="banner">
       <div
         class="mx-auto"
@@ -173,7 +172,12 @@
           >
             <firmPageRoom :firmData="firmData"></firmPageRoom>
           </div>
-          <div class="tab-pane fade bg-white border-top-0 border" id="nav-contact" role="tabpanel" aria-labelledby="evaluation">
+          <div
+            class="tab-pane fade bg-white border-top-0 border"
+            id="nav-contact"
+            role="tabpanel"
+            aria-labelledby="evaluation"
+          >
             <firmPageEvaluation :firmData="firmData"></firmPageEvaluation>
           </div>
         </div>
@@ -184,8 +188,6 @@
 
 <script>
 /* global $ */
-import VueLoading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
 import firmPageRoom from '@/components/firmPageRoom.vue'
 import firmPageEvaluation from '@/components/firmPageEvaluation.vue'
 
@@ -194,34 +196,26 @@ export default {
     return {
       firmData: {},
       id: {},
-      all: false,
-      isLoading: false
+      all: false
     }
   },
   components: {
-    loading: VueLoading,
     firmPageRoom,
     firmPageEvaluation
   },
   created () {
     this.id = this.$route.params
     this.getData()
-    $('html, body').animate(
-      {
-        scrollTop: $('#app').offset().top
-      },
-      0
-    )
   },
   methods: {
     getData: function () {
       const vm = this
-      this.isLoading = true
+      vm.$emit('loadAction', true)
+
       const url = `http://pettrip.rocket-coding.com/api/Room/GetRoomslist?id=${this.id.FirmId}`
       this.$http
         .get(url)
         .then((res) => {
-          console.log(res)
           this.firmData = res.data
           if (
             this.firmData.company.morning &&
@@ -231,11 +225,16 @@ export default {
           ) {
             this.all = true
           }
-          vm.isLoading = false
+          vm.$emit('loadAction', false)
+          $('html, body').animate(
+            {
+              scrollTop: $('#app').offset().top
+            },
+            0
+          )
         })
-        .catch((err) => {
-          console.log(err)
-          vm.isLoading = false
+        .catch(() => {
+          vm.$emit('loadAction', false)
         })
     }
   }

@@ -1,6 +1,5 @@
 <template>
   <div class="singleRoom">
-    <loading :active.sync="isLoading" loader="bars"></loading>
     <bookingModal
       :temData="bookingList"
       :bookingTotalPrice="bookingTotalPrice"
@@ -133,7 +132,9 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 col-6 d-none d-sm-flex flex-column align-items-center justify-content-center">
+        <div
+          class="col-md-4 col-6 d-none d-sm-flex flex-column align-items-center justify-content-center"
+        >
           <p class="mb-1">評價{{company.evaluation_count}}則</p>
           <star-rating
             v-model="company.evaluation"
@@ -219,8 +220,6 @@
 
 <script>
 /* global $ */
-import VueLoading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
@@ -279,8 +278,7 @@ export default {
       all: false,
       quantity: 1,
       pricePlus: 0,
-      priceAdd: '',
-      isLoading: false
+      priceAdd: ''
     }
   },
   props: ['identify'],
@@ -288,11 +286,9 @@ export default {
     roomQA,
     roomInfo,
     bookingModal,
-    loading: VueLoading,
     page
   },
   created () {
-    console.log(this.identify)
     this.id = this.$route.params
     this.getData()
     $('html, body').animate(
@@ -311,7 +307,7 @@ export default {
   },
   methods: {
     getData: function (page = 1) {
-      this.isLoading = true
+      this.$emit('loadAction', true)
       const vm = this
       const token = document.cookie.replace(
         /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
@@ -326,10 +322,8 @@ export default {
           Authorization: `Bearer ${token}`
         }
       }
-      console.log(config)
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           vm.company = response.data.company
           vm.room = response.data.room
           vm.removeDate = response.data.remove
@@ -358,11 +352,10 @@ export default {
               vm.imgList.push(vm.room[`img${i}`])
             }
           }
-          vm.isLoading = false
+          vm.$emit('loadAction', false)
         })
-        .catch(function (error) {
-          console.log(error)
-          vm.isLoading = false
+        .catch(function () {
+          vm.$emit('loadAction', false)
         })
     },
     checkNumber: function (num) {
@@ -424,6 +417,7 @@ export default {
           (this.room.roomprice +
             (this.quantity - 1) * this.room.roomamount_amt) *
           this.bookingList.totalDay
+        $('.nav-tabs button[href="#bookingInfo"]').tab('show')
       }
     }
   }

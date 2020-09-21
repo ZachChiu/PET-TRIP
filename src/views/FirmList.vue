@@ -1,6 +1,5 @@
 <template>
   <div class="firmList bg-light">
-    <loading :active.sync="isLoading" loader="bars"></loading>
     <div class="banner position-relative">
       <div class="bannerText position-absolute text-dark display-4 font-weight-bold">尋找寄宿</div>
       <img
@@ -15,25 +14,29 @@
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item w-50" role="presentation">
           <a
-            class="nav-link active"
+            class="nav-link active h4 mb-0"
             id="firmLst-tab"
             data-toggle="tab"
             href="#firmLst"
             role="tab"
             aria-controls="firmLst"
             aria-selected="true"
-          >廠商列表</a>
+          >
+            <i class="mr-1 fas fa-tags"></i>廠商列表
+          </a>
         </li>
         <li class="nav-item w-50" role="presentation">
           <a
-            class="nav-link"
+            class="nav-link h4 mb-0"
             id="roomList-tab"
             data-toggle="tab"
             href="#roomList"
             role="tab"
             aria-controls="roomList"
             aria-selected="false"
-          >房間列表</a>
+          >
+            <i class="mr-1 fas fa-tags"></i>房間列表
+          </a>
         </li>
       </ul>
       <div class="tab-content" id="myTabContent">
@@ -58,8 +61,6 @@
 
 <script>
 /* global $ */
-import VueLoading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
 import page from '@/components/page.vue'
 import firmListFirm from '@/components/firmListFirm.vue'
 import firmListRoom from '@/components/firmListRoom.vue'
@@ -72,7 +73,6 @@ export default {
       roomList: {},
       firmPagelist: {},
       roomPagelist: {},
-      isLoading: false,
       searchFirmConfig: {
         keyword: '',
         evaluation: '',
@@ -93,14 +93,9 @@ export default {
     }
   },
   created () {
-    this.isLoading = true
     const vm = this
-    $('html, body').animate(
-      {
-        scrollTop: $('#app').offset().top
-      },
-      0
-    )
+    vm.$emit('loadAction', true)
+
     this.$http
       .all([
         this.$http(
@@ -121,28 +116,26 @@ export default {
           })
         })
         vm.roomPagelist = results[0].data.meta
-        vm.isLoading = false
+        vm.$emit('loadAction', false)
       })
   },
-  components: { page, loading: VueLoading, firmListFirm, firmListRoom },
+  components: { page, firmListFirm, firmListRoom },
   methods: {
     getFirmData: function (page = 1) {
-      this.isLoading = true
       const vm = this
+      vm.$emit('loadAction', true)
       const config = {
         method: 'get',
         url: `http://pettrip.rocket-coding.com/api/Room/GetCompanys?page=${page}&paged=6&keyword=${this.searchFirmConfig.keyword}&money=${this.searchFirmConfig.money}&evaluation=${this.searchFirmConfig.evaluation}&country=${this.searchFirmConfig.country}&area=${this.searchFirmConfig.area}`
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           vm.firmList = response.data.companies
           vm.firmPagelist = response.data.meta
-          vm.isLoading = false
+          vm.$emit('loadAction', false)
         })
-        .catch(function (error) {
-          console.log(error)
-          vm.isLoading = false
+        .catch(function () {
+          vm.$emit('loadAction', false)
         })
     },
     searchFirm: function (data) {
@@ -150,27 +143,31 @@ export default {
       this.getFirmData()
     },
     searchRoom: function (data) {
-      console.log(data)
       this.searchRoomConfig = data
       this.getRoomData()
     },
     getRoomData: function (page = 1) {
-      this.isLoading = true
       const vm = this
+      vm.$emit('loadAction', true)
+
       const config = {
         method: 'get',
         url: `http://pettrip.rocket-coding.com/api/Room/GetRoom?page=${page}&paged=6&chk_cat=${this.searchRoomConfig.chk_cat}&chk_dog=${this.searchRoomConfig.chk_dog}&chk_other=${this.searchRoomConfig.chk_other}&dates=${this.searchRoomConfig.dates}&datee=${this.searchRoomConfig.datee}&size=${this.searchRoomConfig.size}&amount=${this.searchRoomConfig.amount}&money=${this.searchRoomConfig.money}`
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           vm.roomList = response.data.rooms
           vm.roomPagelist = response.data.meta
-          vm.isLoading = false
+          vm.$emit('loadAction', false)
+          $('html, body').animate(
+            {
+              scrollTop: $('#app').offset().top
+            },
+            0
+          )
         })
-        .catch(function (error) {
-          console.log(error)
-          vm.isLoading = false
+        .catch(function () {
+          vm.$emit('loadAction', false)
         })
     }
   }
