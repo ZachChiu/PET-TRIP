@@ -21,7 +21,7 @@
           </td>
           <td>
            <span style="max-width: 120px;" class="d-inline-block text-truncate">
-             <router-link target="_blank" :to="`/FirmPage/${QA.companyseq}/Room/${QA.roomseq}`">{{QA.roomname}}</router-link>
+             <router-link class="linkColor" target="_blank" :to="`/FirmPage/${QA.companyseq}/Room/${QA.roomseq}`">{{QA.roomname}}</router-link>
              </span>
           </td>
           <td>

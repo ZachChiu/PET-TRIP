@@ -101,15 +101,16 @@ export default {
     return {
       register: {
         membername: '',
-        email: '1@gmail.com',
-        pwd: '1',
-        pwdcheck: '1'
+        email: '',
+        pwd: '',
+        pwdcheck: ''
       }
     }
   },
   methods: {
     memberRegister: function () {
       const vm = this
+      vm.$emit('loadAction', true)
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Member/Register',
@@ -121,8 +122,8 @@ export default {
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           if (response.data.result === '註冊成功') {
+            vm.$emit('loadAction', false)
             Swal.fire({
               toast: true,
               position: 'top-end',
@@ -133,6 +134,7 @@ export default {
             })
             vm.$router.push('/Login')
           } else {
+            vm.$emit('loadAction', false)
             Swal.fire({
               toast: true,
               position: 'top-end',
@@ -143,8 +145,16 @@ export default {
             })
           }
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: '註冊失敗',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          vm.$emit('loadAction', false)
         })
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="table-responsive-lg">
-    <table class="table table-hover">
+    <table v-if="orderList[0] != null" class="table table-hover">
       <thead class="thead-light">
         <tr>
           <th scope="col">訂單編號</th>
@@ -13,14 +13,15 @@
       <tbody>
         <tr v-for="(order,index) in orderList" :key="index">
           <th scope="row">{{order.orderseq}}
-            <br><small>{{order.setdate}}</small>
+            <br><small class="text-muted">{{order.setdate}}</small>
           </th>
-          <td>
-            {{order.orderdates}} ~
+          <td>{{order.orderdates}} ~
             <br />
             {{order.orderdatee}}
           </td>
-          <td>{{order.roomname}}</td>
+          <td><span class="d-inline-block text-truncate" style="max-width: 150px;">
+            <router-link class="linkColor" target="_blank" :to="`/FirmPage/${order.companyseq}/Room/${order.roomseq}`">{{order.roomname}}</router-link>
+</span></td>
           <td>
             <span v-if="order.state == 1">已付款</span>
             <span v-if="order.state == 2">已取消</span>
@@ -46,6 +47,8 @@
         </tr>
       </tbody>
     </table>
+        <p v-if="orderList[0] == null" class="h1 text-center text-muted">暫無資料</p>
+
   </div>
 </template>
 

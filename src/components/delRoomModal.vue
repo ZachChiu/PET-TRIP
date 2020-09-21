@@ -37,7 +37,6 @@ export default {
   props: ['temData'],
   methods: {
     delRoom: function () {
-      this.isLoading = true
       const vm = this
       const config = {
         method: 'delete',
@@ -45,7 +44,6 @@ export default {
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response.data)
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -57,8 +55,7 @@ export default {
           $('#delModal').modal('hide')
           vm.$emit('get-data')
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -67,7 +64,6 @@ export default {
             showConfirmButton: false,
             timer: 2000
           })
-          vm.isLoading = false
         })
     }
   }

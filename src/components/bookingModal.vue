@@ -1,5 +1,5 @@
 <template>
-  <div id="bookingModal" class="modal" tabindex="-1">
+  <div id="bookingModal" class="modal" tabindex="-1" v-if="room != null">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -279,7 +279,7 @@
               <div class="d-flex justify-content-between">
                 <button class="btn btn-outline-secondary" @click="lastStep">上一步</button>
 
-                <button class="btn btn-primary" @click="pay">付款</button>
+                <button class="d-flex align-items-center btn btn-primary" :class="{disabled:paying}" :disabled="paying" @click="pay"><ring-loader class="custom-class" :color="'black'" :loading="paying" :size="20"></ring-loader>付款</button>
               </div>
             </div>
           </div>
@@ -303,6 +303,7 @@ import 'sweetalert2/src/sweetalert2.scss'
 export default {
   data () {
     return {
+      paying: false,
       bookingList: this.temData,
       payData: [
         {
@@ -359,6 +360,7 @@ export default {
     },
     pay: function () {
       const vm = this
+      vm.paying = true
       const token = document.cookie.replace(
         /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
         '$1'
@@ -403,7 +405,7 @@ export default {
             document.getElementById('send').click()
           }, 1500)
         })
-        .catch(function (error) {
+        .catch(function () {
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -412,7 +414,7 @@ export default {
             showConfirmButton: false,
             timer: 2000
           })
-          console.log(error)
+          vm.paying = false
         })
     },
     nextStep: function () {

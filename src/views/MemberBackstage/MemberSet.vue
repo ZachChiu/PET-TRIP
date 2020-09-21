@@ -1,12 +1,11 @@
 <template>
   <div class="memberSet">
-    <loading :active.sync="isLoading" loader="bars"></loading>
-    <div class="row no-gutters text-wrap align-items-center" v-if="memberData.avatar != null">
+    <div class="row no-gutters text-wrap align-items-center" v-if="memberData.membername != null">
       <div class="col-lg-6 col-12">
         <div
           class="rounded-circle mx-auto overflow-hidden"
           :style="{backgroundImage: 'url(' + memberData.avatar + ')'}"
-          style="background-size: cover;max-width: 300px;"
+          style="background-size: cover;max-width: 300px; background-position:center"
         >
           <img
             src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
@@ -100,32 +99,24 @@
 <script>
 /* global $ */
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import VueLoading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
 import 'sweetalert2/src/sweetalert2.scss'
 
 export default {
   data () {
     return {
       memberData: {},
-      MemberPicUploading: false,
-      isLoading: false
+      MemberPicUploading: false
     }
   },
   created () {
     this.getData()
-    $('html, body').animate({
-      scrollTop: $('#app').offset().top
-    }, 0)
   },
-  components: {
-    loading: VueLoading
-  },
+  props: ['identify'],
   methods: {
     getData: function () {
-      this.isLoading = true
+      this.$emit('loadAction', true)
       const vm = this
-      this.$emit('checkStatus', 'check')
+      this.$emit('checkStatus')
       const config = {
         method: 'get',
         url: 'http://pettrip.rocket-coding.com/api/Member/GetOne'
@@ -133,17 +124,34 @@ export default {
 
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           vm.memberData = response.data
-          vm.isLoading = false
+          vm.$emit('loadAction', false)
+          setTimeout(() => {
+            if (vm.identify.identity !== '會員') {
+              Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: '進入會員後台失敗',
+                showConfirmButton: false,
+                timer: 2000
+              })
+              vm.$router.push('/')
+            }
+          }, 500)
+          $('html, body').animate(
+            {
+              scrollTop: $('.headerNav').offset().top
+            },
+            0
+          )
         })
-        .catch(function (error) {
-          console.log(error)
-          vm.isLoading = false
+        .catch(function () {
+          vm.$emit('loadAction', false)
         })
     },
     saveMemberData: function () {
-      this.isLoading = true
+      this.$emit('loadAction', true)
       const vm = this
       const config = {
         method: 'patch',
@@ -154,7 +162,6 @@ export default {
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -165,8 +172,7 @@ export default {
           })
           vm.getData()
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -175,7 +181,7 @@ export default {
             showConfirmButton: false,
             timer: 2000
           })
-          vm.isLoading = false
+          vm.$emit('loadAction', false)
         })
     },
     updateMemberAvatar: function () {
@@ -213,7 +219,6 @@ export default {
               timer: 2000
             })
           }
-          console.log(response)
         })
         .catch(() => {
           Swal.fire({

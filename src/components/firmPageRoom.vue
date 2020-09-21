@@ -1,7 +1,7 @@
 <template>
-  <div class="pt-4  mx-0 row ">
+  <div class="pt-4 mx-0 row">
     <div class="col-lg-4 col-md-6 mb-3" v-for="(room,index) in firmData.roomlists" :key="index">
-      <div class="card mb-3">
+      <div class="roomCard shadow card mb-3">
         <div
           class="h-100"
           :style="{backgroundImage: 'url(' + room.img1 + ')'}"
@@ -50,6 +50,17 @@
   </div>
 </template>
 
+<style lang="scss">
+.roomCard {
+  position: relative;
+  top: 0;
+  transition: all 0.3s;
+  &:hover {
+    top: -10px;
+  }
+}
+</style>
+
 <script>
 export default {
   data () {
@@ -60,7 +71,6 @@ export default {
   name: 'firmPageRoom',
   props: ['firmData'],
   created () {},
-  methods: {
-  }
+  methods: {}
 }
 </script>

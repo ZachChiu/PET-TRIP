@@ -1,6 +1,8 @@
 <template>
   <div class="firmOrder">
-    <loading :active.sync="isLoading" loader="bars"></loading>
+    <div class="loader" v-show="load">
+      <hash-loader class="custom-class" :color="'#FFDE47'" :loading="load" :size="70"></hash-loader>
+    </div>
     <orderModal :who="who" :orderList="orderList" :orderDetail="orderDetail"></orderModal>
     <delOrderModal
       :who="who"
@@ -8,7 +10,7 @@
       @change-state="changeState"
       @get-data="getData"
     ></delOrderModal>
-    <memberEvaluateModal :evaluationData="evaluationList" ></memberEvaluateModal>
+    <memberEvaluateModal :evaluationData="evaluationList"></memberEvaluateModal>
     <ul class="nav nav-tabs nav-fill text-center" id="myTab" role="tablist">
       <li class="nav-item">
         <a
@@ -131,8 +133,8 @@
 
 <script>
 /* global $ */
-import VueLoading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 import page from '@/components/page.vue'
 import order from '@/components/orderList.vue'
 import orderModal from '@/components/orderModal.vue'
@@ -148,22 +150,20 @@ export default {
       evaluationList: {},
       state: null,
       orderDetail: {},
-      isLoading: false
+      isLoading: false,
+      load: false
     }
   },
   created () {
     this.getData()
-    $('html, body').animate({
-      scrollTop: $('#app').offset().top
-    }, 0)
   },
+  props: ['identify'],
   components: {
     page,
     order,
     delOrderModal,
     memberEvaluateModal,
-    orderModal,
-    loading: VueLoading
+    orderModal
   },
   methods: {
     getData: function (page = 1) {
@@ -171,7 +171,10 @@ export default {
       $('#cancelModal').modal('hide')
       this.$emit('checkStatus')
       this.isLoading = true
+
       const vm = this
+      vm.$emit('loadAction', true)
+
       var config = {
         method: 'get',
         url: `http://pettrip.rocket-coding.com/api/Order/Getorder?state=${this.state}&page=${page}&paged=6`
@@ -180,12 +183,32 @@ export default {
         .then(function (response) {
           vm.orderList = response.data.order
           vm.pagelist = response.data.meta
-          console.log(response)
           vm.isLoading = false
+          vm.$emit('loadAction', false)
+
+          setTimeout(() => {
+            if (vm.identify.identity !== '會員') {
+              Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: '進入會員後台失敗',
+                showConfirmButton: false,
+                timer: 2000
+              })
+              vm.$router.push('/')
+            }
+          }, 500)
+          $('html, body').animate(
+            {
+              scrollTop: $('.headerNav').offset().top
+            },
+            0
+          )
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
           vm.isLoading = false
+          vm.$emit('loadAction', false)
         })
     },
     changeState: function (state) {
@@ -208,22 +231,24 @@ export default {
     },
     openDetail: function (order) {
       const vm = this
+      vm.load = true
       const config = {
         method: 'get',
         url: `http://pettrip.rocket-coding.com/api/Order/Getorder?id=${order.orderseq}`
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response)
+          vm.load = false
           vm.orderDetail = response.data
           $('#orderInfoModal').modal('show')
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
+          vm.load = false
         })
     },
     openEvaluation: function (order) {
       const vm = this
+      vm.load = true
       const config = {
         method: 'get',
         url: `http://pettrip.rocket-coding.com/api/Evaluation/Get?id=${order.orderseq}`
@@ -231,12 +256,12 @@ export default {
 
       this.$http(config)
         .then(function (response) {
-          console.log(response)
+          vm.load = false
           vm.evaluationList = response.data
           $('#evaluationModal').modal('show')
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
+          vm.load = false
         })
     }
   }

@@ -1,6 +1,5 @@
 <template>
-  <div class="firmRoom py-5">
-    <loading :active.sync="isLoading" loader="bars"></loading>
+  <div class="firmRoom py-2">
     <delModal :temData="temData" @get-data="getData"></delModal>
     <roomModal ref="roomModal" :modalStatus="modalStatus" :temData="temData" @get-data="getData"></roomModal>
     <div class="container">
@@ -80,8 +79,6 @@
 
 <script>
 /* global $ */
-import VueLoading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 import roomModal from '@/components/roomModal.vue'
@@ -92,7 +89,6 @@ export default {
     return {
       roomList: {},
       temData: {},
-      isLoading: false,
       modalStatus: 'new',
       load: {
         imgLoad1: false,
@@ -105,27 +101,46 @@ export default {
   created () {
     this.getData()
   },
+  props: ['identify'],
   components: {
-    loading: VueLoading, roomModal, delModal
+    roomModal,
+    delModal
   },
   methods: {
     getData: function () {
       this.$emit('checkStatus')
       const vm = this
-      this.isLoading = true
+      this.$emit('loadAction', true)
       const config = {
         method: 'get',
         url: 'http://pettrip.rocket-coding.com/api/Room/GetRooms'
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           vm.roomList = response.data.room
-          vm.isLoading = false
+          vm.$emit('loadAction', false)
+          setTimeout(() => {
+            if (vm.identify.identity !== '廠商') {
+              Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: '進入廠商後台失敗',
+                showConfirmButton: false,
+                timer: 2000
+              })
+              vm.$router.push('/')
+            }
+          }, 500)
+          $('html, body').animate(
+            {
+              scrollTop: $('.headerNav').offset().top
+            },
+            0
+          )
         })
-        .catch(function (error) {
-          console.log(error)
-          vm.isLoading = false
+        .catch(function () {
+          vm.$emit('loadAction', false)
         })
     },
     openDelModal: function (item) {
@@ -173,19 +188,18 @@ export default {
         $('#editModal').modal('show')
       } else if (item === 'edit') {
         this.modalStatus = 'edit'
-        this.isLoading = true
+        this.$emit('loadAction', true)
         const config = {
           method: 'get',
           url: `http://pettrip.rocket-coding.com/api/Room/GetRooms?id=${data.roomseq}`
         }
         this.$http(config)
           .then(function (response) {
-            console.log(response.data)
             vm.temData = response.data
             $('#editModal').modal('show')
-            vm.isLoading = false
+            vm.$emit('loadAction', false)
           })
-          .catch(function (error) {
+          .catch(function () {
             Swal.fire({
               toast: true,
               position: 'top-end',
@@ -194,21 +208,19 @@ export default {
               showConfirmButton: false,
               timer: 2000
             })
-            console.log(error)
-            vm.isLoading = false
+            vm.$emit('loadAction', false)
           })
       }
     },
     toggleStatus: function (item) {
       const vm = this
-      this.isLoading = true
+      this.$emit('loadAction', true)
       const config = {
         method: 'post',
         url: `http://pettrip.rocket-coding.com/api/Room/StateUpdate?id=${item.roomseq}`
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response.data)
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -219,8 +231,7 @@ export default {
           })
           vm.getData()
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -229,7 +240,7 @@ export default {
             showConfirmButton: false,
             timer: 2000
           })
-          vm.isLoading = false
+          vm.$emit('loadAction', false)
         })
     }
   }

@@ -1,7 +1,6 @@
 <template>
-  <div class="firmSet">
-    <loading :active.sync="isLoading" loader="bars"></loading>
-    <div class="container mx-auto py-5">
+  <div class="firmSet pb-5">
+    <div class="container mx-auto">
       <ul class="nav nav-tabs nav-fill text-center" id="myTab" role="tablist">
         <li class="nav-item">
           <a
@@ -117,7 +116,7 @@
               </div>
             </div>
 
-            <div class="form-group d-flex">
+            <div class="form-group d-flex mb-0">
               <label for="upload" class="ml-auto btn btn-dark" :class="{disabled:FirmPicUploading}">
                 <i v-if="FirmPicUploading" class="mr-1 fas fa-spinner fa-spin"></i>主頁照片上傳
                 <input
@@ -129,6 +128,9 @@
                 />
               </label>
             </div>
+            <p class="text-muted text-right mb-0">
+              <small>儲存才能成功上傳圖片歐</small>
+            </p>
             <div
               class="mx-auto"
               :style="{backgroundImage: 'url(' + companyData.bannerimg + ')'}"
@@ -143,7 +145,7 @@
             </div>
 
             <div class="form-group d-flex justify-content-center mt-4">
-              <button type="button" class="btn btn-primary" @click="saveFirmData">儲存</button>
+              <button type="button" class="btn btn-primary" @click="saveFirmData" :class="{disabled:FirmPicUploading}" :disabled="FirmPicUploading">儲存</button>
             </div>
           </form>
         </div>
@@ -275,11 +277,8 @@
             <form action="#" class @submit.prevent="savePassword">
               <ValidationProvider name="密碼" rules="required|alpha_num" v-slot="{ errors,classes }">
                 <div class="form-group row">
-                  <label
-                    class="col-md-3 col-lg-2 col-form-label font-weight-bold"
-                    for="password"
-                  >新密碼</label>
-                  <div class="col-md-9 col-lg-10">
+                  <label class="col-md-3 col-form-label font-weight-bold" for="password">新密碼</label>
+                  <div class="col-md-9">
                     <input
                       type="password"
                       class="form-control"
@@ -297,8 +296,8 @@
                 v-slot="{ errors,classes }"
               >
                 <div class="form-group row">
-                  <label class="col-md-3 col-lg-2 col-form-label font-weight-bold" for="密碼">再次輸入新密碼</label>
-                  <div class="col-md-9 col-lg-10">
+                  <label class="col-md-3 col-form-label font-weight-bold" for="密碼">再次輸入新密碼</label>
+                  <div class="col-md-9">
                     <input
                       type="password"
                       class="form-control"
@@ -328,8 +327,7 @@
 </template>
 
 <script>
-import VueLoading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
+/* global $ */
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 
@@ -350,13 +348,10 @@ export default {
       },
       token: '',
       FirmPicUploading: false,
-      FirmAvatarUploading: false,
-      isLoading: false
+      FirmAvatarUploading: false
     }
   },
-  components: {
-    loading: VueLoading
-  },
+  props: ['identify'],
   created () {
     this.getOne()
   },
@@ -395,7 +390,6 @@ export default {
             this.getOne()
           }
           this.FirmAvatarUploading = false
-          console.log(response)
         })
         .catch(() => {
           Swal.fire({
@@ -411,44 +405,53 @@ export default {
     },
     updateFirmPic: function (event) {
       const uploadedFile = event.target.files[0]
-      const formData = new FormData()
-      formData.append('file', uploadedFile)
-      const url = 'http://pettrip.rocket-coding.com/api/Uploadimg'
-      // const url = 'https://9409bc01ef8b.ngrok.io/api/Uploadimg'
-      this.FirmPicUploading = true
-      this.$http
-        .post(url, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+      if (uploadedFile === undefined) {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'info',
+          title: '未選擇圖片',
+          showConfirmButton: false,
+          timer: 2000
         })
-        .then((response) => {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'success',
-            title: '上傳成功',
-            showConfirmButton: false,
-            timer: 2000
+      } else {
+        const formData = new FormData()
+        formData.append('file', uploadedFile)
+        const url = 'http://pettrip.rocket-coding.com/api/Uploadimg'
+        this.FirmPicUploading = true
+        this.$http
+          .post(url, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
           })
-          this.FirmPicUploading = false
-          console.log(response)
-          this.companyData.bannerimg = response.data.result
-        })
-        .catch(() => {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'error',
-            title: '上傳失敗',
-            showConfirmButton: false,
-            timer: 2000
+          .then((response) => {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'success',
+              title: '上傳成功',
+              showConfirmButton: false,
+              timer: 2000
+            })
+            this.FirmPicUploading = false
+            this.companyData.bannerimg = response.data.result
           })
-          this.FirmPicUploading = false
-        })
+          .catch(() => {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: '上傳失敗',
+              showConfirmButton: false,
+              timer: 2000
+            })
+            this.FirmPicUploading = false
+          })
+      }
     },
     saveFirmData: function () {
-      this.isLoading = true
+      this.$emit('loadAction', true)
       const vm = this
       var config = {
         method: 'patch',
@@ -465,7 +468,6 @@ export default {
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -476,8 +478,7 @@ export default {
           })
           vm.getOne()
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -486,11 +487,11 @@ export default {
             showConfirmButton: false,
             timer: 2000
           })
-          vm.isLoading = false
+          vm.$emit('loadAction', false)
         })
     },
     savePassword: function () {
-      this.isLoading = true
+      this.$emit('loadAction', true)
       const vm = this
       var config = {
         method: 'patch',
@@ -501,7 +502,6 @@ export default {
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -512,8 +512,7 @@ export default {
           })
           vm.getOne()
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -522,12 +521,12 @@ export default {
             showConfirmButton: false,
             timer: 2000
           })
-          vm.isLoading = false
+          vm.$emit('loadAction', false)
         })
     },
     getOne: function () {
       this.$emit('checkStatus', 'check')
-      this.isLoading = true
+      this.$emit('loadAction', true)
       const vm = this
       const config = {
         method: 'get',
@@ -535,13 +534,30 @@ export default {
       }
       this.$http(config)
         .then(function (res) {
-          console.log(res)
           vm.companyData = res.data
-          vm.isLoading = false
+          vm.$emit('loadAction', false)
+          setTimeout(() => {
+            if (vm.identify.identity !== '廠商') {
+              Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: '進入廠商後台失敗',
+                showConfirmButton: false,
+                timer: 2000
+              })
+              vm.$router.push('/')
+            }
+          }, 500)
+          $('html, body').animate(
+            {
+              scrollTop: $('.headerNav').offset().top
+            },
+            0
+          )
         })
-        .catch(function (error) {
-          console.log(error)
-          this.isLoading = false
+        .catch(function () {
+          this.$emit('loadAction', false)
         })
     }
   }

@@ -1,6 +1,5 @@
 <template>
   <div class="login">
-    <loading :active.sync="isLoading" loader="bars"></loading>
     <div class="banner position-relative">
       <div class="bannerText position-absolute text-dark display-4 font-weight-bold">登入</div>
       <img
@@ -160,8 +159,7 @@
 </template>
 
 <script>
-import VueLoading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
+/* global $ */
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 
@@ -171,17 +169,21 @@ export default {
       login: {
         email: '',
         password: ''
-      },
-      isLoading: false
+      }
     }
   },
-  components: {
-    loading: VueLoading
+  created () {
+    $('html, body').animate(
+      {
+        scrollTop: $('#app').offset().top
+      },
+      0
+    )
   },
   methods: {
     firmLogin: function () {
-      this.isLoading = true
       const vm = this
+      vm.$emit('loadAction', true)
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Company/Login',
@@ -216,8 +218,8 @@ export default {
               showConfirmButton: false,
               timer: 2000
             })
+            vm.$emit('loadAction', false)
           }
-          vm.isLoading = false
         })
         .catch(function (error) {
           console.log(error)
@@ -229,12 +231,12 @@ export default {
             timer: 2000,
             showConfirmButton: false
           })
-          vm.isLoading = false
+          vm.$emit('loadAction', false)
         })
     },
     memberLogin: function () {
-      this.isLoading = true
       const vm = this
+      vm.$emit('loadAction', true)
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Member/Login',
@@ -269,8 +271,8 @@ export default {
               showConfirmButton: false,
               timer: 2000
             })
+            vm.$emit('loadAction', false)
           }
-          vm.isLoading = false
         })
         .catch(function (error) {
           console.log(error)
@@ -282,7 +284,7 @@ export default {
             timer: 2000,
             showConfirmButton: false
           })
-          vm.isLoading = false
+          vm.$emit('loadAction', false)
         })
     }
   }

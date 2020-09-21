@@ -505,7 +505,12 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
-          <button type="button" class="btn btn-dark" @click="saveRoomData">確定</button>
+          <button
+            type="button"
+            class="btn btn-dark"
+            @click="saveRoomData"
+            :disabled="loading || load.imgLoad1 || load.imgLoad2 || load.imgLoad3 || load.imgLoad4"
+          ><i v-if="loading" class="mr-1 fas fa-spinner fa-spin"></i>確定</button>
         </div>
       </div>
     </div>
@@ -525,7 +530,8 @@ export default {
         imgLoad3: false,
         imgLoad4: false
       },
-      dataList: this.temData
+      dataList: this.temData,
+      loading: false
     }
   },
   name: 'roomModal',
@@ -537,10 +543,9 @@ export default {
   },
   methods: {
     saveRoomData: function () {
-      this.isLoading = true
       const { ...data } = this.dataList
       const vm = this
-      console.log(data)
+      vm.loading = true
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Room/Create'
@@ -586,7 +591,6 @@ export default {
       // }
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           if (response.data.result === '修改成功') {
             Swal.fire({
               icon: 'success',
@@ -619,9 +623,9 @@ export default {
               timer: 2000
             })
           }
+          vm.loading = false
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -630,50 +634,59 @@ export default {
             showConfirmButton: false,
             timer: 2000
           })
-          vm.isLoading = true
+          vm.loading = false
         })
     },
     uploadImg: function (num) {
       const vm = this
-      this.load[`imgLoad${num}`] = true
       const uploadedFile = event.target.files[0]
-      console.log(num)
-      const formData = new FormData()
-      formData.append('file', uploadedFile)
-      const url = 'http://pettrip.rocket-coding.com/api/Uploadimg'
-      this.FirmPicUploading = true
-      this.$http
-        .post(url, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+      if (uploadedFile === undefined) {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'info',
+          title: '未選擇檔案',
+          showConfirmButton: false,
+          timer: 2000
         })
-        .then((response) => {
-          this.FirmPicUploading = false
-          console.log(response)
-          vm.load[`imgLoad${num}`] = false
-          this.dataList[`img${num}`] = response.data.result
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'success',
-            title: '上傳成功',
-            showConfirmButton: false,
-            timer: 2000
+      } else {
+        this.load[`imgLoad${num}`] = true
+        const formData = new FormData()
+        formData.append('file', uploadedFile)
+        const url = 'http://pettrip.rocket-coding.com/api/Uploadimg'
+        this.FirmPicUploading = true
+        this.$http
+          .post(url, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
           })
-        })
-        .catch(() => {
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'error',
-            title: '上傳成功',
-            showConfirmButton: false,
-            timer: 2000
+          .then((response) => {
+            this.FirmPicUploading = false
+            vm.load[`imgLoad${num}`] = false
+            this.dataList[`img${num}`] = response.data.result
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'success',
+              title: '上傳成功',
+              showConfirmButton: false,
+              timer: 2000
+            })
           })
-          this.FirmPicUploading = false
-          vm.load[`imgLoad${num}`] = false
-        })
+          .catch(() => {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: '上傳成功',
+              showConfirmButton: false,
+              timer: 2000
+            })
+            this.FirmPicUploading = false
+            vm.load[`imgLoad${num}`] = false
+          })
+      }
     }
   }
 }

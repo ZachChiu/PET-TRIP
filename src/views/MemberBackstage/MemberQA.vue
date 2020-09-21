@@ -1,6 +1,8 @@
 <template>
   <div class="memberQA">
-    <loading :active.sync="isLoading" loader="bars"></loading>
+    <div class="loader" v-show="load">
+      <hash-loader class="custom-class" :color="'#FFDE47'" :loading="load" :size="70"></hash-loader>
+    </div>
     <QAModal :identify="identify" :QADetail="QADetail" @change-state="changeState"></QAModal>
     <ul class="nav nav-tabs nav-fill text-center" id="myTab" role="tablist">
       <li class="nav-item">
@@ -77,8 +79,7 @@
 
 <script>
 /* global $ */
-import VueLoading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
+
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 import page from '@/components/page.vue'
@@ -89,13 +90,14 @@ export default {
   data () {
     return {
       isLoading: false,
+      load: false,
       pagelist: {},
       QAData: {},
       QADetail: {},
       state: null
     }
   },
-  components: { loading: VueLoading, page, QAList, QAModal },
+  components: { page, QAList, QAModal },
   props: ['identify'],
   created () {
     this.getData()
@@ -105,16 +107,19 @@ export default {
       this.$emit('checkStatus')
       const vm = this
       this.isLoading = true
+      vm.$emit('loadAction', true)
+
       const config = {
         method: 'get',
         url: `http://pettrip.rocket-coding.com/api/Qa/GetQuestion?page=${page}&state=${this.state}`
       }
-      console.log(config)
       this.$http(config)
         .then(function (response) {
           vm.QAData = response.data.question
           vm.pagelist = response.data.meta
           vm.isLoading = false
+          vm.$emit('loadAction', false)
+
           if (vm.identify.identity !== '會員') {
             Swal.fire({
               toast: true,
@@ -134,6 +139,8 @@ export default {
           )
         })
         .catch(function () {
+          vm.$emit('loadAction', false)
+
           vm.isLoading = false
         })
     },
@@ -151,6 +158,7 @@ export default {
     },
     openDetail: function (QA) {
       const vm = this
+      vm.load = true
       const config = {
         method: 'get',
         url: `http://pettrip.rocket-coding.com/api/Qa/GetQuestionDetail?queseq=${QA.queseq}`
@@ -158,10 +166,13 @@ export default {
 
       this.$http(config)
         .then(function (response) {
+          vm.load = false
           vm.QADetail = response.data
           $('#QAModal').modal('show')
         })
-        .catch(function () {})
+        .catch(function () {
+          vm.load = false
+        })
     }
   }
 }
