@@ -1,5 +1,13 @@
 <template>
   <div class="firmBackstage">
+    <div class="loader" v-show="isLoading">
+      <hash-loader
+        class="custom-class"
+        :color="'#FFDE47'"
+        :loading="isLoading"
+        :size="70"
+      ></hash-loader>
+    </div>
     <div class="banner position-relative">
       <div class="bannerText position-absolute text-dark display-4 font-weight-bold">廠商後台</div>
       <img
@@ -12,9 +20,9 @@
     <div class="container py-4">
       <div class="row">
         <div class="col-md-3 col-12 mb-3">
-          <nav class="bg-light">
+          <nav class="firmNavbar border bg-light">
             <ul class="nav nav-pills flex-md-column text-center">
-              <li class="nav-item" @click="pageCurrent = '/FirmBackstage'">
+              <li class="nav-item w-50" @click="pageCurrent = '/FirmBackstage'">
                 <router-link
                   to="/FirmBackstage"
                   class="nav-link"
@@ -24,7 +32,7 @@
                   訂單列表
                 </router-link>
               </li>
-              <li class="nav-item" @click="pageCurrent = '/FirmBackstage/FirmRoom'">
+              <li class="nav-item w-50" @click="pageCurrent = '/FirmBackstage/FirmRoom'">
                 <router-link
                   to="/FirmBackstage/FirmRoom"
                   class="nav-link"
@@ -33,7 +41,7 @@
                   <i class="fas fa-box-open"></i>空間管理
                 </router-link>
               </li>
-              <li class="nav-item" @click="pageCurrent = '/FirmBackstage/FirmQA'">
+              <li class="nav-item w-50" @click="pageCurrent = '/FirmBackstage/FirmQA'">
                 <router-link
                   to="/FirmBackstage/FirmQA"
                   class="nav-link"
@@ -42,7 +50,7 @@
                   <i class="fas fa-question"></i>問與答QA
                 </router-link>
               </li>
-              <li class="nav-item" @click="pageCurrent = '/FirmBackstage/FirmSet'">
+              <li class="nav-item w-50" @click="pageCurrent = '/FirmBackstage/FirmSet'">
                 <router-link
                   to="/FirmBackstage/FirmSet"
                   class="nav-link"
@@ -55,18 +63,32 @@
           </nav>
         </div>
         <div class="col-md-9 col-12">
-          <router-view :identify="identify" @checkStatus="getFirmBackstageData"></router-view>
+          <router-view
+            :identify="identify"
+            @checkStatus="getFirmBackstageData"
+            @loadAction="loading"
+          ></router-view>
         </div>
       </div>
     </div>
   </div>
 </template>
 
+<style lang="scss">
+@media screen and (min-width: 768px) {
+  .firmNavbar {
+    .nav-item {
+      width: 100% !important;
+    }
+  }
+}
+</style>
 <script>
 export default {
   data () {
     return {
-      pageCurrent: '/FirmBackstage'
+      pageCurrent: '/FirmBackstage',
+      isLoading: false
     }
   },
   props: ['identify'],
@@ -83,6 +105,16 @@ export default {
       this.$http.defaults.headers.common.Authorization = `Bearer ${token}`
       if (token === '' || token == null || token === undefined) {
         this.$router.push('/')
+      }
+    },
+    loading: function (data) {
+      switch (data) {
+        case false:
+          this.isLoading = false
+          break
+        default:
+          this.isLoading = true
+          break
       }
     }
   }

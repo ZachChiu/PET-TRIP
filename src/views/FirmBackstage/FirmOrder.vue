@@ -1,13 +1,15 @@
 <template>
-  <div class="firmOrder py-5">
-    <loading :active.sync="isLoading" loader="bars"></loading>
+  <div class="firmOrder pb-5">
+    <div class="loader" v-show="load">
+      <hash-loader
+        class="custom-class"
+        :color="'#FFDE47'"
+        :loading="load"
+        :size="70"
+      ></hash-loader>
+    </div>
     <orderModal :who="who" :orderList="orderList" :orderDetail="orderDetail"></orderModal>
-    <delOrderModal
-      :who="who"
-      :delData="orderDetail"
-      @get-data="getData"
-      @change-state="changeState"
-    ></delOrderModal>
+    <delOrderModal :who="who" :delData="orderDetail" @change-state="changeState"></delOrderModal>
     <firmEvaluateModal :evaluationData="evaluationList"></firmEvaluateModal>
     <div class="container">
       <ul class="nav nav-tabs nav-fill text-center" id="myTab" role="tablist">
@@ -125,10 +127,11 @@
     </div>
   </div>
 </template>
+
 <script>
 /* global $ */
-import VueLoading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 import page from '@/components/page.vue'
 import order from '@/components/orderList.vue'
 import orderModal from '@/components/orderModal.vue'
@@ -144,26 +147,34 @@ export default {
       pagelist: {},
       state: null,
       orderDetail: {},
-      isLoading: false
+      isLoading: false,
+      load: false
     }
   },
   created () {
     this.getData()
+    $('html, body').animate(
+      {
+        scrollTop: $('#app').offset().top
+      },
+      0
+    )
   },
   components: {
     page,
     order,
     delOrderModal,
     firmEvaluateModal,
-    orderModal,
-    loading: VueLoading
+    orderModal
   },
+  props: ['identify'],
   methods: {
     getData: function (page = 1) {
       $('#orderInfoModal').modal('hide')
       $('#cancelModal').modal('hide')
       this.$emit('checkStatus')
       this.isLoading = true
+      this.$emit('loadAction', true)
       const vm = this
       var config = {
         method: 'get',
@@ -173,12 +184,25 @@ export default {
         .then(function (response) {
           vm.orderList = response.data.order
           vm.pagelist = response.data.meta
-          console.log(response)
           vm.isLoading = false
+          vm.$emit('loadAction', false)
+          setTimeout(() => {
+            if (vm.identify.identity !== '廠商') {
+              Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: '進入廠商後台失敗',
+                showConfirmButton: false,
+                timer: 2000
+              })
+              vm.$router.push('/')
+            }
+          }, 500)
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
           vm.isLoading = false
+          vm.$emit('loadAction', false)
         })
     },
     changeState: function (state) {
@@ -197,6 +221,8 @@ export default {
       }
     },
     openDetail: function (order) {
+      this.load = true
+
       const vm = this
       const config = {
         method: 'get',
@@ -204,29 +230,29 @@ export default {
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response)
+          vm.load = false
           vm.orderDetail = response.data
           $('#orderInfoModal').modal('show')
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
+          vm.load = false
         })
     },
     openEvaluation: function (order) {
+      this.load = true
       const vm = this
       const config = {
         method: 'get',
         url: `http://pettrip.rocket-coding.com/api/Evaluation/Get?id=${order.orderseq}`
       }
-
       this.$http(config)
         .then(function (response) {
-          console.log(response)
+          vm.load = false
           vm.evaluationList = response.data
           $('#evaluationModal').modal('show')
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
+          vm.load = false
         })
     }
   }

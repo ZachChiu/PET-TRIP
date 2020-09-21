@@ -1,7 +1,8 @@
 <template>
   <div class="firmQA">
-    <loading :active.sync="isLoading" loader="bars"></loading>
-    <loading :active.sync="Load" loader="bars"></loading>
+    <div class="loader" v-show="Load">
+      <hash-loader class="custom-class" :color="'#FFDE47'" :loading="Load" :size="70"></hash-loader>
+    </div>
     <QAModal :identify="identify" :QADetail="QADetail" @change-state="changeState"></QAModal>
     <ul class="nav nav-tabs nav-fill text-center" id="myTab" role="tablist">
       <li class="nav-item">
@@ -78,8 +79,6 @@
 
 <script>
 /* global $ */
-import VueLoading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 import page from '@/components/page.vue'
@@ -98,7 +97,7 @@ export default {
     }
   },
   props: ['identify'],
-  components: { loading: VueLoading, page, QAList, QAModal },
+  components: { page, QAList, QAModal },
   created () {
     this.getData()
   },
@@ -107,6 +106,7 @@ export default {
       this.$emit('checkStatus')
       const vm = this
       this.isLoading = true
+      this.$emit('loadAction', true)
       const config = {
         method: 'get',
         url: `http://pettrip.rocket-coding.com/api/Qa/GetQuestion?page=${page}&state=${this.state}`
@@ -116,6 +116,8 @@ export default {
           vm.QAData = response.data.question
           vm.pagelist = response.data.meta
           vm.isLoading = false
+          vm.$emit('loadAction', false)
+
           setTimeout(() => {
             if (vm.identify.identity !== '廠商') {
               Swal.fire({
@@ -137,6 +139,8 @@ export default {
           )
         })
         .catch(function () {
+          vm.$emit('loadAction', false)
+
           vm.isLoading = false
         })
     },
