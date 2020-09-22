@@ -5,6 +5,29 @@
     <div class="container">
       <div class="row no-gutters overflow-hidden position-relative">
         <div class="col-12 mx-auto py-5 position-relative">
+          <form>
+            <div class="input-group mb-3 position-relative">
+              <div class="position-absolute py-2 px-3" style="z-index:10">
+                <i class="fas fa-search"></i>
+              </div>
+              <input
+                type="text"
+                class="form-control pl-5"
+                aria-label="Recipient's username"
+                aria-describedby="button-addon2"
+                v-model.trim="searchBox"
+              />
+              <div class="input-group-append">
+                <button
+                  type="sunmit"
+                  class="btn btn-outline-secondary"
+                  id="button-addon2"
+                  @click.prevent="getData"
+                >搜尋</button>
+              </div>
+            </div>
+          </form>
+
           <button
             type="button"
             class="addRoomBtn btn btn-primary position-absolute"
@@ -50,9 +73,10 @@
                     <div class="btn-group" role="group" aria-label="Basic example">
                       <button
                         type="button"
-                        class="btn btn-outline-secondary"
+                        class="btn btn-outline-primary"
                         @click="openModal('edit',item)"
                       >編輯</button>
+                      <button type="button" class="btn btn-outline-secondary" @click="copy(item)">複製</button>
                       <button
                         type="button"
                         class="btn btn-outline-danger"
@@ -64,8 +88,10 @@
               </tbody>
             </table>
           </div>
+          <p v-if="roomList[0] == null" class="text-center h3 text-muted">查無資料</p>
         </div>
       </div>
+      <page v-if="pagelist.total != 0" class="mt-3" :page-data="pagelist" @page-change="getData"></page>
     </div>
   </div>
 </template>
@@ -83,6 +109,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 import roomModal from '@/components/roomModal.vue'
 import delModal from '@/components/delRoomModal.vue'
+import page from '@/components/page.vue'
 
 export default {
   data () {
@@ -95,7 +122,9 @@ export default {
         imgLoad2: false,
         imgLoad3: false,
         imgLoad4: false
-      }
+      },
+      pagelist: {},
+      searchBox: ''
     }
   },
   created () {
@@ -104,20 +133,23 @@ export default {
   props: ['identify'],
   components: {
     roomModal,
-    delModal
+    delModal,
+    page
   },
   methods: {
-    getData: function () {
+    getData: function (page = 1) {
       this.$emit('checkStatus')
       const vm = this
       this.$emit('loadAction', true)
       const config = {
         method: 'get',
-        url: 'http://pettrip.rocket-coding.com/api/Room/GetRooms'
+        url: `http://pettrip.rocket-coding.com/api/Room/GetRooms?page=${page}&roomname=${this.searchBox}`
       }
       this.$http(config)
         .then(function (response) {
+          console.log(response)
           vm.roomList = response.data.room
+          vm.pagelist = response.data.meta
           vm.$emit('loadAction', false)
           setTimeout(() => {
             if (vm.identify.identity !== '廠商') {
@@ -146,6 +178,39 @@ export default {
     openDelModal: function (item) {
       $('#delModal').modal('show')
       this.temData = item
+    },
+    copy: function (item) {
+      const vm = this
+      this.$emit('loadAction', true)
+      const config = {
+        method: 'post',
+        url: ` http://pettrip.rocket-coding.com/api/Room/Clone?id=${item.roomseq}`
+      }
+
+      this.$http(config)
+        .then(function (response) {
+          console.log(response)
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '複製成功',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          vm.getData(vm.pagelist.total_page)
+        })
+        .catch(function () {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: '複製失敗',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          vm.$emit('loadAction', false)
+        })
     },
     openModal: function (item, data) {
       const vm = this
@@ -229,7 +294,7 @@ export default {
             showConfirmButton: false,
             timer: 2000
           })
-          vm.getData()
+          vm.getData(vm.pagelist.current_page)
         })
         .catch(function () {
           Swal.fire({
