@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import $ from 'jquery'
+import jQuery from 'jquery'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import StarRating from 'vue-star-rating'
@@ -21,7 +21,7 @@ Vue.use(VCalendar, {
   componentPrefix: 'vc'
 })
 
-window.$ = $
+window.$ = window.jQuery = jQuery
 new Vue({
   router,
   render: h => h(App)
