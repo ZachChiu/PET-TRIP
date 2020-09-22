@@ -48,7 +48,6 @@
 export default {
   data () {
     return {
-      order: {}
     }
   },
   name: 'firmPageEvaluation',

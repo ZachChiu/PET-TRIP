@@ -223,7 +223,6 @@ export default {
         amount: this.amount,
         money: this.filterSelect
       }
-      console.log(this.range)
       if (this.range != null) {
         searchData.dates = new Date(this.range.start).toLocaleDateString()
         searchData.datee = new Date(this.range.end).toLocaleDateString()
