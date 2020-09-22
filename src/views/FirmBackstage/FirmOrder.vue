@@ -1,17 +1,47 @@
 <template>
   <div class="firmOrder pb-5">
     <div class="loader" v-show="load">
-      <hash-loader
-        class="custom-class"
-        :color="'#FFDE47'"
-        :loading="load"
-        :size="70"
-      ></hash-loader>
+      <hash-loader class="custom-class" :color="'#FFDE47'" :loading="load" :size="70"></hash-loader>
     </div>
     <orderModal :who="who" :orderList="orderList" :orderDetail="orderDetail"></orderModal>
     <delOrderModal :who="who" :delData="orderDetail" @change-state="changeState"></delOrderModal>
     <firmEvaluateModal :evaluationData="evaluationList"></firmEvaluateModal>
     <div class="container">
+      <form>
+        <div class="row">
+          <div class="col-lg-6 col-12 mb-3">
+            <p>日期搜尋：</p>
+            <div class="d-flex">
+              <div class="w-75"><vc-date-picker mode="range" v-model="range" /></div>
+              <div class="w-25"><button type="button" class="w-100 btn btn-outline-secondary" @click="reset">清除</button></div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-12 mb-3">
+            <p>文字與單號搜尋：</p>
+            <div class="input-group  mb-3 position-relative">
+              <div class="position-absolute py-2 px-3" style="z-index:5">
+                <i class="fas fa-search"></i>
+              </div>
+              <input
+                type="text"
+                class="form-control pl-5 rounded"
+                aria-label="Recipient's username"
+                aria-describedby="button-addon2"
+                v-model.trim="searchBox"
+              />
+              <div class="input-group-append w-25">
+                <button
+                  type="sunmit"
+                  class="w-100 btn btn-outline-secondary"
+                  id="button-addon2"
+                  @click.prevent="search"
+                >搜尋</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
       <ul class="nav nav-tabs nav-fill text-center" id="myTab" role="tablist">
         <li class="nav-item">
           <a
@@ -148,7 +178,10 @@ export default {
       state: null,
       orderDetail: {},
       isLoading: false,
-      load: false
+      load: false,
+      searchBox: '',
+      range: {},
+      searchDate: {}
     }
   },
   created () {
@@ -178,7 +211,7 @@ export default {
       const vm = this
       var config = {
         method: 'get',
-        url: `http://pettrip.rocket-coding.com/api/Order/Getorder?state=${this.state}&page=${page}&paged=6`
+        url: `http://pettrip.rocket-coding.com/api/Order/Getorder?state=${this.state}&page=${page}&paged=6&roomname=${this.searchBox}&datetimes=${this.searchDate.start}&datetimee=${this.searchDate.end}`
       }
       this.$http(config)
         .then(function (response) {
@@ -204,6 +237,20 @@ export default {
           vm.isLoading = false
           vm.$emit('loadAction', false)
         })
+    },
+    search: function () {
+      if (this.range !== null) {
+        this.searchDate.start = new Date(this.range.start).toLocaleDateString()
+        this.searchDate.end = new Date(this.range.end).toLocaleDateString()
+      } else {
+        this.searchDate.start = ''
+        this.searchDate.end = ''
+      }
+      this.getData()
+    },
+    reset: function () {
+      this.range = null
+      this.search()
     },
     changeState: function (state) {
       if (state === 'all') {
