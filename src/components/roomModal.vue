@@ -510,7 +510,9 @@
             class="btn btn-dark"
             @click="saveRoomData"
             :disabled="loading || load.imgLoad1 || load.imgLoad2 || load.imgLoad3 || load.imgLoad4"
-          ><i v-if="loading" class="mr-1 fas fa-spinner fa-spin"></i>確定</button>
+          >
+            <i v-if="loading" class="mr-1 fas fa-spinner fa-spin"></i>確定
+          </button>
         </div>
       </div>
     </div>
@@ -664,22 +666,37 @@ export default {
           .then((response) => {
             this.FirmPicUploading = false
             vm.load[`imgLoad${num}`] = false
-            this.dataList[`img${num}`] = response.data.result
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              icon: 'success',
-              title: '上傳成功',
-              showConfirmButton: false,
-              timer: 2000
-            })
+            if (
+              response.data.result === 'Uploadimg錯誤，請至伺服器log查詢錯誤訊息'
+            ) {
+              Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: '請上傳小於 2MB 的圖檔',
+                showConfirmButton: false,
+                timer: 2000
+              })
+            } else {
+              this.dataList[`img${num}`] = response.data.result
+              Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: '上傳成功',
+                showConfirmButton: false,
+                timer: 2000
+              })
+            }
+
+            console.log(response)
           })
           .catch(() => {
             Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'error',
-              title: '上傳成功',
+              title: '請上傳小於 2MB 的圖檔',
               showConfirmButton: false,
               timer: 2000
             })
