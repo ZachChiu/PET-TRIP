@@ -8,7 +8,7 @@
   >
     <div id="QAModal" class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header text-light bg-dark">
+        <div class="modal-header text-light bg-info">
           <h5 class="modal-title" id="QAModalLabel">回覆</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -45,7 +45,7 @@
                 </ValidationProvider>
                 <button
                   type="submit"
-                  class="btn btn-dark mt-2 w-100"
+                  class="btn btn-info mt-2 w-100"
                   :disabled="invalid"
                   :class="{disabled:invalid}"
                 >送出</button>
@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">關閉</button>
+          <button type="button" class="btn btn-outline-info" data-dismiss="modal">關閉</button>
         </div>
       </div>
     </div>
@@ -87,7 +87,6 @@ export default {
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -97,12 +96,9 @@ export default {
             timer: 2000
           })
           $('#QAModal').modal('hide')
-          vm.$emit('change-state', '2')
-          $('.nav-tabs a[href="#already"]').tab('show')
           vm.answerBox = ''
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
           Swal.fire({
             toast: true,
             position: 'top-end',

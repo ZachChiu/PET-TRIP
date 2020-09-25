@@ -28,7 +28,7 @@
                   class="nav-link"
                   :class="{active:pageCurrent == '/FirmBackstage'}"
                 >
-                  <i class="fas fa-clipboard-list"></i>
+                  <i class="mr-1 fas fa-clipboard-list"></i>
                   訂單列表
                 </router-link>
               </li>
@@ -38,7 +38,7 @@
                   class="nav-link"
                   :class="{active:pageCurrent == '/FirmBackstage/FirmRoom'}"
                 >
-                  <i class="fas fa-box-open"></i>空間管理
+                  <i class="mr-1 fas fa-box-open"></i>空間管理
                 </router-link>
               </li>
               <li class="nav-item w-50" @click="pageCurrent = '/FirmBackstage/FirmQA'">
@@ -47,7 +47,7 @@
                   class="nav-link"
                   :class="{active:pageCurrent == '/FirmBackstage/FirmQA'}"
                 >
-                  <i class="fas fa-question"></i>問與答QA
+                  <i class="mr-1 fas fa-question"></i>問與答QA
                 </router-link>
               </li>
               <li class="nav-item w-50" @click="pageCurrent = '/FirmBackstage/FirmSet'">
@@ -56,7 +56,7 @@
                   class="nav-link"
                   :class="{active:pageCurrent == '/FirmBackstage/FirmSet'}"
                 >
-                  <i class="fas fa-cog"></i>廠商設定
+                  <i class="mr-1 fas fa-cog"></i>廠商設定
                 </router-link>
               </li>
             </ul>

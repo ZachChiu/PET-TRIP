@@ -12,20 +12,16 @@
     ></delOrderModal>
     <memberEvaluateModal :evaluationData="evaluationList"></memberEvaluateModal>
     <div class="container">
-      <form>
+     <form>
         <div class="row">
-          <div class="col-lg-6 col-12 mb-3">
+          <div class="col-lg-6 col-12 mt-2">
             <p>日期搜尋：</p>
-            <div class="d-flex">
-     <div class="w-75"><vc-date-picker mode="range" v-model="range" /></div>
-              <div class="w-25"><button type="button" class="w-100 btn btn-outline-secondary" @click="reset">清除</button></div>
-
-            </div>
+            <vc-date-picker mode="range" v-model="range" />
           </div>
-          <div class="col-lg-6 col-12 mb-3">
+          <div class="col-lg-6 col-12 mt-2">
             <p>文字與單號搜尋：</p>
             <div class="input-group mb-3 position-relative">
-              <div class="position-absolute py-2 px-3" style="z-index:5">
+              <div class="position-absolute py-2 px-3" style="z-index: 5">
                 <i class="fas fa-search"></i>
               </div>
               <input
@@ -35,15 +31,26 @@
                 aria-describedby="button-addon2"
                 v-model.trim="searchBox"
               />
-              <div class="input-group-append w-25">
-                <button
-                  type="sunmit"
-                  class="w-100 btn btn-outline-secondary"
-                  id="button-addon2"
-                  @click.prevent="search"
-                >搜尋</button>
-              </div>
             </div>
+          </div>
+          <div class="col-12 col-lg-6"></div>
+          <div class="col-12 col-lg-6 mb-3 btn-group">
+       <button
+              type="button"
+              class="btn btn-outline-danger"
+              @click="reset"
+            >
+              清除
+            </button>
+            <button
+              type="sunmit"
+              class="btn btn-outline-info "
+              id="button-addon2"
+              @click.prevent="search"
+            >
+              搜尋
+            </button>
+
           </div>
         </div>
       </form>
@@ -253,6 +260,7 @@ export default {
         })
     },
     reset: function () {
+      this.searchBox = ''
       this.range = null
       this.search()
     },

@@ -365,6 +365,15 @@ export default {
       } else if (num === 'minus' && this.quantity > 1) {
         this.quantity -= 1
         this.pricePlus -= 1
+      } else {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'info',
+          title: '已超出本空間容納數量',
+          showConfirmButton: false,
+          timer: 2000
+        })
       }
       this.priceAdd = this.room.roomamount_amt * this.pricePlus
     },

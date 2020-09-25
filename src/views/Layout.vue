@@ -1,13 +1,78 @@
 <template>
   <div class="layout">
-    <div class="loader" v-show="isLoading">
-      <hash-loader class="custom-class" :color="'#FFDE47'" :loading="isLoading" :size="70"></hash-loader>
+    <div
+      v-if="
+        identify.identity == '廠商' ||
+        (identify.identity == '會員' && noticeData.unread != null)
+      "
+      class="notice position-fixed"
+    >
+      <a
+        href="#"
+        @click.prevent="toggleNotice"
+        class="noticeBtn animate__animated btn btn-dark rounded-circle"
+        ><span
+          v-if="noticeData.unread != 0 && noticeData.unread != null"
+          class="read position-absolute btn bg-danger btn-outline-danger text-white rounded-circle"
+          >{{ noticeData.unread }}</span
+        ><i class="fas fa-bell"></i
+      ></a>
+      <div
+        class="noticeList position-absolute animate__animated animate__rotateInUpRight"
+      >
+        <ul class="list-group">
+          <li
+            v-if="noticeData.notices == null"
+            class="list-group-item list-group-item-action"
+          >
+            無通知
+          </li>
+          <li
+            class="list-group-item list-group-item-action p-0"
+            v-for="(item, index) in noticeData.notices"
+            :key="index"
+          >
+            <a
+              class="d-block p-3 text-dark"
+              href="#"
+              @click.prevent="getTo(item)"
+              ><span class="text-danger" v-if="item.state == '未讀'"
+                ><i class="mr-1 fas fa-envelope"></i>新通知：</span
+              ><span v-if="item.state == '已讀'" class="mr-2 text-primary"
+                ><i class="fas fa-envelope-open"></i
+              ></span>
+              <span v-if="item.type == '問通知'">你已收到一筆新的提問</span
+              ><span v-if="item.type == '答通知'">你的提問已得到回覆</span
+              ><span v-if="item.type == '下單通知'">你有一筆新的訂單</span
+              ><i class="ml-2 fas fa-external-link-alt"></i>
+              <p class="mb-0">
+                <small class="text-muted">{{ item.time }}</small>
+              </p>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
-    <nav class="headerNav navbar navbar-expand-md navbar-light bg-light position-sticky">
+    <div class="loader" v-show="isLoading">
+      <hash-loader
+        class="custom-class"
+        :color="'#FFDE47'"
+        :loading="isLoading"
+        :size="70"
+      ></hash-loader>
+    </div>
+    <nav
+      class="headerNav navbar navbar-expand-md navbar-light bg-light position-sticky"
+    >
       <div class="container">
         <h1 class="h6 mb-0">
           <router-link to="/" class="navbar-brand">
-            <img width="80" src="https://upload.cc/i1/2020/09/02/X38KBL.png" alt /> Pet Trip
+            <img
+              width="80"
+              src="https://upload.cc/i1/2020/09/02/X38KBL.png"
+              alt
+            />
+            Pet Trip
           </router-link>
         </h1>
         <button
@@ -41,7 +106,10 @@
                 <i class="fas fa-paw mr-1"></i>註冊 / 登入
               </router-link>
             </li>
-            <li class="firmDrop nav-item dropdown" v-if="identify.identity == '廠商' ">
+            <li
+              class="firmDrop nav-item dropdown"
+              v-if="identify.identity == '廠商'"
+            >
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
@@ -55,22 +123,36 @@
                   <i class="fas fa-paw mr-1"></i>管理後台
                 </span>
                 <img
-                  style="width:40px;height:40px;object-fit: cover;"
+                  style="width: 40px; height: 40px; object-fit: cover"
                   class="d-md-inline d-none img-fluid rounded-circle"
                   :src="identify.avatar"
                   alt
                 />
               </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <router-link to="/FirmBackstage/FirmSet" class="dropdown-item">廠商設定</router-link>
-                <router-link to="/FirmBackstage" class="dropdown-item">訂單列表</router-link>
-                <router-link to="/FirmBackstage/FirmRoom" class="dropdown-item">空間管理</router-link>
-                <router-link to="/FirmBackstage/FirmQA" class="dropdown-item">問與答</router-link>
+              <div
+                class="dropdown-menu dropdown-menu-right"
+                aria-labelledby="navbarDropdown"
+              >
+                <router-link to="/FirmBackstage/FirmSet" class="dropdown-item"
+                  >廠商設定</router-link
+                >
+                <router-link to="/FirmBackstage" class="dropdown-item"
+                  >訂單列表</router-link
+                >
+                <router-link to="/FirmBackstage/FirmRoom" class="dropdown-item"
+                  >空間管理</router-link
+                >
+                <router-link to="/FirmBackstage/FirmQA" class="dropdown-item"
+                  >問與答</router-link
+                >
                 <div class="dropdown-divider"></div>
                 <a @click="signout" class="dropdown-item" href="#">登出</a>
               </div>
             </li>
-            <li class="memberDrop nav-item dropdown" v-if="identify.identity == '會員' ">
+            <li
+              class="memberDrop nav-item dropdown"
+              v-if="identify.identity == '會員'"
+            >
               <a
                 class="nav-link dropdown-toggle"
                 ref="#"
@@ -84,16 +166,29 @@
                   <i class="fas fa-paw mr-1"></i>我的頁面
                 </span>
                 <img
-                  style="width:40px;height:40px;object-fit: cover;"
+                  style="width: 40px; height: 40px; object-fit: cover"
                   class="d-md-inline d-none img-fluid rounded-circle"
                   :src="identify.avatar"
                   alt
                 />
               </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <router-link to="/MemberBackstage/MemberSet" class="dropdown-item">會員設定</router-link>
-                <router-link to="/MemberBackstage" class="dropdown-item">訂單列表</router-link>
-                <router-link to="/MemberBackstage/MemberQA" class="dropdown-item">問與答</router-link>
+              <div
+                class="dropdown-menu dropdown-menu-right"
+                aria-labelledby="navbarDropdown"
+              >
+                <router-link
+                  to="/MemberBackstage/MemberSet"
+                  class="dropdown-item"
+                  >會員設定</router-link
+                >
+                <router-link to="/MemberBackstage" class="dropdown-item"
+                  >訂單列表</router-link
+                >
+                <router-link
+                  to="/MemberBackstage/MemberQA"
+                  class="dropdown-item"
+                  >問與答</router-link
+                >
                 <div class="dropdown-divider"></div>
                 <a @click="signout" class="dropdown-item" href="#">登出</a>
               </div>
@@ -103,57 +198,77 @@
       </div>
     </nav>
     <main>
-      <router-view :identify="identify" @page-refresh="getIdentify" @loadAction="loading"></router-view>
+      <router-view
+        :identify="identify"
+        @page-refresh="getIdentify"
+        @loadAction="loading"
+      ></router-view>
     </main>
-    <footer class="py-4" style="background:rgb(0 29 78);">
+    <footer class="layoutFooter py-5 text-white" style="background:#26272b;">
       <div class="container">
-        <div class="row no-gutters align-items-sm-center">
-          <div class="col-6 col-sm-9">
-            <ul class="list-unstyled d-flex flex-sm-row flex-column my-0 text-white flex-wrap">
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <h6  style="letter-spacing:2px;"><i class="mr-1 far fa-address-card"></i>關於 PET TRIP</h6>
+            <p class="text-muted">歡迎來到<i class="mx-1">PET TRIP</i>寵物寄宿平台，為了使飼主能夠更快速、更安心的尋找合法的寵物寄宿廠商，並且讓寵物寄宿廠商有個完善的曝光平台，此平台正式於 2020 年誕生。
+            </p>
+          </div>
+          <div class="col-6 col-md-3">
+            <h6  style="letter-spacing:2px;"><i class="mr-1 fas fa-fingerprint"></i>通用類別</h6>
+            <ul class="list-unstyled my-0">
               <li class="my-2">
-                <a href="#" class="text-white">
-                  <i class="mr-1 fas fa-fingerprint"></i>關於我們
+                <a href="#" class="text-muted">
+                  關於我們
                 </a>
-                <span class="mx-2 d-sm-inline d-none">|</span>
               </li>
               <li class="my-2">
-                <a href="#" class="text-white">
-                  <i class="mr-1 far fa-question-circle"></i>常見問題
-                </a>
-                <span class="mx-2 d-sm-inline d-none">|</span>
-              </li>
-              <li class="my-2">
-                <a href="#" class="text-white">
-                  <i class="mr-1 far fa-envelope-open"></i>問題回報
-                </a>
-                <span class="mx-2 d-sm-inline d-none">|</span>
-              </li>
-              <li class="my-2">
-                <a href="#" class="text-white">
-                  <i class="mr-1 fas fa-list-ol"></i>服務條款
+                <a href="#" class="text-muted">
+                  服務條款
                 </a>
               </li>
             </ul>
           </div>
-          <div class="col-6 col-sm-3 d-flex flex-column align-items-center justify-content-end">
-            <ul class="mb-0 list-unstyled text-white d-flex justify-content-between h2">
+          <div class="col-6 col-md-3">
+                        <h6 style="letter-spacing:2px;"><i class="mr-1 far fa-question-circle"></i>問題專區</h6>
+                                    <ul class="list-unstyled my-0">
               <li class="my-2">
-                <a href="mailto:hexschool@home.com" class="text-white">
-                  <i class="fas fa-at"></i>
+                <a href="#" class="text-muted">
+                  常見問題
                 </a>
               </li>
               <li class="my-2">
-                <a href="https://www.facebook.com/" target="_blank" class="ml-3 text-white">
-                  <i class="fab fa-facebook"></i>
-                </a>
-              </li>
-              <li class="my-2">
-                <a href="https://www.instagram.com/" target="_blank" class="ml-3 text-white">
-                  <i class="fab fa-instagram"></i>
+                <a href="#" class="text-muted">
+                問題回報
                 </a>
               </li>
             </ul>
-            <p class="text-muted mb-1">©2020 Pet Trip</p>
+          </div>
+        </div>
+        <hr class="border-secondary" />
+        <div class="row">
+          <div class="col-md-8 col-sm-6 col-xs-12">
+            <p class="text-muted">
+              Copyright &copy; 2020 All Rights Reserved by Pet Trip.
+              <br />本網站僅供火箭隊專題使用
+            </p>
+          </div>
+
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <ul class="list-unstyled d-flex justify-content-end">
+              <li class="mx-3">
+                <a class="facebook h2" href="#"><i class="fab fa-facebook"></i></a>
+              </li>
+              <li class="mx-3">
+                <a class="twitter h2" href="#"><i class="fab fa-twitter"></i></a>
+              </li>
+              <li class="mx-3">
+                <a class="instagram h2" href="#"
+                  ><i class="fab fa-instagram-square"></i
+                ></a>
+              </li>
+              <li class="mx-3">
+                <a class="github h2" href="#"><i class="fab fa-github"></i></a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -162,6 +277,38 @@
 </template>
 
 <style lang="scss">
+.layout{
+  display: flex;
+  flex-direction: column;
+}
+.notice {
+  bottom: 5%;
+  right: 5%;
+  z-index: 95;
+  .read {
+    top: -12px;
+    right: -12px;
+    font-size: 8px;
+  }
+  .noticeBtn {
+    bottom: 0;
+    right: 0;
+  }
+  .noticeList {
+    overflow-y: scroll;
+    background: white;
+    width: 250px;
+    bottom: 20px;
+    right: 20px;
+    z-index: -1;
+    transition: all 1.5s;
+    max-height: 300px;
+    overflow-x: hidden;
+  }
+  .open {
+    max-height: 300px;
+  }
+}
 .loader {
   position: fixed;
   top: 0;
@@ -181,9 +328,14 @@
     color: rgb(7, 65, 151) !important;
   }
 }
+.layoutFooter{
+  margin-top: auto !important;
+}
 </style>
 
 <script>
+/* global $ */
+import { hubConnection } from 'signalr-no-jquery'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 
@@ -191,11 +343,15 @@ export default {
   data () {
     return {
       identify: {},
-      isLoading: false
+      isLoading: false,
+      noticeData: {},
+      isOpen: false,
+      hub: hubConnection('http://pettrip.rocket-coding.com:80')
     }
   },
   created () {
     this.getIdentify()
+    this.getCall()
   },
   methods: {
     getIdentify: function (get) {
@@ -205,12 +361,10 @@ export default {
         /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
         '$1'
       )
+      this.$http.defaults.headers.common.Authorization = `Bearer ${token}`
       const config = {
         method: 'get',
-        url: 'http://pettrip.rocket-coding.com/api/GetIdentity',
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        url: 'http://pettrip.rocket-coding.com/api/GetIdentity'
       }
       this.$http(config)
         .then(function (response) {
@@ -224,14 +378,56 @@ export default {
           } else if (get === '會員') {
             vm.$router.push('/')
           }
+          vm.connectHub()
         })
         .catch(function () {
           vm.isLoading = false
         })
     },
+    toggleNotice: function () {
+      const vm = this
+      if (this.isOpen) {
+        $('.noticeList').removeClass('animate__rotateOutUpRight')
+        $('.noticeList').addClass('animate__rotateInUpRight')
+        this.isOpen = !this.isOpen
+      } else {
+        $('.noticeList').removeClass('animate__rotateInUpRight')
+        $('.noticeList').addClass('animate__rotateOutUpRight')
+        this.$http
+          .get('http://pettrip.rocket-coding.com/api/Notice/Readall')
+          .then(function () {
+            vm.$http(
+              'http://pettrip.rocket-coding.com/api/Notice/GetNotice'
+            ).then(function (response) {
+              vm.noticeData = response.data
+            })
+          })
+        this.isOpen = !this.isOpen
+      }
+    },
+    getTo: function (item) {
+      $('.noticeList').removeClass('animate__rotateInUpRight')
+      $('.noticeList').addClass('animate__rotateOutUpRight')
+      this.isOpen = !this.isOpen
+      if (
+        item.type === '問通知' &&
+        this.$route.fullPath !== '/FirmBackstage/FirmQA'
+      ) {
+        this.$router.push('/FirmBackstage/FirmQA')
+      } else if (
+        item.type === '答通知' &&
+        this.$route.fullPath !== '/MemberBackstage/MemberQA'
+      ) {
+        this.$router.push('/MemberBackstage/MemberQA')
+      } else if (
+        item.type === '下單通知' &&
+        this.$route.fullPath !== '/FirmBackstage'
+      ) {
+        this.$router.push('/FirmBackstage')
+      }
+    },
     signout: function () {
       document.cookie = `pet='';expires=${new Date(-1)}; path=/`
-      this.getIdentify()
       Swal.fire({
         toast: true,
         position: 'top-end',
@@ -240,7 +436,54 @@ export default {
         showConfirmButton: false,
         timer: 2000
       })
-      this.$router.push('1')
+      if (
+        this.$route.path.indexOf('/FirmBackstage') !== -1 ||
+        this.$route.path.indexOf('/MemberBackstage') !== -1
+      ) {
+        this.$router.push('1')
+      }
+      this.getIdentify()
+    },
+    connectHub: function () {
+      const vm = this
+      const proxy = this.hub.createHubProxy('DefaultHub')
+      proxy.on('Get', function () {
+        vm.getCall()
+      })
+      this.hub
+        .start({ jsonp: true })
+        .done(function () {
+          const config = {
+            method: 'post',
+            url: 'http://pettrip.rocket-coding.com/api/Notice/Sendid',
+            data: {
+              connectid: vm.hub.id
+            }
+          }
+          vm.$http(config)
+            .then(function () {
+            })
+            .catch(function () {
+            })
+        })
+        .fail(function () {
+        })
+    },
+    getCall: function () {
+      $('.noticeBtn').addClass('animate__bounce ')
+      setTimeout(() => {
+        $('.noticeBtn').removeClass('animate__bounce ')
+      }, 1500)
+      const vm = this
+      const config = {
+        method: 'get',
+        url: 'http://pettrip.rocket-coding.com/api/Notice/GetNotice'
+      }
+      this.$http(config)
+        .then(function (response) {
+          vm.noticeData = response.data
+        })
+        .catch(function () {})
     },
     loading: function (data) {
       switch (data) {
