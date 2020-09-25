@@ -11,12 +11,14 @@ import * as rules from 'vee-validate/dist/rules'
 import { required, email } from 'vee-validate/dist/rules'
 import zhTW from 'vee-validate/dist/locale/zh_TW.json'
 import { VueSpinners } from '@saeris/vue-spinners'
+import animated from 'animate.css'
 import 'bootstrap'
 localize('zh_TW', zhTW)
 
 Vue.config.productionTip = false
 Vue.use(VueSpinners)
 Vue.use(VueAxios, axios)
+Vue.use(animated)
 Vue.use(VCalendar, {
   componentPrefix: 'vc'
 })
