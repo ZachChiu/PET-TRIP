@@ -198,7 +198,6 @@ export default {
           }
         })
         .then((response) => {
-          vm.getData()
           this.MemberPicUploading = false
           if (response.data.result === '圖片格式錯誤') {
             Swal.fire({
@@ -209,7 +208,17 @@ export default {
               showConfirmButton: false,
               timer: 2000
             })
+          } else if (response.data.result === 'Uploadimg錯誤，請至伺服器log查詢錯誤訊息') {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'info',
+              title: '圖片不可超過 2 MB',
+              showConfirmButton: false,
+              timer: 2000
+            })
           } else {
+            vm.getData()
             Swal.fire({
               toast: true,
               position: 'top-end',
@@ -224,7 +233,7 @@ export default {
           Swal.fire({
             toast: true,
             position: 'top-end',
-            icon: 'success',
+            icon: 'error',
             title: '頭像上傳失敗',
             showConfirmButton: false,
             timer: 2000

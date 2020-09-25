@@ -688,8 +688,6 @@ export default {
                 timer: 2000
               })
             }
-
-            console.log(response)
           })
           .catch(() => {
             Swal.fire({
