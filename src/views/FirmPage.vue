@@ -86,7 +86,7 @@
               <span v-if="firmData.company.midnight">半夜</span>
             </p>
             <p v-if="all" class="mb-0">回覆時段：24小時</p>
-            <p class="mb-0">空間：{{firmData.company.Count}}間</p>
+            <p class="mb-0">空間：{{firmData.company.count}}間</p>
           </div>
           <div class="d-md-none d-flex text-center justify-content-around align-items-center">
             <p class="mb-0">
