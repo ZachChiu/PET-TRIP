@@ -155,7 +155,7 @@
               <div
                 class="rounded-circle mx-auto overflow-hidden"
                 :style="{backgroundImage: 'url(' + companyData.avatar + ')'}"
-                style="background-size: cover;max-width: 300px;"
+                style="background-size: cover;max-width: 300px;background-position:center"
               >
                 <img
                   src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
@@ -378,6 +378,15 @@ export default {
               showConfirmButton: false,
               timer: 2000
             })
+          } else if (response.data.result === 'Uploadimg錯誤，請至伺服器log查詢錯誤訊息') {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'info',
+              title: '圖片不可超過 2 MB',
+              showConfirmButton: false,
+              timer: 2000
+            })
           } else {
             Swal.fire({
               toast: true,
@@ -426,16 +435,27 @@ export default {
             }
           })
           .then((response) => {
-            Swal.fire({
-              toast: true,
-              position: 'top-end',
-              icon: 'success',
-              title: '上傳成功',
-              showConfirmButton: false,
-              timer: 2000
-            })
+            if (response.data.result === 'Uploadimg錯誤，請至伺服器log查詢錯誤訊息') {
+              Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'info',
+                title: '圖片不可超過 2 MB',
+                showConfirmButton: false,
+                timer: 2000
+              })
+            } else {
+              Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: '上傳成功',
+                showConfirmButton: false,
+                timer: 2000
+              })
+              this.companyData.bannerimg = response.data.result
+            }
             this.FirmPicUploading = false
-            this.companyData.bannerimg = response.data.result
           })
           .catch(() => {
             Swal.fire({
