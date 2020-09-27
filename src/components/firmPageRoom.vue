@@ -43,7 +43,7 @@
             <span v-if="room.petsizes != room.petsizee">~</span>
             <span v-if="room.petsizes != room.petsizee">{{room.petsizee}}</span>公斤
           </p>
-          <p class="card-text text-danger h5 text-right">$ {{room.roomprice}} / 天</p>
+          <p class="card-text text-danger h5 text-right">$ {{room.roomprice | currencyStyle}} / 天</p>
         </div>
       </div>
     </div>

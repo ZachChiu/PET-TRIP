@@ -117,8 +117,8 @@
             </div>
 
             <div class="form-group d-flex mb-0">
-              <label for="upload" class="ml-auto btn btn-dark" :class="{disabled:FirmPicUploading}">
-                <i v-if="FirmPicUploading" class="mr-1 fas fa-spinner fa-spin"></i>主頁照片上傳
+              <label for="upload" class="d-flex align-items-center ml-auto btn btn-dark" :class="{disabled:FirmPicUploading}">
+               <ring-loader class="custom-class" :color="'black'" :loading="FirmPicUploading" :size="20"></ring-loader>主頁照片上傳
                 <input
                   type="file"
                   id="upload"
@@ -167,10 +167,10 @@
               <div class="form-group d-flex my-4">
                 <label
                   for="uploadAvatar"
-                  class="btn btn-primary mx-auto"
+                  class="d-flex align-items-center btn btn-primary mx-auto"
                   :class="{disabled:FirmAvatarUploading}"
                 >
-                  <i v-if="FirmAvatarUploading" class="mr-1 fas fa-spinner fa-spin"></i>更新頭像
+<ring-loader class="custom-class" :color="'black'" :loading="FirmAvatarUploading" :size="20"></ring-loader>更新頭像
                   <input
                     type="file"
                     id="uploadAvatar"

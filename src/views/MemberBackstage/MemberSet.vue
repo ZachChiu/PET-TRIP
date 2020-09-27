@@ -17,10 +17,9 @@
         <div class="form-group d-flex my-4">
           <label
             for="upload"
-            class="btn btn-primary mx-auto"
+            class="d-flex align-items-center btn btn-primary mx-auto"
             :class="{disabled:MemberPicUploading}"
-          >
-            <i v-if="MemberPicUploading" class="mr-1 fas fa-spinner fa-spin"></i>更新頭像
+          ><ring-loader class="custom-class" :color="'black'" :loading="MemberPicUploading" :size="20"></ring-loader>更新頭像
             <input
               type="file"
               id="upload"

@@ -97,6 +97,7 @@ export default {
           })
           $('#QAModal').modal('hide')
           vm.answerBox = ''
+          vm.$emit('refresh')
         })
         .catch(function () {
           Swal.fire({

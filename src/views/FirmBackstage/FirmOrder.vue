@@ -331,17 +331,17 @@ export default {
         })
     },
     openEvaluation: function (order) {
-      this.load = true
       const vm = this
+      vm.load = true
       const config = {
         method: 'get',
         url: `http://pettrip.rocket-coding.com/api/Evaluation/Get?id=${order.orderseq}`
       }
       this.$http(config)
         .then(function (response) {
+          $('#FirmEvaluationModal').modal('show')
           vm.load = false
           vm.evaluationList = response.data
-          $('#evaluationModal').modal('show')
         })
         .catch(function () {
           vm.load = false

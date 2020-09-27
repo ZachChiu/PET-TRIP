@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import * as filters from './assets/filters'
 import jQuery from 'jquery'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
@@ -28,6 +29,10 @@ new Vue({
   router,
   render: h => h(App)
 }).$mount('#app')
+
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
 
 extend('secret', {
   validate: value => value === 'example',

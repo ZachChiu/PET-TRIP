@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal fade"
-    id="evaluationModal"
+    id="MemberEvaluationModal"
     tabindex="-1"
     aria-labelledby="evaluationModalLabel"
     aria-hidden="true"
@@ -9,7 +9,7 @@
     <div class="modal-dialog">
       <div class="modal-content" v-if="dataList.company != null">
         <div class="modal-header bg-primary">
-          <h5 class="modal-title" id="evaluationModal">評價</h5>
+          <h5 class="modal-title" >評價</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -19,7 +19,7 @@
             <div
                 class="rounded-circle mx-auto overflow-hidden"
                 :style="{backgroundImage: 'url(' + dataList.company.avatar + ')'}"
-                style="background-size: cover;max-width: 120px;"
+                style="background-size: cover;max-width: 120px; background-position:center"
               >
                 <img
                   src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
@@ -30,7 +30,7 @@
               </div>            <div class="ml-3  w-100">
                 <p class="mb-1">{{dataList.company.companybrand}}</p>
                 <p class="mb-1"><small class="text-secondary">{{dataList.company.companybrand}}</small></p>
-                <p class="text-danger mb-0">$ {{dataList.company.amt}} 元</p>
+                <p class="text-danger mb-0">$ {{dataList.company.amt | currencyStyle}} 元</p>
             </div>
           </div>
           <div class="text-center mb-3">
@@ -43,8 +43,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
-          <button type="button" v-if="!dataList.state.btn_Evalution_readonly" class="btn btn-primary" @click="setRating">評價</button>
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">關閉</button>
+          <button type="button" v-if="!dataList.state.btn_Evalution_readonly" class="d-flex align-items-center btn btn-primary" @click="setRating" :class="{disabled:load}" :disabled="load"><ring-loader class="custom-class" :color="'black'" :loading="load" :size="20"></ring-loader>評價</button>
         </div>
       </div>
     </div>
@@ -59,7 +59,8 @@ import 'sweetalert2/src/sweetalert2.scss'
 export default {
   data () {
     return {
-      dataList: this.evaluationData
+      dataList: this.evaluationData,
+      load: false
     }
   },
   name: 'memberEvaluateModal',
@@ -71,6 +72,8 @@ export default {
   },
   methods: {
     setRating: function () {
+      const vm = this
+      vm.load = true
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Evaluation/Set',
@@ -81,7 +84,6 @@ export default {
           memo: this.dataList.evalution.memo
         }
       }
-      console.log(config)
       this.$http(config)
         .then(function (response) {
           Swal.fire({
@@ -92,10 +94,12 @@ export default {
             showConfirmButton: false,
             timer: 2000
           })
-          console.log(response)
-          $('#evaluationModal').modal('hide')
+          $('#MemberEvaluationModal').modal('hide')
+          vm.$emit('refresh')
+          vm.load = false
         })
         .catch(function (error) {
+          vm.load = false
           console.log(error)
           Swal.fire({
             toast: true,

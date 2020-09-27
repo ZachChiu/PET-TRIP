@@ -10,7 +10,7 @@
       @change-state="changeState"
       @get-data="getData"
     ></delOrderModal>
-    <memberEvaluateModal :evaluationData="evaluationList"></memberEvaluateModal>
+    <memberEvaluateModal :evaluationData="evaluationList" @refresh="getData"></memberEvaluateModal>
     <div class="container">
      <form>
         <div class="row">
@@ -316,12 +316,11 @@ export default {
         method: 'get',
         url: `http://pettrip.rocket-coding.com/api/Evaluation/Get?id=${order.orderseq}`
       }
-
       this.$http(config)
         .then(function (response) {
+          $('#MemberEvaluationModal').modal('show')
           vm.load = false
           vm.evaluationList = response.data
-          $('#evaluationModal').modal('show')
         })
         .catch(function () {
           vm.load = false

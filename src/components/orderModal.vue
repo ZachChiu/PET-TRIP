@@ -24,7 +24,7 @@
             <p v-if="who == 'user'">廠商名稱：{{orderDetail.order.companyname}}</p>
             <p>空間名稱：{{orderDetail.order.roomname}}</p>
             <p>預定日期：{{orderDetail.order.orderdates}}~{{orderDetail.order.orderdatee}}</p>
-            <p>房間總價：${{orderDetail.order.roomamt}}</p>
+            <p>房間總價：${{orderDetail.order.roomamt | currencyStyle}}</p>
             <hr />
             <p>訂購者：{{orderDetail.detail.name}}</p>
             <p>電話：{{orderDetail.detail.tel}}</p>
@@ -32,18 +32,18 @@
             <p>寵物品種：{{orderDetail.detail.pettype}}</p>
             <p>寵物重量：{{orderDetail.detail.petsize}}公斤</p>
             <p>餵藥服務：
-              <span class="mr-2" v-if="orderDetail.detail.medicine.medicine_infeed">飼料內(${{orderDetail.detail.medicine.medicine_infeed_amt * orderDetail.detail.petamount}})</span>
-              <span class="mr-2" v-if="orderDetail.detail.medicine.medicine_paste">外用藥(${{orderDetail.detail.medicine.medicine_paste_amt * orderDetail.detail.petamount}})</span>
-              <span class="mr-2" v-if="orderDetail.detail.medicine.medicine_pill">藥丸(${{orderDetail.detail.medicine.medicine_pill_amt * orderDetail.detail.petamount}})</span>
+              <span class="mr-2" v-if="orderDetail.detail.medicine.medicine_infeed">飼料內(${{orderDetail.detail.medicine.medicine_infeed_amt * orderDetail.detail.petamount | currencyStyle}})</span>
+              <span class="mr-2" v-if="orderDetail.detail.medicine.medicine_paste">外用藥(${{orderDetail.detail.medicine.medicine_paste_amt * orderDetail.detail.petamount | currencyStyle}})</span>
+              <span class="mr-2" v-if="orderDetail.detail.medicine.medicine_pill">藥丸(${{orderDetail.detail.medicine.medicine_pill_amt * orderDetail.detail.petamount | currencyStyle}})</span>
             </p>
             <p>加購服務：
-              <span class="mr-2" v-if="orderDetail.detail.plus.bath">洗澡(${{orderDetail.detail.plus.bath_amt * orderDetail.detail.petamount}})</span>
-              <span class="mr-2" v-if="orderDetail.detail.plus.hair">洗毛(${{orderDetail.detail.plus.hair_amt * orderDetail.detail.petamount}})</span>
-              <span class="mr-2" v-if="orderDetail.detail.plus.nails">剪指甲(${{orderDetail.detail.plus.nails_amt * orderDetail.detail.petamount}})</span>
+              <span class="mr-2" v-if="orderDetail.detail.plus.bath">洗澡(${{orderDetail.detail.plus.bath_amt * orderDetail.detail.petamount | currencyStyle}})</span>
+              <span class="mr-2" v-if="orderDetail.detail.plus.hair">洗毛(${{orderDetail.detail.plus.hair_amt * orderDetail.detail.petamount | currencyStyle}})</span>
+              <span class="mr-2" v-if="orderDetail.detail.plus.nails">剪指甲(${{orderDetail.detail.plus.nails_amt * orderDetail.detail.petamount | currencyStyle}})</span>
             </p>
             <p v-if="who == 'user'">地址：{{orderDetail.order.country}}{{orderDetail.order.area}}{{orderDetail.order.address}}</p>
             <p>備註：{{orderDetail.detail.memo}}</p>
-            <p class="text-right h5 text-danger my-3">訂單總額：共 $ {{orderDetail.detail.orderprice}}元</p>
+            <p class="text-right h5 text-danger my-3">訂單總額：共 $ {{orderDetail.detail.orderprice | currencyStyle}}元</p>
             <p class="text-right text-secondary">訂單只可於七天前取消，七天內不予受理。</p>
             <div v-if="orderDetail.cancel.reason != null" class="cancel">
              <hr />

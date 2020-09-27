@@ -5,7 +5,7 @@
               <b>{{room.roomname}}</b>
             </h5>
             <hr>
-            <p class="text-center">{{room.introduce}}</p>
+            <p class="my-4 text-muted text-center">{{room.introduce}}</p>
             <p>
               <i class="roomInfoIcon mr-1 fas fa-paw"></i>接受寵物類型：
               <span v-if="room.pettype_cat">貓</span>
@@ -18,6 +18,10 @@
             <p>
               <i class="roomInfoIcon mr-1 fas fa-sort-numeric-down"></i>
               可容納數量：{{room.roomamount}}隻
+            </p>
+            <p>
+              <i class="roomInfoIcon mr-1 fas fa-sort-numeric-down"></i>
+              超過一隻額外加價：${{room.roomamount_amt | currencyStyle}}/隻
             </p>
             <p>
               <i class="roomInfoIcon mr-1 fas fa-expand-alt"></i>

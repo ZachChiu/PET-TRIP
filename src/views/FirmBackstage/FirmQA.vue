@@ -3,7 +3,7 @@
     <div class="loader" v-show="Load">
       <hash-loader class="custom-class" :color="'#FFDE47'" :loading="Load" :size="70"></hash-loader>
     </div>
-    <QAModal :identify="identify" :QADetail="QADetail"></QAModal>
+    <QAModal :identify="identify" :QADetail="QADetail" @refresh="getData"></QAModal>
     <ul class="nav nav-tabs nav-fill text-center" id="myTab" role="tablist">
       <li class="nav-item">
         <a

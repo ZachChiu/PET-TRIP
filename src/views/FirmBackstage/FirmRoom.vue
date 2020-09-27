@@ -45,14 +45,14 @@
               </thead>
               <tbody class="bg-white">
                 <tr v-for="(item,index) in roomList" :key="index">
-                  <th scope="row">{{item.roomname}}</th>
+                  <th scope="row"><router-link class="linkColor font-weight-normal" target="_blank" :to="`/FirmPage/${item.companyseq}/Room/${item.roomseq}`">{{item.roomname}}</router-link></th>
                   <td>
                     <span v-if="item.pettype_cat">貓</span>
                     <span v-if="item.pettype_cat && item.pettype_dog ">、</span>
                     <span v-if="item.pettype_dog">狗</span>
                     <span v-if="item.pettype_dog && item.pettype_other ">、</span>
                     <span v-if="item.pettype_cat && !item.pettype_dog && item.pettype_other ">、</span>
-                    <span v-if="item.pettype_other">貓</span>
+                    <span v-if="item.pettype_other">其他</span>
                   </td>
                   <td>
                     <div class="custom-control custom-switch">
@@ -147,7 +147,6 @@ export default {
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           vm.roomList = response.data.room
           vm.pagelist = response.data.meta
           vm.$emit('loadAction', false)
@@ -189,7 +188,6 @@ export default {
 
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           Swal.fire({
             toast: true,
             position: 'top-end',

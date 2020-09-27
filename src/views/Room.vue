@@ -8,6 +8,8 @@
       :quantity="quantity"
     ></bookingModal>
     <div class="container pt-4 mb-5" v-if="room != null">
+      <p class="text-muted h3 text-center" v-if="!company.isopen">{{room.roomname}} 尚未開放</p>
+      <div v-if="company.isopen">
       <h2 class="text-center pb-3 mb-3 border-bottom">{{room.roomname}}</h2>
       <div class="row align-items-center bg-white">
         <div class="col-lg-6 col-12">
@@ -55,8 +57,7 @@
             </div>
             <div class="col-lg-12 col-md-6 col-12 d-flex flex-column justify-content-end">
               <p class="text-danger h4 text-right my-3">
-                ${{room.roomprice}}
-                <span v-if="pricePlus != 0">+{{priceAdd}}</span> / 天
+                ${{ room.roomprice | currencyStyle }}<span v-if="pricePlus != 0">+{{priceAdd | currencyStyle}}</span> / 天
               </p>
               <div class="form-group row mb-0">
                 <div class="col-8">
@@ -70,12 +71,11 @@
                       >-</button>
                     </div>
                     <input
-                      type="number"
+                      type="text"
                       class="inputAmount form-control text-center"
-                      placeholder="幾隻"
                       aria-label="Example text with button addon"
                       aria-describedby="button-addon1"
-                      v-model="quantity"
+                      v-model="inputBox"
                       disabled
                     />
                     <div class="input-group-append">
@@ -103,7 +103,7 @@
               <div
                 class="rounded-circle overflow-hidden"
                 :style="{backgroundImage: 'url(' + company.avatar + ')'}"
-                style="background-size: cover;max-width: 300px;"
+                style="background-size: cover;max-width: 300px; background-position:center"
               >
                 <img
                   src="https://upload.cc/i1/2020/09/09/wa8QmM.png"
@@ -204,6 +204,7 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
 </template>
 
@@ -277,6 +278,8 @@ export default {
       },
       all: false,
       quantity: 1,
+      quantitytext: '隻',
+      inputBox: '1隻',
       pricePlus: 0,
       priceAdd: ''
     }
@@ -305,6 +308,15 @@ export default {
       )
     }
   },
+  // Filters: {
+  //   commaFormat: function (value) {
+  //     return value
+  //       .toString()
+  //       .replace(/^(-?\d+?)((?:\d{3})+)(?=\.\d+$|$)/, function (all, pre, groupOf3Digital) {
+  //         return pre + groupOf3Digital.replace(/\d{3}/g, ',$&')
+  //       })
+  //   }
+  // },
   methods: {
     getData: function (page = 1) {
       this.$emit('loadAction', true)
@@ -375,6 +387,7 @@ export default {
           timer: 2000
         })
       }
+      this.inputBox = `${this.quantity}${this.quantitytext}`
       this.priceAdd = this.room.roomamount_amt * this.pricePlus
     },
     booking: function () {
@@ -391,7 +404,6 @@ export default {
           showConfirmButton: false,
           timer: 2000
         })
-        this.$router.push('/Login')
       } else if (this.dates === null) {
         Swal.fire({
           toast: true,

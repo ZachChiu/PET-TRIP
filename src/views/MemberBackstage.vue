@@ -74,11 +74,6 @@ export default {
   created () {
     this.getMemberBackstageData()
   },
-  watch: {
-    identify: function (value) {
-      console.log('1')
-    }
-  },
   methods: {
     getMemberBackstageData: function () {
       this.pageCurrent = this.$route.path
@@ -86,7 +81,6 @@ export default {
         /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
         '$1'
       )
-      console.log(this.identify)
       this.$http.defaults.headers.common.Authorization = `Bearer ${token}`
       if (token === '' || token == null || token === undefined) {
         this.$router.push('/')

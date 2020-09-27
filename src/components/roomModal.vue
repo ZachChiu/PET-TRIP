@@ -25,7 +25,7 @@
                   type="text"
                   class="form-control"
                   id="spaceName"
-                  placeholder="子庭毛毛屋A01"
+                  placeholder="奢華喵喵毛毛屋A01"
                   v-model="dataList.roomname"
                 />
               </div>
@@ -128,7 +128,7 @@
                       class="form-control"
                       id="roomPrice"
                       placeholder="價格"
-                      v-model="dataList.roomamount_amt"
+                      v-model="dataList.roomprice"
                     />
                   </div>
                 </div>
@@ -137,14 +137,14 @@
             <div class="form-group row mb-0">
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-3 col-lg-4 col-form-label" for="perPrice">額外加價</label>
+                  <label class="col-sm-3 col-lg-4 col-form-label" for="perPrice">額外加價/隻</label>
                   <div class="col-sm-9 col-lg-8">
                     <input
                       type="number"
                       class="form-control"
                       id="perPrice"
                       placeholder="每多一隻的價格"
-                      v-model="dataList.roomprice"
+                      v-model="dataList.roomamount_amt"
                     />
                   </div>
                 </div>

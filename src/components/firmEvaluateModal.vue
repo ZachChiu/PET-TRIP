@@ -1,16 +1,15 @@
 <template>
   <div
     class="modal fade"
-    id="evaluationModal"
+    id="FirmEvaluationModal"
     tabindex="-1"
     aria-labelledby="evaluationModalLabel"
     aria-hidden="true"
-    v-if="evaluationData.company != null"
   >
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content" v-if="evaluationData.company != null">
         <div class="modal-header bg-primary">
-          <h5 class="modal-title" id="evaluationModal">評價</h5>
+          <h5 class="modal-title">評價</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -20,7 +19,7 @@
             <div
               class="rounded-circle mx-auto overflow-hidden"
               :style="{backgroundImage: 'url(' + evaluationData.company.avatar + ')'}"
-              style="background-size: cover;max-width: 120px;"
+              style="background-size: cover;max-width: 120px;background-position:center"
             >
               <img
                 src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
@@ -34,7 +33,7 @@
               <p class="mb-1">
                 <small class="text-secondary">子庭毛毛屋A01</small>
               </p>
-              <p class="text-danger mb-0">$ {{evaluationData.company.amt}} 元</p>
+              <p class="text-danger mb-0">$ {{evaluationData.company.amt | currencyStyle}} 元</p>
             </div>
           </div>
           <hr>
@@ -54,7 +53,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">關閉</button>
         </div>
       </div>
     </div>

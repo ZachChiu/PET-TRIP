@@ -17,7 +17,7 @@
           <div class="modal-body">確定要刪除 <b>{{temData.roomname}}</b> </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-danger" @click="delRoom">確定</button>
+            <button type="button" class="d-flex align-items-center btn btn-danger" @click="delRoom" :class="{disabled:load}" :disabled="load"><ring-loader class="custom-class" :color="'black'" :loading="load" :size="20"></ring-loader>確定</button>
           </div>
         </div>
       </div>
@@ -31,6 +31,7 @@ import 'sweetalert2/src/sweetalert2.scss'
 export default {
   data () {
     return {
+      load: false
     }
   },
   name: 'delModal',
@@ -38,6 +39,7 @@ export default {
   methods: {
     delRoom: function () {
       const vm = this
+      vm.load = true
       const config = {
         method: 'delete',
         url: `http://pettrip.rocket-coding.com/api/Room/Delete?id=${this.temData.roomseq}`
@@ -54,8 +56,10 @@ export default {
           })
           $('#delModal').modal('hide')
           vm.$emit('get-data')
+          vm.load = false
         })
         .catch(function () {
+          vm.load = false
           Swal.fire({
             toast: true,
             position: 'top-end',

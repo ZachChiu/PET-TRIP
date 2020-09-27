@@ -4,7 +4,12 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-center">預定寄宿</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -20,7 +25,9 @@
                 aria-controls="bookingInfo"
                 aria-selected="true"
                 disabled
-              >填寫資料</button>
+              >
+                填寫資料
+              </button>
             </li>
             <li class="nav-item w-50" role="presentation">
               <button
@@ -32,7 +39,9 @@
                 aria-controls="orderCheck"
                 aria-selected="false"
                 disabled
-              >訂單確認</button>
+              >
+                訂單確認
+              </button>
             </li>
           </ul>
           <div class="tab-content" id="pills-tabContent">
@@ -44,11 +53,14 @@
             >
               <ValidationObserver v-slot="{ invalid }">
                 <form @submit.prevent="nextStep">
-                  <ValidationProvider rules="required" v-slot="{ errors,classes }">
+                  <ValidationProvider
+                    rules="required"
+                    v-slot="{ errors, classes }"
+                  >
                     <div class="form-group">
                       <label for="name">
                         訂購人
-                        <span class="text-danger">{{errors[0]}}</span>
+                        <span class="text-danger">{{ errors[0] }}</span>
                       </label>
                       <input
                         type="text"
@@ -60,11 +72,14 @@
                       />
                     </div>
                   </ValidationProvider>
-                  <ValidationProvider rules="required|numeric" v-slot="{ errors,classes }">
+                  <ValidationProvider
+                    rules="required|numeric"
+                    v-slot="{ errors, classes }"
+                  >
                     <div class="form-group">
                       <label for="電話">
                         電話
-                        <span class="text-danger">{{errors[0]}}</span>
+                        <span class="text-danger">{{ errors[0] }}</span>
                       </label>
                       <input
                         type="text"
@@ -75,11 +90,14 @@
                       />
                     </div>
                   </ValidationProvider>
-                  <ValidationProvider rules="required" v-slot="{ errors,classes }">
+                  <ValidationProvider
+                    rules="required"
+                    v-slot="{ errors, classes }"
+                  >
                     <div class="form-group">
                       <label for="type">
                         寵物品種
-                        <span class="text-danger">{{errors[0]}}</span>
+                        <span class="text-danger">{{ errors[0] }}</span>
                       </label>
                       <input
                         type="text"
@@ -90,26 +108,30 @@
                       />
                     </div>
                   </ValidationProvider>
-                  <ValidationProvider rules="required" v-slot="{ errors,classes }">
+                  <ValidationProvider
+                    rules="required"
+                    v-slot="{ errors, classes }"
+                  >
                     <div class="form-group">
-                      <label for="weight">
+                      <label for="">
                         寵物重量(kg)
-                        <span class="text-danger">{{errors[0]}}</span>
+                        <span class="text-danger">{{ errors[0] }}</span>
                       </label>
                       <input
+                      name="重量"
                         type="number"
                         id="weight"
                         class="form-control"
                         v-model.trim="bookingList.weight"
-                        onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')"
                         :class="classes"
+                        min=0
                       />
                     </div>
                   </ValidationProvider>
 
                   <div class="form-group align-items-center row">
                     <label class="col-12 col-form-label" for="medical">
-                      餵藥服務({{quantity}}隻)
+                      餵藥服務({{ quantity }}隻)
                       <span></span>
                     </label>
                     <div class="col-12">
@@ -123,10 +145,12 @@
                           v-model="bookingList.addInfeed"
                           :disabled="!room.medicine_infeed"
                         />
-                        <label
-                          class="form-check-label"
-                          for="inside"
-                        >飼料內(${{room.medicine_infeed_amt * quantity}})</label>
+                        <label class="form-check-label" for="inside"
+                          >飼料內(${{
+                            (room.medicine_infeed_amt * quantity)
+                              | currencyStyle
+                          }})</label
+                        >
                       </div>
                       <div class="form-check form-check-inline">
                         <input
@@ -140,9 +164,13 @@
                         />
                         <label class="form-check-label" for="pill">
                           藥丸
-                          <span
-                            v-if="room.medicine_pill == true"
-                          >($ {{room.medicine_pill_amt * quantity}})</span>
+                          <span v-if="room.medicine_pill == true"
+                            >($
+                            {{
+                              (room.medicine_pill_amt * quantity)
+                                | currencyStyle
+                            }})</span
+                          >
                         </label>
                       </div>
                       <div class="form-check form-check-inline">
@@ -157,15 +185,21 @@
                         />
                         <label class="form-check-label" for="outside">
                           外用
-                          <span
-                            v-if="room.medicine_paste == true"
-                          >($ {{room.medicine_paste_amt * quantity}})</span>
+                          <span v-if="room.medicine_paste == true"
+                            >($
+                            {{
+                              (room.medicine_paste_amt * quantity)
+                                | currencyStyle
+                            }})</span
+                          >
                         </label>
                       </div>
                     </div>
                   </div>
                   <div class="form-group align-items-center row">
-                    <label class="col-12 col-form-label" for="plus">加購服務({{quantity}}隻)</label>
+                    <label class="col-12 col-form-label" for="plus"
+                      >加購服務({{ quantity }}隻)</label
+                    >
                     <div class="col-12">
                       <div class="form-check form-check-inline">
                         <input
@@ -179,7 +213,11 @@
                         />
                         <label class="form-check-label" for="bath">
                           洗澡
-                          <span v-if="room.bath == true">(${{room.bath_amt * quantity}})</span>
+                          <span v-if="room.bath == true"
+                            >(${{
+                              (room.bath_amt * quantity) | currencyStyle
+                            }})</span
+                          >
                         </label>
                       </div>
                       <div class="form-check form-check-inline">
@@ -194,7 +232,11 @@
                         />
                         <label class="form-check-label" for="cutNails">
                           剪指甲
-                          <span v-if="room.nails == true">(${{room.nails_amt * quantity}})</span>
+                          <span v-if="room.nails == true"
+                            >(${{
+                              (room.nails_amt * quantity) | currencyStyle
+                            }})</span
+                          >
                         </label>
                       </div>
                       <div class="form-check form-check-inline">
@@ -209,13 +251,19 @@
                         />
                         <label class="form-check-label" for="cutHair">
                           剪毛
-                          <span v-if="room.hair == true">(${{room.hair_amt * quantity}})</span>
+                          <span v-if="room.hair == true"
+                            >(${{
+                              (room.hair_amt * quantity) | currencyStyle
+                            }})</span
+                          >
                         </label>
                       </div>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label class="col-12 col-form-label" for="remarks">備註</label>
+                    <label class="col-12 col-form-label" for="remarks"
+                      >備註</label
+                    >
                     <div class="col-12">
                       <textarea
                         class="form-control"
@@ -225,14 +273,18 @@
                       ></textarea>
                     </div>
                   </div>
-                  <p class="text-center h4 text-danger my-3">小計：共 ${{bookingList.addTotal}} 元</p>
+                  <p class="text-center h4 text-danger my-3">
+                    小計：共 ${{ bookingList.addTotal | currencyStyle }} 元
+                  </p>
                   <div class="text-right">
                     <button
                       type="submit"
                       class="btn btn-primary"
                       :disabled="invalid"
-                      :class="{disabled:invalid}"
-                    >下一步</button>
+                      :class="{ disabled: invalid }"
+                    >
+                      下一步
+                    </button>
                   </div>
                 </form>
               </ValidationObserver>
@@ -243,50 +295,109 @@
               role="tabpanel"
               aria-labelledby="orderCheck-tab"
             >
-              <p>寄宿廠商：{{company.companybrand}}</p>
-              <p>空間名稱：{{room.roomname}}</p>
-              <p>預定日期：{{bookingList.dateStart}}~{{bookingList.dateEnd}}</p>
-              <p>地點：{{company.country}}{{company.area}}{{company.address}}</p>
-              <p>寄宿總價：{{bookingList.totalPrice}}</p>
+              <p>寄宿廠商：{{ company.companybrand }}</p>
+              <p>空間名稱：{{ room.roomname }}</p>
+              <p>
+                預定日期：{{ bookingList.dateStart }}~{{ bookingList.dateEnd }}
+              </p>
+              <p>
+                地點：{{ company.country }}{{ company.area
+                }}{{ company.address }}
+              </p>
+              <p>寄宿總價：${{ bookingList.totalPrice | currencyStyle }}</p>
               <hr />
-              <p>訂購人：{{bookingList.booker}}</p>
-              <p>電話：{{bookingList.phone}}</p>
-              <p>數量：{{quantity}}隻</p>
-              <p>寵物品種：{{bookingList.petType}}</p>
+              <p>訂購人：{{ bookingList.booker }}</p>
+              <p>電話：{{ bookingList.phone }}</p>
+              <p>數量：{{ quantity }}隻</p>
+              <p>寵物品種：{{ bookingList.petType }}</p>
               <p>
                 餵藥服務：
-                <span v-if="bookingList.addInfeed">飼料內(${{room.medicine_infeed_amt}})</span>
-                <span class="ml-1" v-if="bookingList.addPill">藥丸(${{room.medicine_pill_amt}})</span>
-                <span class="ml-1" v-if="bookingList.addPaste">外用(${{room.medicine_paste_amt}})</span>
+                <span v-if="bookingList.addInfeed"
+                  >飼料內(${{
+                    (room.medicine_infeed_amt * quantity) | currencyStyle
+                  }})</span
+                >
+                <span class="ml-1" v-if="bookingList.addPill"
+                  >藥丸(${{
+                    (room.medicine_pill_amt * quantity) | currencyStyle
+                  }})</span
+                >
+                <span class="ml-1" v-if="bookingList.addPaste"
+                  >外用(${{
+                    (room.medicine_paste_amt * quantity) | currencyStyle
+                  }})</span
+                >
                 <span
-                  v-if="!bookingList.addPaste && !bookingList.addPill && !bookingList.addInfeed"
-                >無</span>
+                  v-if="
+                    !bookingList.addPaste &&
+                    !bookingList.addPill &&
+                    !bookingList.addInfeed
+                  "
+                  >無</span
+                >
               </p>
               <p>
                 加購服務：
-                <span v-if="bookingList.addBath">洗澡(${{room.bath_amt}})</span>
-                <span class="ml-1" v-if="bookingList.addNails">剪指甲(${{room.nails_amt}})</span>
-                <span class="ml-1" v-if="bookingList.addHair">剪毛(${{room.hair_amt}})</span>
-                <span v-if="!bookingList.addHair && !bookingList.addNails && !bookingList.addBath">無</span>
+                <span v-if="bookingList.addBath"
+                  >洗澡(${{ (room.bath_amt * quantity) | currencyStyle }})</span
+                >
+                <span class="ml-1" v-if="bookingList.addNails"
+                  >剪指甲(${{
+                    (room.nails_amt * quantity) | currencyStyle
+                  }})</span
+                >
+                <span class="ml-1" v-if="bookingList.addHair"
+                  >剪毛(${{ (room.hair_amt * quantity) | currencyStyle }})</span
+                >
+                <span
+                  v-if="
+                    !bookingList.addHair &&
+                    !bookingList.addNails &&
+                    !bookingList.addBath
+                  "
+                  >無</span
+                >
               </p>
               <p>
                 備註：
-                <span v-if="bookingList.comment != ''">{{bookingList.comment}}</span>
+                <span v-if="bookingList.comment != ''">{{
+                  bookingList.comment
+                }}</span>
                 <span v-if="bookingList.comment == ''">無</span>
               </p>
               <hr />
-              <p class="text-center h4 text-danger my-3">訂單總額：共 $ {{bookingTotalPrice}} 元</p>
+              <p class="text-center h4 text-danger my-3">
+                訂單總額：共 $ {{ bookingTotalPrice | currencyStyle }} 元
+              </p>
               <div class="d-flex justify-content-between">
-                <button class="btn btn-outline-secondary" @click="lastStep">上一步</button>
-
-                <button class="d-flex align-items-center btn btn-primary" :class="{disabled:paying}" :disabled="paying" @click="pay"><ring-loader class="custom-class" :color="'black'" :loading="paying" :size="20"></ring-loader>付款</button>
+                <button class="btn btn-outline-secondary" @click="lastStep">
+                  上一步
+                </button>
+                <button
+                  class="d-flex align-items-center btn btn-primary"
+                  :class="{ disabled: paying }"
+                  :disabled="paying"
+                  @click="pay"
+                >
+                  <ring-loader
+                    class="custom-class"
+                    :color="'black'"
+                    :loading="paying"
+                    :size="20"
+                  ></ring-loader
+                  >付款
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <form class="d-none" method="POST" action="https://ccore.spgateway.com/MPG/mpg_gateway">
+    <form
+      class="d-none"
+      method="POST"
+      action="https://ccore.spgateway.com/MPG/mpg_gateway"
+    >
       <input type="text" :name="payData[0].Key" v-model="payData[0].Value" />
       <input type="text" :name="payData[1].Key" v-model="payData[1].Value" />
       <input type="text" :name="payData[2].Key" v-model="payData[2].Value" />
@@ -356,7 +467,6 @@ export default {
       if (this.bookingList.addHair === true) {
         this.bookingList.addTotal += this.room.hair_amt * this.quantity
       }
-      console.log(this.bookingList.addTotal)
     },
     pay: function () {
       const vm = this
@@ -399,7 +509,6 @@ export default {
             showConfirmButton: false,
             timer: 2000
           })
-          console.log(response)
           vm.payData = response.data
           setTimeout(() => {
             document.getElementById('send').click()
@@ -425,7 +534,6 @@ export default {
         this.bookingList.petType !== '' &&
         this.bookingList.weight !== ''
       ) {
-        console.log('1')
       }
     },
     lastStep: function () {

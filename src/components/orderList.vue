@@ -42,7 +42,7 @@
               class="btn btn-danger ml-2"
               data-toggle="modal" v-if="order.btn_Evalution"
               @click="openEvaluation(order)"
-            >評價</button>
+            ><span v-if="!order.btn_Evalution_readonly">已評價</span><span v-if="order.btn_Evalution_readonly">未評價</span> </button>
           </td>
         </tr>
       </tbody>
@@ -58,7 +58,7 @@ export default {
     return {}
   },
   name: 'order',
-  props: ['orderList'],
+  props: ['orderList', 'identify'],
   methods: {
     openDetail: function (order) {
       this.$emit('open-detail', order)

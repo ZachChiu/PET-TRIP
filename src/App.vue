@@ -6,9 +6,9 @@
 
 <style lang="scss">
 @import "./assets/scss/main";
-html,body,#app,.layout{
-  height: 100%;
-}
+// html,body,#app,.layout{
+//   height: 100%;
+// }
 #app {
   font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC",
     Microsoft JhengHei, "Segoe UI", "Roboto", "Helvetica Neue", Arial,
@@ -17,8 +17,8 @@ html,body,#app,.layout{
     font-family: "Patrick Hand", cursive;
   }
   main {
-    // min-height: calc(100vh - 82px - 85px);
-    // flex: 1;
+    min-height: calc(100vh - 82px - 85px);
+    flex: 1;
     background: rgb(252, 252, 252);
   }
   .headerNav {

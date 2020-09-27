@@ -67,10 +67,10 @@
               <button type="button" class="btn btn-outline-danger" data-dismiss="modal">關閉</button>
               <button
                 type="submit"
-                class="btn btn-danger"
-                :disabled="invalid"
-                :class="{disabled:invalid}"
-              >取消訂單</button>
+                class="d-flex align-items-center btn btn-danger"
+                :disabled="invalid||load"
+                :class="{disabled:invalid||load}"
+              ><ring-loader class="custom-class" :color="'black'" :loading="load" :size="20"></ring-loader>取消訂單</button>
             </div>
           </form>
         </ValidationObserver>
@@ -87,7 +87,8 @@ export default {
   data () {
     return {
       reason: '',
-      memo: ''
+      memo: '',
+      load: false
     }
   },
   name: 'delOrderModal',
@@ -95,6 +96,7 @@ export default {
   methods: {
     delOrder: function () {
       const vm = this
+      vm.load = true
       const config = {
         method: 'POST',
         url: 'http://pettrip.rocket-coding.com/api/Order/Cancelorder',
@@ -104,10 +106,8 @@ export default {
           memo: `${this.memo}`
         }
       }
-      console.log(config)
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -119,9 +119,10 @@ export default {
           $('#decline-tab').click()
           vm.$emit('change-state', '2')
           $('.nav-tabs a[href="#decline"]').tab('show')
+          vm.load = false
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
+          vm.load = false
         })
     }
   }

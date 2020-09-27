@@ -219,7 +219,7 @@
                   <router-link
                     target="_blank"
                     :to="`/FirmPage/${room.companyseq}/Room/${room.roomseq}`"
-                    class="text-body stretched-link"
+                    class="text-truncate text-body stretched-link"
                   >
                     <i class="text-warning fas fa-star"></i>
                     {{ room.roomname }}
@@ -255,7 +255,7 @@
                   >公斤
                 </p>
                 <p class="card-text text-danger h5 text-right">
-                  $ {{ room.roomprice }} / 天
+                  $ {{ room.roomprice | currencyStyle}} / 天
                 </p>
                 <p
                   class="text-center card-text p-2 rounded text-light bg-secondary"
@@ -315,7 +315,7 @@
               data-aos-delay="50"
               data-aos-duration="1000" class="text-center mb-3">
               空間總數高達
-              <b>{{ homeData.roomcount }}</b> 間
+              <span class="font-weight-bold">{{ homeData.roomcount }}</span> 間
             </h4>
             <div
               data-aos="flip-up"
@@ -340,7 +340,7 @@
               data-aos-delay="50"
               data-aos-duration="1000" class="text-center mb-3">
               已完成委託高達
-              <b>{{ homeData.ordercount }}</b> 筆
+              <span class="font-weight-bold">{{ homeData.ordercount }}</span> 筆
             </h4>
             <div
               data-aos="flip-up"
@@ -372,7 +372,7 @@
       </h4>
       <carousel
         v-if="homeData.rooms != null"
-        :loop="true"
+        :loop="false"
         :dot="false"
         :nav="false"
         :autoplay="true"
@@ -432,7 +432,7 @@
                         <h6
                           class="my-0 mr-1 card-title text-truncate font-weight-bold"
                         >
-                          <p class="mb-0 btn btn-secondary text-white">
+                          <p class="mb-0 btn btn-info text-white">
                             <i class="mr-1 fas fa-hashtag"></i>
                             {{ firm.companybrand }}
                           </p>
@@ -482,9 +482,9 @@
                         </p>
                         <p class="my-1 card-text text-danger">
                           <i class="mr-1 fas fa-barcode"></i>
-                          $ {{ firm.roomprice_min }}
+                          $ {{ firm.roomprice_min | currencyStyle }}
                           <span v-if="firm.roomprice_min != firm.roomprice_max"
-                            >~{{ firm.roomprice_max }}</span
+                            >~{{ firm.roomprice_max | currencyStyle}}</span
                           >
                           / 天
                         </p>
@@ -539,9 +539,11 @@
 </style>
 
 <script>
+/* global $ */
 import carousel from 'vue-owl-carousel'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+
 AOS.init({ once: true })
 export default {
   name: 'Home',
@@ -574,6 +576,12 @@ export default {
   },
   components: { carousel },
   created () {
+    $('html, body').animate(
+      {
+        scrollTop: $('#app').offset().top
+      },
+      0
+    )
     this.getData()
   },
   methods: {

@@ -123,7 +123,7 @@
                     </div>
                     <div class="col-8 col-sm-12 ">
                       <h6 class="my-0 mr-1 card-title text-truncate font-weight-bold">
-                        <p class="mb-0 btn btn-secondary text-white">
+                        <p class="mb-0 btn btn-info text-white">
                           <i class="mr-1 fas fa-hashtag"></i>
                           {{firm.companybrand}}
                         </p>
@@ -160,10 +160,10 @@
                       </p>
                       <p class="my-1 card-text text-danger">
                         <i class="mr-1 fas fa-barcode"></i>
-                        $ {{firm.roomprice_min}}
+                        $ {{firm.roomprice_min | currencyStyle}}
                         <span
                           v-if="firm.roomprice_min != firm.roomprice_max"
-                        >~{{firm.roomprice_max}}</span> / 天
+                        >~{{firm.roomprice_max | currencyStyle}}</span> / 天
                       </p>
                     </div>
                   </div>

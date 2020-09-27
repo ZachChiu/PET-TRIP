@@ -24,7 +24,7 @@
               <div
                 class="mx-auto rounded-circle overflow-hidden"
                 :style="{backgroundImage: 'url(' + firmData.company.avatar + ')'}"
-                style="background-size: cover; width:80px; height:80px"
+                style="background-size: cover; background-position:center;width:80px; height:80px"
               >
                 <img
                   src="https://upload.cc/i1/2020/09/09/wa8QmM.png"
@@ -90,8 +90,8 @@
           </div>
           <div class="d-md-none d-flex text-center justify-content-around align-items-center">
             <p class="mb-0">
-              4.8/5.0
-              <br />70筆評價
+              {{firmData.company.evaluation}}/5.0
+              <br />{{firmData.company.evaluation_count}}筆評價
             </p>
             <div>|</div>
             <p v-if="!all" class="mb-0">
@@ -122,7 +122,7 @@
             <p class="mb-0">
               空間
               <br />
-              共{{firmData.company.Count}}間
+              共{{firmData.company.count}}間
             </p>
           </div>
         </div>
@@ -139,7 +139,7 @@
       <hr />
       <div class="container">
         <ul class="nav nav-tabs text-center" id="myTab" role="tablist">
-          <li class="nav-item w-25" role="presentation">
+          <li class="nav-item w-50" role="presentation">
             <a
               class="nav-link active"
               id="space"
@@ -148,9 +148,9 @@
               role="tab"
               aria-controls="nav-space"
               aria-selected="true"
-            >空間</a>
+            ><i class="mr-1 fas fa-gift"></i>空間</a>
           </li>
-          <li class="nav-item w-25" role="presentation">
+          <li class="nav-item w-50" role="presentation">
             <a
               class="nav-link border-top border-right bprder-left"
               id="evaluation"
@@ -159,7 +159,7 @@
               role="tab"
               aria-controls="nav-contact"
               aria-selected="false"
-            >評價</a>
+            ><i class="mr-1 fas fa-star"></i>評價</a>
           </li>
         </ul>
 
