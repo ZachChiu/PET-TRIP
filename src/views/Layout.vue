@@ -2,8 +2,8 @@
   <div class="layout">
     <div
       v-if="
-        identify.identity == '廠商' ||
-        (identify.identity == '會員' && noticeData.unread != null)
+        (identify.identity == '廠商' || identify.identity == '會員') &&
+        noticeData.unread !== undefined
       "
       class="notice position-fixed"
     >
@@ -18,9 +18,28 @@
         ><i class="fas fa-bell"></i
       ></a>
       <div
-        class="noticeList position-absolute animate__animated animate__rotateInUpRight"
+        class="noticeList position-absolute animate__animated animate__rotateOutUpRight d-none"
       >
         <ul class="list-group">
+          <li
+            v-if="noticeData.notices != null"
+            class="list-group-item list-group-item-action text-center"
+          >
+            <button
+              class="d-flex align-items-center justify-content-center btn btn-outline-secondary w-100"
+              :class="{ disabled: load }"
+              :disabled="load"
+              @click="allIsread"
+            >
+              <ring-loader
+                class="custom-class mr-1"
+                :color="'black'"
+                :loading="load"
+                :size="20"
+              ></ring-loader
+              >全部已讀
+            </button>
+          </li>
           <li
             v-if="noticeData.notices == null"
             class="list-group-item list-group-item-action"
@@ -67,11 +86,7 @@
       <div class="container">
         <h1 class="h6 mb-0">
           <router-link to="/" class="navbar-brand">
-            <img
-              width="80"
-              src="https://upload.cc/i1/2020/09/02/X38KBL.png"
-              alt
-            />
+            <img width="80" src="../assets/img/Pet Trip LOGO.png" alt />
             Pet Trip
           </router-link>
         </h1>
@@ -204,41 +219,50 @@
         @loadAction="loading"
       ></router-view>
     </main>
-    <footer class="layoutFooter py-5 text-white" style="background:#26272b;">
+    <footer class="layoutFooter py-5 text-white" style="background: #26272b">
       <div class="container">
         <div class="row">
           <div class="col-sm-12 col-md-6">
-            <h6  style="letter-spacing:2px;"><i class="mr-1 far fa-address-card"></i>關於 PET TRIP</h6>
-            <p class="text-muted">歡迎來到<i class="mx-1">PET TRIP</i>寵物寄宿平台，為了使飼主能夠更快速、更安心的尋找合法的寵物寄宿廠商，並且讓寵物寄宿廠商有個完善的曝光平台，此平台正式於 2020 年誕生。
+            <h6 style="letter-spacing: 2px">
+              <i class="mr-1 far fa-address-card"></i>關於 PET TRIP
+            </h6>
+            <p class="text-muted">
+              歡迎來到<i class="mx-1">PET TRIP</i
+              >寵物寄宿平台，為了使飼主能夠更快速、更安心的尋找合法的寵物寄宿廠商，並且讓寵物寄宿廠商有個完善的曝光平台，此平台正式於
+              2020 年誕生。
             </p>
           </div>
           <div class="col-6 col-md-3">
-            <h6  style="letter-spacing:2px;"><i class="mr-1 fas fa-fingerprint"></i>通用類別</h6>
+            <h6 style="letter-spacing: 2px">
+              <i class="mr-1 fas fa-fingerprint"></i>通用類別
+            </h6>
             <ul class="list-unstyled my-0">
               <li class="my-2">
-                <a href="#" class="text-muted">
-                  關於我們
-                </a>
+                <router-link to="/About" class="text-muted"
+                  >關於我們
+                </router-link>
               </li>
               <li class="my-2">
-                <a href="#" class="text-muted">
-                  服務條款
-                </a>
+                <router-link to="/Rules" class="text-muted"
+                  >服務條款
+                </router-link>
               </li>
             </ul>
           </div>
           <div class="col-6 col-md-3">
-                        <h6 style="letter-spacing:2px;"><i class="mr-1 far fa-question-circle"></i>問題專區</h6>
-                                    <ul class="list-unstyled my-0">
+            <h6 style="letter-spacing: 2px">
+              <i class="mr-1 far fa-question-circle"></i>問題專區
+            </h6>
+            <ul class="list-unstyled my-0">
               <li class="my-2">
-                <a href="#" class="text-muted">
-                  常見問題
-                </a>
+                <router-link to="/Common" class="text-muted"
+                  >常見問題
+                </router-link>
               </li>
               <li class="my-2">
-                <a href="#" class="text-muted">
-                問題回報
-                </a>
+                <router-link to="/Report" class="text-muted"
+                  >問題回報
+                </router-link>
               </li>
             </ul>
           </div>
@@ -255,10 +279,14 @@
           <div class="col-md-4 col-sm-6 col-xs-12">
             <ul class="list-unstyled d-flex justify-content-end">
               <li class="mx-3">
-                <a class="facebook h2" href="#"><i class="fab fa-facebook"></i></a>
+                <a class="facebook h2" href="#"
+                  ><i class="fab fa-facebook"></i
+                ></a>
               </li>
               <li class="mx-3">
-                <a class="twitter h2" href="#"><i class="fab fa-twitter"></i></a>
+                <a class="twitter h2" href="#"
+                  ><i class="fab fa-twitter"></i
+                ></a>
               </li>
               <li class="mx-3">
                 <a class="instagram h2" href="#"
@@ -266,7 +294,12 @@
                 ></a>
               </li>
               <li class="mx-3">
-                <a class="github h2" href="#"><i class="fab fa-github"></i></a>
+                <a
+                  class="github h2"
+                  target="_blank"
+                  href="https://github.com/ZachChiu/PET-TRIP"
+                  ><i class="fab fa-github"></i
+                ></a>
               </li>
             </ul>
           </div>
@@ -277,10 +310,6 @@
 </template>
 
 <style lang="scss">
-.layout{
-  display: flex;
-  flex-direction: column;
-}
 .notice {
   bottom: 5%;
   right: 5%;
@@ -297,7 +326,7 @@
   .noticeList {
     overflow-y: scroll;
     background: white;
-    width: 250px;
+    width: 260px;
     bottom: 20px;
     right: 20px;
     z-index: -1;
@@ -328,7 +357,7 @@
     color: rgb(7, 65, 151) !important;
   }
 }
-.layoutFooter{
+.layoutFooter {
   margin-top: auto !important;
 }
 </style>
@@ -342,6 +371,7 @@ import 'sweetalert2/src/sweetalert2.scss'
 export default {
   data () {
     return {
+      load: false,
       identify: {},
       isLoading: false,
       noticeData: {},
@@ -350,8 +380,13 @@ export default {
     }
   },
   created () {
+    $('html, body').animate(
+      {
+        scrollTop: $('#app').offset().top
+      },
+      0
+    )
     this.getIdentify()
-    this.getCall()
   },
   methods: {
     getIdentify: function (get) {
@@ -384,28 +419,54 @@ export default {
           vm.isLoading = false
         })
     },
-    toggleNotice: function () {
+    allIsread: function () {
       const vm = this
-      if (this.isOpen) {
+      vm.load = true
+      this.$http
+        .get('http://pettrip.rocket-coding.com/api/Notice/Readall')
+        .then(function () {
+          vm.$http('http://pettrip.rocket-coding.com/api/Notice/GetNotice')
+            .then(function (response) {
+              vm.load = false
+              vm.noticeData = response.data
+            })
+            .catch(function () {
+              vm.load = false
+            })
+        })
+        .catch(function () {
+          vm.load = false
+        })
+    },
+    toggleNotice: function () {
+      $('.noticeList').removeClass('d-none')
+      if (!this.isOpen) {
         $('.noticeList').removeClass('animate__rotateOutUpRight')
         $('.noticeList').addClass('animate__rotateInUpRight')
         this.isOpen = !this.isOpen
       } else {
         $('.noticeList').removeClass('animate__rotateInUpRight')
         $('.noticeList').addClass('animate__rotateOutUpRight')
-        this.$http
-          .get('http://pettrip.rocket-coding.com/api/Notice/Readall')
-          .then(function () {
-            vm.$http(
-              'http://pettrip.rocket-coding.com/api/Notice/GetNotice'
-            ).then(function (response) {
-              vm.noticeData = response.data
-            })
-          })
         this.isOpen = !this.isOpen
       }
     },
     getTo: function (item) {
+      const vm = this
+      const config = {
+        method: 'post',
+        url: 'http://pettrip.rocket-coding.com/api/Notice/Readone',
+        headers: {},
+        data: {
+          noticeseq: item.noticeseq
+        }
+      }
+      this.$http(config).then(function (response) {
+        vm.$http('http://pettrip.rocket-coding.com/api/Notice/GetNotice').then(
+          function (response) {
+            vm.noticeData = response.data
+          }
+        )
+      })
       $('.noticeList').removeClass('animate__rotateInUpRight')
       $('.noticeList').addClass('animate__rotateOutUpRight')
       this.isOpen = !this.isOpen
@@ -447,12 +508,17 @@ export default {
     connectHub: function () {
       const vm = this
       const proxy = this.hub.createHubProxy('DefaultHub')
-      proxy.on('Get', function () {
-        vm.getCall()
+      proxy.on('Get', function (get) {
+        $('.noticeBtn').addClass('animate__bounce ')
+        setTimeout(() => {
+          $('.noticeBtn').removeClass('animate__bounce ')
+        }, 1500)
+        vm.noticeData = get
       })
       this.hub
         .start({ jsonp: true })
         .done(function () {
+          vm.getCall()
           const config = {
             method: 'post',
             url: 'http://pettrip.rocket-coding.com/api/Notice/Sendid',
@@ -461,19 +527,12 @@ export default {
             }
           }
           vm.$http(config)
-            .then(function () {
-            })
-            .catch(function () {
-            })
+            .then(function () {})
+            .catch(function () {})
         })
-        .fail(function () {
-        })
+        .fail(function () {})
     },
     getCall: function () {
-      $('.noticeBtn').addClass('animate__bounce ')
-      setTimeout(() => {
-        $('.noticeBtn').removeClass('animate__bounce ')
-      }, 1500)
       const vm = this
       const config = {
         method: 'get',
