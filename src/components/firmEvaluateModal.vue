@@ -31,7 +31,7 @@
             <div class="ml-3 w-100">
               <p class="h4 mb-1">{{evaluationData.company.membername}}</p>
               <p class="mb-1">
-                <small class="text-secondary">子庭毛毛屋A01</small>
+                <small class="text-secondary">{{evaluationData.company.roomname}}</small>
               </p>
               <p class="text-danger mb-0">$ {{evaluationData.company.amt | currencyStyle}} 元</p>
             </div>

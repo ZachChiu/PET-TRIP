@@ -11,7 +11,7 @@
           data-aos-duration="1000"
           class="container text-center"
         >
-          <h2>替家中寶貝找到完美寄宿空間</h2>
+          <h2>替家中寶貝找到<br class="d-sm-none d-block">完美寄宿空間</h2>
           <router-link class="btn btn-primary shadow" to="/FirmList"
             >尋找適合的寄宿空間</router-link
           >
@@ -432,8 +432,7 @@
                         <h6
                           class="my-0 mr-1 card-title text-truncate font-weight-bold"
                         >
-                          <p class="mb-0 btn btn-info text-white">
-                            <i class="mr-1 fas fa-hashtag"></i>
+                          <p class="mb-0 ">
                             {{ firm.companybrand }}
                           </p>
                         </h6>

@@ -123,8 +123,7 @@
                     </div>
                     <div class="col-8 col-sm-12 ">
                       <h6 class="my-0 mr-1 card-title text-truncate font-weight-bold">
-                        <p class="mb-0 btn btn-info text-white">
-                          <i class="mr-1 fas fa-hashtag"></i>
+                        <p class="mb-0">
                           {{firm.companybrand}}
                         </p>
                       </h6>

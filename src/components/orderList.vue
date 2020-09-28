@@ -1,5 +1,5 @@
 <template>
-  <div class="table-responsive-lg">
+  <div class="table-responsive-xl">
     <table v-if="orderList[0] != null" class="table table-hover">
       <thead class="thead-light">
         <tr>

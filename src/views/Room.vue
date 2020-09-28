@@ -175,7 +175,7 @@
             role="tab"
             aria-controls="roomInfo"
             aria-selected="true"
-          >空間介紹</a>
+          ><i class="mr-1 fas fa-info-circle"></i>空間介紹</a>
         </li>
         <li class="nav-item" role="presentation">
           <a
@@ -186,7 +186,7 @@
             role="tab"
             aria-controls="qa"
             aria-selected="false"
-          >問與答</a>
+          ><i class="mr-1 fas fa-question-circle"></i>問與答</a>
         </li>
       </ul>
       <div class="tab-content" id="myTabContent">

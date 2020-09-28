@@ -29,7 +29,7 @@
                 />
               </div>            <div class="ml-3  w-100">
                 <p class="mb-1">{{dataList.company.companybrand}}</p>
-                <p class="mb-1"><small class="text-secondary">{{dataList.company.companybrand}}</small></p>
+                <p class="mb-1"><small class="text-secondary">{{dataList.company.roomname}}</small></p>
                 <p class="text-danger mb-0">$ {{dataList.company.amt | currencyStyle}} 元</p>
             </div>
           </div>

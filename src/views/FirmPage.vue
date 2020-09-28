@@ -139,7 +139,7 @@
       <hr />
       <div class="container">
         <ul class="nav nav-tabs text-center" id="myTab" role="tablist">
-          <li class="nav-item w-50" role="presentation">
+          <li class="nav-item" role="presentation">
             <a
               class="nav-link active"
               id="space"
@@ -150,7 +150,7 @@
               aria-selected="true"
             ><i class="mr-1 fas fa-gift"></i>空間</a>
           </li>
-          <li class="nav-item w-50" role="presentation">
+          <li class="nav-item" role="presentation">
             <a
               class="nav-link border-top border-right bprder-left"
               id="evaluation"
