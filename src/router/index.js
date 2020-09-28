@@ -27,6 +27,22 @@ const routes = [
         component: () => import('../views/Login.vue')
       },
       {
+        path: '/About',
+        component: () => import('../views/About.vue')
+      },
+      {
+        path: '/Common',
+        component: () => import('../views/Common.vue')
+      },
+      {
+        path: '/Report',
+        component: () => import('../views/Report.vue')
+      },
+      {
+        path: '/Rules',
+        component: () => import('../views/Rules.vue')
+      },
+      {
         path: '/FirmRegister',
         component: () => import('../views/FirmRegister.vue')
       },
