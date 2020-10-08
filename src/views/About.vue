@@ -113,25 +113,6 @@
   </div>
 </template>
 
-<style lang="scss">
-.about {
-  transition: all 1s;
-}
-.hoverPic {
-  overflow: hidden;
-  &:hover > .hoverInfo {
-    bottom: 0;
-  }
-}
-.hoverInfo {
-  background: rgba($color: #000000, $alpha: 0.7);
-  transition: all 1s;
-  bottom: -90%;
-  right: 0;
-  left: 0;
-  z-index: 1;
-}
-</style>
 <script>
 /* global $ */
 export default {

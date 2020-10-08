@@ -173,9 +173,6 @@
   </div>
 </template>
 
-<style lang="scss">
-</style>
-
 <script>
 /* global $ */
 import Swal from 'sweetalert2/dist/sweetalert2.js'

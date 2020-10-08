@@ -132,9 +132,8 @@
               <small>儲存才能成功上傳圖片歐</small>
             </p>
             <div
-              class="mx-auto"
+              class="backgroundIMG mx-auto"
               :style="{backgroundImage: 'url(' + companyData.bannerimg + ')'}"
-              style="background-size: cover;background-position:center"
             >
               <img
                 src="https://upload.cc/i1/2020/09/04/0MY4iy.png"
@@ -153,9 +152,9 @@
           <div class="row no-gutters text-wrap">
             <div class="col-12">
               <div
-                class="rounded-circle mx-auto overflow-hidden"
+                class="backgroundIMG rounded-circle mx-auto overflow-hidden"
                 :style="{backgroundImage: 'url(' + companyData.avatar + ')'}"
-                style="background-size: cover;max-width: 300px;background-position:center"
+                style="max-width: 300px;"
               >
                 <img
                   src="https://upload.cc/i1/2020/09/01/IaZYfp.png"

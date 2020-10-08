@@ -219,7 +219,7 @@
         @loadAction="loading"
       ></router-view>
     </main>
-    <footer class="layoutFooter py-5 text-white" style="background: #26272b">
+    <footer class="layoutFooter py-5 text-white">
       <div class="container">
         <div class="row">
           <div class="col-sm-12 col-md-6">
@@ -308,59 +308,6 @@
     </footer>
   </div>
 </template>
-
-<style lang="scss">
-.notice {
-  bottom: 5%;
-  right: 5%;
-  z-index: 95;
-  .read {
-    top: -12px;
-    right: -12px;
-    font-size: 8px;
-  }
-  .noticeBtn {
-    bottom: 0;
-    right: 0;
-  }
-  .noticeList {
-    overflow-y: scroll;
-    background: white;
-    width: 260px;
-    bottom: 20px;
-    right: 20px;
-    z-index: -1;
-    transition: all 1.5s;
-    max-height: 300px;
-    overflow-x: hidden;
-  }
-  .open {
-    max-height: 300px;
-  }
-}
-.loader {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  background: rgba(255, 255, 255, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-.linkColor {
-  color: rgb(12, 83, 189) !important;
-  text-decoration: underline;
-  &:hover {
-    color: rgb(7, 65, 151) !important;
-  }
-}
-.layoutFooter {
-  margin-top: auto !important;
-}
-</style>
 
 <script>
 /* global $ */

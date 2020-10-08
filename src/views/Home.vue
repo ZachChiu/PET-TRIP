@@ -201,11 +201,10 @@
           data-aos-duration="1000"
         >
           <div v-for="(room, index) in homeData.rooms" :key="index">
-            <div class="roomCard shadow card mb-3">
+            <div class="backgroundIMG roomCard shadow card mb-3">
               <div
                 class="h-100"
                 :style="{ backgroundImage: 'url(' + room.img1 + ')' }"
-                style="background-size: cover"
               >
                 <img
                   src="https://upload.cc/i1/2020/09/09/GIaohq.jpg"
@@ -395,9 +394,8 @@
               <div class="row no-gutters">
                 <div class="col-md-4">
                   <div
-                    class="firmPic h-100"
+                    class="backgroundIMG firmPic h-100"
                     :style="{ backgroundImage: 'url(' + firm.bannerimg + ')' }"
-                    style="background-size: cover; background-position: center"
                   >
                     <img
                       src="https://upload.cc/i1/2020/09/09/GIaohq.jpg"
@@ -414,11 +412,11 @@
                     >
                       <div class="col-4 d-sm-none d-block">
                         <div
-                          class="rounded-circle mx-auto"
+                          class="backgroundIMG rounded-circle mx-auto"
                           :style="{
                             backgroundImage: 'url(' + firm.avatar + ')',
                           }"
-                          style="background-size: cover; max-width: 300px"
+                          style="max-width: 300px"
                         >
                           <img
                             src="https://upload.cc/i1/2020/09/09/wa8QmM.png"
@@ -499,43 +497,6 @@
     </div>
   </div>
 </template>
-
-<style lang="scss">
-.HomeBanner {
-  z-index: 8;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  letter-spacing: 3px;
-  background: rgba($color: #d8d8d8, $alpha: 0.4);
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  h2 {
-    text-shadow: black 0.1em 0.1em 0.2em;
-  }
-}
-.promise {
-  text-shadow: black 0.1em 0.1em 0.2em;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  background-attachment: fixed;
-  background-position: center;
-  background-image: url("https://upload.cc/i1/2020/09/21/GUYRjv.jpg");
-  background-size: cover;
-  height: 450px;
-}
-.process {
-  background: linear-gradient(#fcfcfc, rgb(250, 249, 245));
-}
-.hotRoom {
-  padding-top: 500px !important;
-  background: linear-gradient(rgb(250, 249, 242), #fcfcfc);
-}
-</style>
 
 <script>
 /* global $ */

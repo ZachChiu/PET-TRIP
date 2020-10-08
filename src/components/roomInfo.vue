@@ -71,11 +71,7 @@
             ></iframe>
           </div>
 </template>
-<style lang="scss">
-  .roomInfoIcon{
-    color: rgb(255, 174, 0);
-  }
-</style>
+
 <script>
 export default {
   data () {

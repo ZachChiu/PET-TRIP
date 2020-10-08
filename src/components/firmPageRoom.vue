@@ -3,9 +3,8 @@
     <div class="col-lg-4 col-md-6 mb-3" v-for="(room,index) in firmData.roomlists" :key="index">
       <div class="roomCard shadow card mb-3">
         <div
-          class="h-100"
+          class="backgroundIMG h-100"
           :style="{backgroundImage: 'url(' + room.img1 + ')'}"
-          style="background-size: cover;"
         >
           <img
             src="https://upload.cc/i1/2020/09/09/GIaohq.jpg"
@@ -49,17 +48,6 @@
     </div>
   </div>
 </template>
-
-<style lang="scss">
-.roomCard {
-  position: relative;
-  top: 0;
-  transition: all 0.3s;
-  &:hover {
-    top: -10px;
-  }
-}
-</style>
 
 <script>
 export default {

@@ -2,9 +2,8 @@
   <div class="firmPage">
     <div class="banner">
       <div
-        class="mx-auto"
+        class="backgroundIMG mx-auto"
         :style="{backgroundImage: 'url(' + firmData.company.bannerimg + ')'}"
-        style="background-size: cover; background-position:center"
         v-if="firmData.company != null"
       >
         <img
@@ -22,9 +21,9 @@
           <div class="row justify-content-center text-light align-items-center">
             <div class="col-sm-3 col-4">
               <div
-                class="mx-auto rounded-circle overflow-hidden"
+                class="backgroundIMG mx-auto rounded-circle overflow-hidden"
                 :style="{backgroundImage: 'url(' + firmData.company.avatar + ')'}"
-                style="background-size: cover; background-position:center;width:80px; height:80px"
+                style="width:80px; height:80px"
               >
                 <img
                   src="https://upload.cc/i1/2020/09/09/wa8QmM.png"

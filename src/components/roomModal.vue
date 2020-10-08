@@ -402,9 +402,8 @@
                   </label>
                 </div>
                 <div
-                  class="my-3 mx-auto overflow-hidden"
+                  class="backgroundIMG my-3 mx-auto overflow-hidden"
                   :style="{backgroundImage: 'url(' + dataList.img1 + ')'}"
-                  style="background-size: cover;background-position:center"
                 >
                   <img
                     src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
@@ -431,9 +430,8 @@
                   </label>
                 </div>
                 <div
-                  class="my-3 mx-auto overflow-hidden"
+                  class="backgroundIMG my-3 mx-auto overflow-hidden"
                   :style="{backgroundImage: 'url(' + dataList.img2 + ')'}"
-                  style="background-size: cover;background-position:center"
                 >
                   <img
                     src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
@@ -460,9 +458,8 @@
                   </label>
                 </div>
                 <div
-                  class="my-3 mx-auto overflow-hidden"
+                  class="backgroundIMG my-3 mx-auto overflow-hidden"
                   :style="{backgroundImage: 'url(' + dataList.img3 + ')'}"
-                  style="background-size: cover;background-position:center"
                 >
                   <img
                     src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
@@ -489,9 +486,8 @@
                   </label>
                 </div>
                 <div
-                  class="my-3 mx-auto overflow-hidden"
+                  class="backgroundIMG my-3 mx-auto overflow-hidden"
                   :style="{backgroundImage: 'url(' + dataList.img4 + ')'}"
-                  style="background-size: cover;background-position:center"
                 >
                   <img
                     src="https://upload.cc/i1/2020/09/01/IaZYfp.png"

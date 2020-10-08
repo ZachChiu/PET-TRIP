@@ -90,9 +90,8 @@
             <div class="row no-gutters">
               <div class="col-md-4">
                 <div
-                  class="firmPic h-100"
+                  class="firmPic backgroundIMG h-100"
                   :style="{backgroundImage: 'url(' + firm.bannerimg + ')'}"
-                  style="background-size: cover; background-position:center"
                 >
                   <img
                     src="https://upload.cc/i1/2020/09/09/GIaohq.jpg"
@@ -109,9 +108,9 @@
                   >
                     <div class="col-4 d-sm-none d-block">
                       <div
-                        class="rounded-circle mx-auto overflow-hidden"
+                        class="backgroundIMG rounded-circle mx-auto overflow-hidden"
                         :style="{backgroundImage: 'url(' + firm.avatar + ')'}"
-                        style="background-size: cover;max-width: 300px;"
+                        style="max-width: 300px;"
                       >
                         <img
                           src="https://upload.cc/i1/2020/09/09/wa8QmM.png"
@@ -178,17 +177,6 @@
     </div>
   </div>
 </template>
-
-<style lang="scss">
-.firmCard {
-  position: relative;
-  top: 0;
-  transition: all 0.3s;
-  &:hover {
-    top: -10px;
-  }
-}
-</style>
 
 <script>
 /* global $ */

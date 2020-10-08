@@ -3,9 +3,9 @@
     <div class="row no-gutters text-wrap align-items-center" v-if="memberData.membername != null">
       <div class="col-lg-6 col-12">
         <div
-          class="rounded-circle mx-auto overflow-hidden"
+          class="backgroundIMG rounded-circle mx-auto overflow-hidden"
           :style="{backgroundImage: 'url(' + memberData.avatar + ')'}"
-          style="background-size: cover;max-width: 300px; background-position:center"
+          style="max-width: 300px;"
         >
           <img
             src="https://upload.cc/i1/2020/09/01/IaZYfp.png"

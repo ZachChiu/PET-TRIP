@@ -194,7 +194,6 @@ export default {
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           if (response.data.result === '登入成功') {
             Swal.fire({
               toast: true,
@@ -221,8 +220,7 @@ export default {
             vm.$emit('loadAction', false)
           }
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -247,7 +245,6 @@ export default {
       }
       this.$http(config)
         .then(function (response) {
-          console.log(response)
           if (response.data.result === '登入成功') {
             Swal.fire({
               toast: true,
@@ -274,8 +271,7 @@ export default {
             vm.$emit('loadAction', false)
           }
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch(function () {
           Swal.fire({
             toast: true,
             position: 'top-end',

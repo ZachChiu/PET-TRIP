@@ -96,13 +96,6 @@
   </div>
 </template>
 
-<style lang="scss">
-.addRoomBtn {
-  top: 0;
-  right: 0;
-}
-</style>
-
 <script>
 /* global $ */
 import Swal from 'sweetalert2/dist/sweetalert2.js'

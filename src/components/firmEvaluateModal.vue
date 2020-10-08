@@ -17,9 +17,9 @@
         <div class="modal-body">
           <div class="d-flex align-items-center">
             <div
-              class="rounded-circle mx-auto overflow-hidden"
+              class="backgroundIMG rounded-circle mx-auto overflow-hidden"
               :style="{backgroundImage: 'url(' + evaluationData.company.avatar + ')'}"
-              style="background-size: cover;max-width: 120px;background-position:center"
+              style="max-width: 120px;"
             >
               <img
                 src="https://upload.cc/i1/2020/09/01/IaZYfp.png"

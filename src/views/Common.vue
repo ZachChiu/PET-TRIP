@@ -205,12 +205,6 @@
   </div>
 </template>
 
-<style lang="scss">
-  .commonList .card-header{
-    background: rgb(250, 250, 250);
-  }
-</style>
-
 <script>
 /* global $ */
 export default {

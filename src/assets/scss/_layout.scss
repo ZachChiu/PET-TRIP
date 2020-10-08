@@ -1,0 +1,106 @@
+#app {
+    font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", Microsoft JhengHei, "Segoe UI", "Roboto",
+        "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    h1 {
+        font-family: "Patrick Hand", cursive;
+    }
+    main {
+        min-height: calc(100vh - 82px - 85px);
+        flex: 1;
+        background: rgb(252, 252, 252);
+    }
+    .headerNav {
+        top: 0;
+        z-index: 10;
+        box-shadow: 1px 1px 5px grey;
+    }
+    .bannerText {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba($color: #e7e7e7, $alpha: 0.3);
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+    .opacityZero {
+        opacity: 0;
+        z-index: -1;
+        position: relative;
+    }
+    .hoverLine .hoveritem > a {
+        &:after {
+            content: "";
+            display: block;
+            height: 1.5px;
+            background: #fbc02d;
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        &:hover:after {
+            transform: scaleX(1);
+            transition: transform 0.3s;
+        }
+    }
+}
+.notice {
+    bottom: 5%;
+    right: 5%;
+    z-index: 95;
+    .read {
+        top: -12px;
+        right: -12px;
+        font-size: 8px;
+    }
+    .noticeBtn {
+        bottom: 0;
+        right: 0;
+    }
+    .noticeList {
+        overflow-y: scroll;
+        background: white;
+        width: 260px;
+        bottom: 20px;
+        right: 20px;
+        z-index: -1;
+        transition: all 1.5s;
+        max-height: 300px;
+        overflow-x: hidden;
+    }
+    .open {
+        max-height: 300px;
+    }
+}
+.loader {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+.linkColor {
+    color: rgb(12, 83, 189) !important;
+    text-decoration: underline;
+    &:hover {
+        color: rgb(7, 65, 151) !important;
+    }
+}
+.layoutFooter {
+    margin-top: auto !important;
+    background: #26272b !important;
+}
+
+.commonList .card-header {
+    background: rgb(250, 250, 250);
+}
+
+.backgroundIMG {
+    background-size: cover;
+    background-position: center;
+}

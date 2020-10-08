@@ -101,9 +101,9 @@
           <div class="row align-items-center">
             <div class="col-4">
               <div
-                class="rounded-circle overflow-hidden"
+                class="backgroundIMG rounded-circle overflow-hidden"
                 :style="{backgroundImage: 'url(' + company.avatar + ')'}"
-                style="background-size: cover;max-width: 300px; background-position:center"
+                style="max-width: 300px;"
               >
                 <img
                   src="https://upload.cc/i1/2020/09/09/wa8QmM.png"
@@ -208,17 +208,6 @@
   </div>
 </template>
 
-<style lang="scss">
-.inputAmount {
-  -moz-appearance: textfield;
-}
-.inputAmount::-webkit-inner-spin-button,
-.inputAmount::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-</style>
-
 <script>
 /* global $ */
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
@@ -308,15 +297,6 @@ export default {
       )
     }
   },
-  // Filters: {
-  //   commaFormat: function (value) {
-  //     return value
-  //       .toString()
-  //       .replace(/^(-?\d+?)((?:\d{3})+)(?=\.\d+$|$)/, function (all, pre, groupOf3Digital) {
-  //         return pre + groupOf3Digital.replace(/\d{3}/g, ',$&')
-  //       })
-  //   }
-  // },
   methods: {
     getData: function (page = 1) {
       this.$emit('loadAction', true)

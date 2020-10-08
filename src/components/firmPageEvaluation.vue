@@ -9,9 +9,8 @@
         <div class="row no-gutters">
           <div class="col-2">
             <div
-              class="rounded-circle overflow-hidden ml-1"
+              class="backgroundIMG rounded-circle overflow-hidden ml-1"
               :style="{ backgroundImage: 'url(' + data.avatar + ')' }"
-              style="background-size: cover; background-position: center"
             >
               <img
                 src="https://upload.cc/i1/2020/09/09/wa8QmM.png"

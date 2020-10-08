@@ -74,15 +74,6 @@
   </div>
 </template>
 
-<style lang="scss">
-@media screen and (min-width: 768px) {
-  .firmNavbar {
-    .nav-item {
-      width: 100% !important;
-    }
-  }
-}
-</style>
 <script>
 export default {
   data () {
