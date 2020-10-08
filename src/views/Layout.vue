@@ -504,6 +504,7 @@ export default {
         this.$router.push('1')
       }
       this.getIdentify()
+      this.hub.stop()
     },
     connectHub: function () {
       const vm = this

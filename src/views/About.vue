@@ -89,7 +89,7 @@
                 <a
                   class="h5"
                   target="_blank"
-                  href="https://github.com/ZachChiu?tab=repositories"
+                  href="https://www.plurk.com/imhue38"
                   ><i class="mr-1 fas fa-link"></i>Plurk</a
                 >
               </li>
