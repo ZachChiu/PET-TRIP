@@ -86,7 +86,7 @@
       <div class="container">
         <h1 class="h6 mb-0">
           <router-link to="/" class="navbar-brand">
-            <img width="80" src="../assets/img/Pet Trip LOGO.png" alt />
+            <img width="80" :src="LOGO" alt />
             Pet Trip
           </router-link>
         </h1>
@@ -212,6 +212,19 @@
         </div>
       </div>
     </nav>
+    <div v-if="hasLayoutBanner" class="banner position-relative">
+      <div
+        class="bannerText position-absolute text-dark display-4 font-weight-bold"
+      >
+        {{ title }}
+      </div>
+      <img
+        class="img-fluid"
+        :src="LayoutBg"
+        style="height: 200px; object-fit: cover; width: 100%"
+        alt
+      />
+    </div>
     <main>
       <router-view
         :identify="identify"
@@ -314,10 +327,13 @@
 import {hubConnection} from 'signalr-no-jquery';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
-
+import LayoutBg from '@/assets/img/Layout/layout-bg.png';
+import LOGO from '@/assets/img/Pet Trip LOGO.png';
 export default {
   data() {
     return {
+      LayoutBg,
+      LOGO,
       load: false,
       identify: {},
       isLoading: false,
@@ -325,6 +341,14 @@ export default {
       isOpen: false,
       hub: hubConnection('http://pettrip.rocket-coding.com:80'),
     };
+  },
+  computed: {
+    hasLayoutBanner() {
+      return this.$route.meta?.hasLayoutBanner;
+    },
+    title() {
+      return this.$route.meta.title;
+    },
   },
   created() {
     $('html, body').animate(

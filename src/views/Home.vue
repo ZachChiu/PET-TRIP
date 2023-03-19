@@ -24,33 +24,22 @@
       >
         <ol class="carousel-indicators" style="z-index: 9">
           <li
+            v-for="(carousel, index) in carousels"
+            :key="carousel.key + index"
             data-target="#carouselExampleIndicators"
-            data-slide-to="0"
-            class="active"
+            :data-slide-to="index"
+            :class="{active: index === 0}"
           ></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner" style="height: 450px">
-          <div class="carousel-item active h-100">
+          <div
+            v-for="(carousel, index) in carousels"
+            :key="carousel.key"
+            :class="{active: index === 0}"
+            class="carousel-item  h-100"
+          >
             <img
-              src="https://upload.cc/i1/2020/09/20/KGJ2dY.jpg"
-              style="object-fit: cover"
-              class="h-100 d-block w-100"
-              alt
-            />
-          </div>
-          <div class="carousel-item h-100">
-            <img
-              src="https://upload.cc/i1/2020/09/21/ifl71W.jpg"
-              style="object-fit: cover"
-              class="h-100 d-block w-100"
-              alt
-            />
-          </div>
-          <div class="carousel-item h-100">
-            <img
-              src="https://upload.cc/i1/2020/09/21/H8ZgSU.jpg"
+              :src="carousel.img"
               style="object-fit: cover"
               class="h-100 d-block w-100"
               alt
@@ -84,61 +73,21 @@
         <h2 class="text-center mb-5"><b>三大步驟</b></h2>
         <div class="row justify-content-between">
           <div
-            data-aos="fade-right"
+            v-for="step in steps"
+            :key="step.title"
+            :data-aos="step.fadeWay"
             data-aos-offset="200"
             data-aos-delay="50"
             data-aos-duration="1000"
             class="col-11 col-md-3 mx-auto mb-4"
           >
             <p class="text-center display-4 text-primary">
-              <img
-                src="https://upload.cc/i1/2020/09/25/VhmtWk.png"
-                alt=""
-                class="img-fluid"
-              />
+              <img :src="step.img" alt="" class="img-fluid" />
             </p>
-            <h4 class="text-center h5 font-weight-bold">搜尋適合的寄宿空間</h4>
+            <h4 class="text-center h5 font-weight-bold">{{ step.title }}</h4>
             <p>
-              Pet Trip 上有高達 100
-              間寵物寄宿廠商，你可以在任何地區找到適合的寵物寄宿空間。
+              {{ step.text }}
             </p>
-          </div>
-          <div
-            data-aos="fade-up"
-            data-aos-offset="200"
-            data-aos-delay="50"
-            data-aos-duration="1000"
-            class="col-11 col-md-3 mx-auto mb-4"
-          >
-            <p class="text-center display-4 text-primary">
-              <img
-                src="https://upload.cc/i1/2020/09/25/AysSzw.png"
-                alt=""
-                class="img-fluid"
-              />
-            </p>
-            <h4 class="text-center h5 font-weight-bold">與寄宿廠商預定空間</h4>
-            <p>
-              Pet Trip
-              有最完善的交易政策，你可以輕鬆且快速的在這裡預定合適的寄宿空間。
-            </p>
-          </div>
-          <div
-            data-aos="fade-left"
-            data-aos-offset="200"
-            data-aos-delay="50"
-            data-aos-duration="1000"
-            class="col-11 col-md-3 mx-auto mb-4"
-          >
-            <p class="text-center display-4 text-primary">
-              <img
-                src="https://upload.cc/i1/2020/09/25/4cbPdr.png"
-                alt=""
-                class="img-fluid"
-              />
-            </p>
-            <h4 class="text-center h5 font-weight-bold">寵物安心玩得放心</h4>
-            <p>放心的把寵物交給寄宿廠商，快樂出遊去。</p>
           </div>
         </div>
       </div>
@@ -207,7 +156,7 @@
                 :style="{backgroundImage: 'url(' + room.img1 + ')'}"
               >
                 <img
-                  src="https://upload.cc/i1/2020/09/09/GIaohq.jpg"
+                  :src="FeaturedBg"
                   :class="{opacityZero: room.bannerimg != ''}"
                   class="card-img"
                   alt
@@ -279,7 +228,7 @@
               data-aos-delay="50"
               data-aos-duration="1000"
               class="img-fluid"
-              src="https://upload.cc/i1/2020/09/25/KeE4bR.png"
+              :src="Target"
               alt=""
             />
           </div>
@@ -408,7 +357,7 @@
                     :style="{backgroundImage: 'url(' + firm.bannerimg + ')'}"
                   >
                     <img
-                      src="https://upload.cc/i1/2020/09/09/GIaohq.jpg"
+                      :src="FeaturedBg"
                       :class="{opacityZero: firm.bannerimg != ''}"
                       class="card-img"
                       alt
@@ -429,7 +378,7 @@
                           style="max-width: 300px"
                         >
                           <img
-                            src="https://upload.cc/i1/2020/09/09/wa8QmM.png"
+                            :src="AvatarDefault"
                             :class="{opacityZero: firm.avatar != ''}"
                             class="w-100 img-fluid"
                             alt
@@ -513,10 +462,18 @@
 import carousel from 'vue-owl-carousel';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import carousel1 from '@/assets/img/Home/carousel-1.jpg';
+import carousel2 from '@/assets/img/Home/carousel-2.jpg';
+import carousel3 from '@/assets/img/Home/carousel-3.jpg';
+import step1 from '@/assets/img/Home/step-1.png';
+import step2 from '@/assets/img/Home/step-2.png';
+import step3 from '@/assets/img/Home/step-3.png';
+import Target from '@/assets/img/Home/target.png';
+import FeaturedBg from '@/assets/img/Home/featured-bg.jpg';
+import AvatarDefault from '@/assets/img/Home/Avatar-default.png';
 
 AOS.init({once: true});
 export default {
-  name: 'Home',
   components: {carousel},
   data() {
     return {
@@ -543,6 +500,46 @@ export default {
           items: 2,
         },
       },
+      Target,
+      FeaturedBg,
+      AvatarDefault,
+      carousels: [
+        {
+          key: 'carousel-1',
+          img: carousel1,
+        },
+        {
+          key: 'carousel-2',
+          img: carousel2,
+        },
+        {
+          key: 'carousel-3',
+          img: carousel3,
+        },
+      ],
+      steps: [
+        {
+          title: '搜尋適合的寄宿空間',
+          text:
+            'Pet Trip 上有高達 100 間寵物寄宿廠商，你可以在任何地區找到適合的寵物寄宿空間。',
+          fadeWay: 'fade-right',
+          img: step1,
+        },
+        {
+          title: '與寄宿廠商預定空間',
+          text:
+            ' Pet Trip 有最完善的交易政策，你可以輕鬆且快速的在這裡預定合適的寄宿空間。',
+          fadeWay: 'fade-up',
+          img: step2,
+        },
+        {
+          title: '寵物安心玩得放心',
+          text:
+            'Pet Trip 有最完善的交易政策，你可以輕鬆且快速的在這裡預定合適的寄宿空間。',
+          fadeWay: 'fade-left',
+          img: step3,
+        },
+      ],
     };
   },
   created() {

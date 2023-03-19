@@ -1,25 +1,12 @@
 <template>
   <div class="about">
-    <div class="banner position-relative">
-      <div
-        class="bannerText position-absolute text-dark display-4 font-weight-bold"
-      >
-        關於我們
-      </div>
-      <img
-        class="img-fluid"
-        src="https://upload.cc/i1/2020/09/02/JE5b96.png"
-        style="height: 200px; object-fit: cover; width: 100%"
-        alt
-      />
-    </div>
     <div class="container py-4">
       <div class="row justify-content-around">
         <div class="col-8 col-md-3 col-sm-4">
           <div class="hoverPic position-relative rounded-circle">
             <img
               class="img-fluid border rounded-circle bg-white position-relative"
-              src="../assets/img/frontend.png"
+              :src="Frontend"
               alt="前端工程師-邱廷鈺"
             />
             <ul
@@ -49,7 +36,7 @@
           <div class="hoverPic position-relative rounded-circle">
             <img
               class="img-fluid border rounded-circle bg-white position-relative"
-              src="../assets/img/backend.png"
+              :src="Backend"
               alt="後端工程師-黃子庭"
             />
             <ul
@@ -76,7 +63,7 @@
           <div class="hoverPic position-relative rounded-circle">
             <img
               class="img-fluid border rounded-circle bg-white position-relative"
-              src="../assets/img/logodesigner.png"
+              :src="LogoDesigner"
               alt="LOGO 設計師-黃X庭"
             />
             <ul
@@ -111,8 +98,18 @@
 </template>
 
 <script>
+import LogoDesigner from '@/assets/img/authors/logo-designer.png';
+import Backend from '@/assets/img/authors/backend.png';
+import Frontend from '@/assets/img/authors/frontend.png';
 /* global $ */
 export default {
+  data() {
+    return {
+      LogoDesigner,
+      Backend,
+      Frontend,
+    };
+  },
   created() {
     $('html, body').animate(
       {

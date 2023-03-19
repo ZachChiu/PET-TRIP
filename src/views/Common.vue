@@ -1,19 +1,6 @@
 <template>
   <div class="common">
-    <div class="banner position-relative">
-      <div
-        class="bannerText position-absolute text-dark display-4 font-weight-bold"
-      >
-        常見問題
-      </div>
-      <img
-        class="img-fluid"
-        src="https://upload.cc/i1/2020/09/02/JE5b96.png"
-        style="height: 200px; object-fit: cover; width: 100%"
-        alt
-      />
-    </div>
-    <div class="commonList container my-4 ">
+    <div class="commonList container py-4 ">
       <div class="row">
         <div class="col-11 col-md-8 bg-white border mx-auto py-4">
           <h3 class="text-center mb-3">問題列表</h3>

@@ -20,34 +20,66 @@ const routes = [
       {
         path: '/FirmList',
         component: () => import('../views/FirmList.vue'),
+        meta: {
+          hasLayoutBanner: true,
+          title: '尋找寄宿',
+        },
       },
       {
         path: '/Login',
         component: () => import('../views/Login.vue'),
+        meta: {
+          hasLayoutBanner: true,
+          title: '登入',
+        },
       },
       {
         path: '/About',
         component: () => import('../views/About.vue'),
+        meta: {
+          hasLayoutBanner: true,
+          title: '關於我們',
+        },
       },
       {
         path: '/Common',
         component: () => import('../views/Common.vue'),
+        meta: {
+          hasLayoutBanner: true,
+          title: '常見問題',
+        },
       },
       {
         path: '/Report',
         component: () => import('../views/Report.vue'),
+        meta: {
+          hasLayoutBanner: true,
+          title: '問題回報',
+        },
       },
       {
         path: '/Rules',
         component: () => import('../views/Rules.vue'),
+        meta: {
+          hasLayoutBanner: true,
+          title: '服務條款',
+        },
       },
       {
         path: '/FirmRegister',
         component: () => import('../views/FirmRegister.vue'),
+        meta: {
+          hasLayoutBanner: true,
+          title: '註冊',
+        },
       },
       {
         path: '/MemberRegister',
         component: () => import('../views/MemberRegister.vue'),
+        meta: {
+          hasLayoutBanner: true,
+          title: '註冊',
+        },
       },
       {
         path: '/FirmPage/:FirmId',
@@ -60,6 +92,10 @@ const routes = [
       {
         path: '/FirmBackstage',
         component: () => import('../views/FirmBackstage.vue'),
+        meta: {
+          hasLayoutBanner: true,
+          title: '廠商後台',
+        },
         children: [
           {
             path: '',
@@ -82,6 +118,10 @@ const routes = [
       {
         path: '/MemberBackstage',
         component: () => import('../views/MemberBackstage.vue'),
+        meta: {
+          hasLayoutBanner: true,
+          title: '會員後台',
+        },
         children: [
           {
             path: '',

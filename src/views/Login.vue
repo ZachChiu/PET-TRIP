@@ -1,18 +1,5 @@
 <template>
   <div class="login">
-    <div class="banner position-relative">
-      <div
-        class="bannerText position-absolute text-dark display-4 font-weight-bold"
-      >
-        登入
-      </div>
-      <img
-        class="img-fluid"
-        src="https://upload.cc/i1/2020/09/02/JE5b96.png"
-        style="height: 200px;object-fit: cover; width: 100%;"
-        alt
-      />
-    </div>
     <div class="container py-5">
       <div class="row no-gutters">
         <div class="col-lg-6 col-12 mx-auto border rounded">
