@@ -11,7 +11,7 @@
           data-aos-duration="1000"
           class="container text-center"
         >
-          <h2>替家中寶貝找到<br class="d-sm-none d-block">完美寄宿空間</h2>
+          <h2>替家中寶貝找到<br class="d-sm-none d-block" />完美寄宿空間</h2>
           <router-link class="btn btn-primary shadow" to="/FirmList"
             >尋找適合的寄宿空間</router-link
           >
@@ -190,11 +190,11 @@
           :dot="false"
           :nav="false"
           :autoplay="true"
-          :autoplayTimeout="5000"
-          :autoplayHoverPause="true"
+          :autoplay-timeout="5000"
+          :autoplay-hover-pause="true"
           :margin="10"
           :responsive="responsiveRoom"
-          :responsiveClass="true"
+          :responsive-class="true"
           data-aos="fade-left"
           data-aos-offset="200"
           data-aos-delay="50"
@@ -204,11 +204,11 @@
             <div class="backgroundIMG roomCard shadow card mb-3">
               <div
                 class="h-100"
-                :style="{ backgroundImage: 'url(' + room.img1 + ')' }"
+                :style="{backgroundImage: 'url(' + room.img1 + ')'}"
               >
                 <img
                   src="https://upload.cc/i1/2020/09/09/GIaohq.jpg"
-                  :class="{ opacityZero: room.bannerimg != '' }"
+                  :class="{opacityZero: room.bannerimg != ''}"
                   class="card-img"
                   alt
                 />
@@ -233,8 +233,8 @@
                   <span
                     v-if="
                       room.pettype_cat &&
-                      !room.pettype_dog &&
-                      room.pettype_other
+                        !room.pettype_dog &&
+                        room.pettype_other
                     "
                     >、</span
                   >
@@ -254,7 +254,7 @@
                   >公斤
                 </p>
                 <p class="card-text text-danger h5 text-right">
-                  $ {{ room.roomprice | currencyStyle}} / 天
+                  $ {{ room.roomprice | currencyStyle }} / 天
                 </p>
                 <p
                   class="text-center card-text p-2 rounded text-light bg-secondary"
@@ -273,20 +273,24 @@
       <div class="container py-5">
         <div class="row align-items-center">
           <div class="col-12 col-md-6">
-            <img          data-aos="fade-right"
-          data-aos-offset="200"
-          data-aos-delay="50"
-          data-aos-duration="1000"
+            <img
+              data-aos="fade-right"
+              data-aos-offset="200"
+              data-aos-delay="50"
+              data-aos-duration="1000"
               class="img-fluid"
               src="https://upload.cc/i1/2020/09/25/KeE4bR.png"
               alt=""
             />
           </div>
           <div class="col-12 col-md-6">
-            <h4         data-aos="flip-up"
+            <h4
+              data-aos="flip-up"
               data-aos-offset="200"
               data-aos-delay="50"
-              data-aos-duration="1000" class="text-center mb-3">
+              data-aos-duration="1000"
+              class="text-center mb-3"
+            >
               進駐廠商高達
               <b>{{ homeData.compantcount }}</b> 間
             </h4>
@@ -309,10 +313,13 @@
               </div>
             </div>
 
-            <h4         data-aos="flip-up"
+            <h4
+              data-aos="flip-up"
               data-aos-offset="200"
               data-aos-delay="50"
-              data-aos-duration="1000" class="text-center mb-3">
+              data-aos-duration="1000"
+              class="text-center mb-3"
+            >
               空間總數高達
               <span class="font-weight-bold">{{ homeData.roomcount }}</span> 間
             </h4>
@@ -334,10 +341,13 @@
                 選擇多於其他平台
               </div>
             </div>
-            <h4         data-aos="flip-up"
+            <h4
+              data-aos="flip-up"
               data-aos-offset="200"
               data-aos-delay="50"
-              data-aos-duration="1000" class="text-center mb-3">
+              data-aos-duration="1000"
+              class="text-center mb-3"
+            >
               已完成委託高達
               <span class="font-weight-bold">{{ homeData.ordercount }}</span> 筆
             </h4>
@@ -375,11 +385,11 @@
         :dot="false"
         :nav="false"
         :autoplay="true"
-        :autoplayTimeout="5000"
-        :autoplayHoverPause="true"
+        :autoplay-timeout="5000"
+        :autoplay-hover-pause="true"
         :margin="10"
         :responsive="responsiveFirm"
-        :responsiveClass="true"
+        :responsive-class="true"
         data-aos="fade-right"
         data-aos-offset="200"
         data-aos-delay="50"
@@ -395,11 +405,11 @@
                 <div class="col-md-4">
                   <div
                     class="backgroundIMG firmPic h-100"
-                    :style="{ backgroundImage: 'url(' + firm.bannerimg + ')' }"
+                    :style="{backgroundImage: 'url(' + firm.bannerimg + ')'}"
                   >
                     <img
                       src="https://upload.cc/i1/2020/09/09/GIaohq.jpg"
-                      :class="{ opacityZero: firm.bannerimg != '' }"
+                      :class="{opacityZero: firm.bannerimg != ''}"
                       class="card-img"
                       alt
                     />
@@ -420,7 +430,7 @@
                         >
                           <img
                             src="https://upload.cc/i1/2020/09/09/wa8QmM.png"
-                            :class="{ opacityZero: firm.avatar != '' }"
+                            :class="{opacityZero: firm.avatar != ''}"
                             class="w-100 img-fluid"
                             alt
                           />
@@ -430,14 +440,14 @@
                         <h6
                           class="my-0 mr-1 card-title text-truncate font-weight-bold"
                         >
-                          <p class="mb-0 ">
+                          <p class="mb-0">
                             {{ firm.companybrand }}
                           </p>
                         </h6>
                         <p class="my-1 d-flex align-items-end flex-wrap">
                           <star-rating
-                            :inline="true"
                             v-model="firm.evaluation"
+                            :inline="true"
                             :increment="0.1"
                             :rounded-corners="true"
                             :read-only="true"
@@ -466,8 +476,8 @@
                           <span
                             v-if="
                               firm.pettype_cat &&
-                              !firm.pettype_dog &&
-                              firm.pettype_other
+                                !firm.pettype_dog &&
+                                firm.pettype_other
                             "
                             >、</span
                           >
@@ -481,7 +491,7 @@
                           <i class="mr-1 fas fa-barcode"></i>
                           $ {{ firm.roomprice_min | currencyStyle }}
                           <span v-if="firm.roomprice_min != firm.roomprice_max"
-                            >~{{ firm.roomprice_max | currencyStyle}}</span
+                            >~{{ firm.roomprice_max | currencyStyle }}</span
                           >
                           / 天
                         </p>
@@ -500,67 +510,67 @@
 
 <script>
 /* global $ */
-import carousel from 'vue-owl-carousel'
-import AOS from 'aos'
-import 'aos/dist/aos.css'
+import carousel from 'vue-owl-carousel';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
-AOS.init({ once: true })
+AOS.init({once: true});
 export default {
   name: 'Home',
-  data () {
+  components: {carousel},
+  data() {
     return {
       homeData: {},
       responsiveRoom: {
         0: {
-          items: 1
+          items: 1,
         },
         576: {
-          items: 1
+          items: 1,
         },
         768: {
-          items: 2
+          items: 2,
         },
         992: {
-          items: 3
-        }
+          items: 3,
+        },
       },
       responsiveFirm: {
         0: {
-          items: 1
+          items: 1,
         },
         992: {
-          items: 2
-        }
-      }
-    }
+          items: 2,
+        },
+      },
+    };
   },
-  components: { carousel },
-  created () {
+  created() {
     $('html, body').animate(
       {
-        scrollTop: $('#app').offset().top
+        scrollTop: $('#app').offset().top,
       },
       0
-    )
-    this.getData()
+    );
+    this.getData();
   },
   methods: {
-    getData: function () {
-      const vm = this
-      vm.$emit('loadAction', true)
+    getData() {
+      const vm = this;
+      vm.$emit('loadAction', true);
       const config = {
         method: 'get',
-        url: 'http://pettrip.rocket-coding.com/api/Home/GetAllInfo'
-      }
+        url: 'http://pettrip.rocket-coding.com/api/Home/GetAllInfo',
+      };
       this.$http(config)
-        .then(function (response) {
-          vm.$emit('loadAction', false)
-          vm.homeData = response.data
+        .then(function(response) {
+          vm.$emit('loadAction', false);
+          vm.homeData = response.data;
         })
-        .catch(function () {
-          vm.$emit('loadAction', false)
-        })
-    }
-  }
-}
+        .catch(function() {
+          vm.$emit('loadAction', false);
+        });
+    },
+  },
+};
 </script>

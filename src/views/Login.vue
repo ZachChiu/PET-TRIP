@@ -1,7 +1,11 @@
 <template>
   <div class="login">
     <div class="banner position-relative">
-      <div class="bannerText position-absolute text-dark display-4 font-weight-bold">登入</div>
+      <div
+        class="bannerText position-absolute text-dark display-4 font-weight-bold"
+      >
+        登入
+      </div>
       <img
         class="img-fluid"
         src="https://upload.cc/i1/2020/09/02/JE5b96.png"
@@ -12,69 +16,77 @@
     <div class="container py-5">
       <div class="row no-gutters">
         <div class="col-lg-6 col-12 mx-auto border rounded">
-          <ul class="nav nav-pills text-center" id="myTab" role="tablist">
+          <ul id="myTab" class="nav nav-pills text-center" role="tablist">
             <li class="nav-item w-50">
               <a
-                class="nav-link active"
                 id="member-tab"
+                class="nav-link active"
                 data-toggle="tab"
                 href="#member"
                 role="tab"
                 aria-controls="member"
                 aria-selected="true"
-              >會員登入</a>
+                >會員登入</a
+              >
             </li>
             <li class="nav-item w-50">
               <a
-                class="nav-link"
                 id="firm-tab"
+                class="nav-link"
                 data-toggle="tab"
                 href="#firm"
                 role="tab"
                 aria-controls="firm"
                 aria-selected="false"
-              >廠商登入</a>
+                >廠商登入</a
+              >
             </li>
           </ul>
-          <div class="tab-content" id="myTabContent">
+          <div id="myTabContent" class="tab-content">
             <div
-              class="tab-pane fade show active"
               id="member"
+              class="tab-pane fade show active"
               role="tabpanel"
               aria-labelledby="member-tab"
             >
-              <ValidationObserver v-slot="{ invalid }">
+              <ValidationObserver v-slot="{invalid}">
                 <form class="py-5 px-2 px-sm-5" @submit.prevent="memberLogin">
                   <h3 class="text-center mb-3">會員登入</h3>
-                  <ValidationProvider rules="required|email" v-slot="{ errors,classes }">
+                  <ValidationProvider
+                    v-slot="{errors, classes}"
+                    rules="required|email"
+                  >
                     <div class="form-group">
                       <label for="memberEmail">
                         帳號
-                        <span class="text-danger">{{errors[0]}}</span>
+                        <span class="text-danger">{{ errors[0] }}</span>
                       </label>
                       <input
+                        id="memberEmail"
+                        v-model="login.email"
                         type="text"
                         class="form-control"
-                        id="memberEmail"
                         aria-describedby="emailHelp"
                         placeholder="Enter email"
-                        v-model="login.email"
                         :class="classes"
                       />
                     </div>
                   </ValidationProvider>
-                  <ValidationProvider rules="required" v-slot="{ errors,classes }">
+                  <ValidationProvider
+                    v-slot="{errors, classes}"
+                    rules="required"
+                  >
                     <div class="form-group">
                       <label for="memberPassword">
                         密碼
-                        <span class="text-danger">{{errors[0]}}</span>
+                        <span class="text-danger">{{ errors[0] }}</span>
                       </label>
                       <input
+                        id="memberPassword"
+                        v-model="login.password"
                         type="password"
                         class="form-control"
-                        id="memberPassword"
                         placeholder="Password"
-                        v-model="login.password"
                         :class="classes"
                       />
                       <a class="text-danger" href="#">忘記密碼?</a>
@@ -85,51 +97,65 @@
                     <router-link
                       to="/MemberRegister"
                       class="w-50 mr-2 btn btn btn-outline-primary"
-                    >會員註冊</router-link>
+                      >會員註冊</router-link
+                    >
                     <button
                       type="submit"
                       class="w-50 ml-2 btn btn-primary"
                       :disabled="invalid"
-                      :class="{disabled:invalid}"
-                    >會員登入</button>
+                      :class="{disabled: invalid}"
+                    >
+                      會員登入
+                    </button>
                   </div>
                 </form>
               </ValidationObserver>
             </div>
-            <div class="tab-pane fade" id="firm" role="tabpanel" aria-labelledby="firm-tab">
-              <ValidationObserver v-slot="{ invalid }">
+            <div
+              id="firm"
+              class="tab-pane fade"
+              role="tabpanel"
+              aria-labelledby="firm-tab"
+            >
+              <ValidationObserver v-slot="{invalid}">
                 <form class="py-5 px-2 px-sm-5" @submit.prevent="firmLogin">
                   <h3 class="text-center mb-3">廠商登入</h3>
-                  <ValidationProvider rules="required|email" v-slot="{ errors,classes }">
+                  <ValidationProvider
+                    v-slot="{errors, classes}"
+                    rules="required|email"
+                  >
                     <div class="form-group">
                       <label for="firmEmail">
                         帳號
-                        <span class="text-danger">{{errors[0]}}</span>
+                        <span class="text-danger">{{ errors[0] }}</span>
                       </label>
                       <input
+                        id="firmEmail"
+                        v-model="login.email"
                         type="text"
                         class="form-control"
-                        id="firmEmail"
                         aria-describedby="emailHelp"
                         placeholder="Enter email"
-                        v-model="login.email"
                         :class="classes"
                       />
                     </div>
                   </ValidationProvider>
 
-                  <ValidationProvider rules="required" v-slot="{ errors,classes }">
+                  <ValidationProvider
+                    v-slot="{errors, classes}"
+                    rules="required"
+                  >
                     <div class="form-group">
                       <label for="firmPassword">
                         密碼
-                        <span class="text-danger">{{errors[0]}}</span>
+                        <span class="text-danger">{{ errors[0] }}</span>
                       </label>
                       <input
+                        id="firmPassword"
+                        v-model="login.password"
                         type="password"
                         class="form-control"
-                        id="firmPassword"
                         placeholder="Password"
-                        v-model="login.password"
                         :class="classes"
                       />
                       <a class="text-danger" href="#">忘記密碼?</a>
@@ -140,13 +166,16 @@
                     <router-link
                       to="/FirmRegister"
                       class="w-50 mr-2 btn btn btn-outline-primary"
-                    >廠商註冊</router-link>
+                      >廠商註冊</router-link
+                    >
                     <button
                       type="submit"
                       class="w-50 ml-2 btn btn-primary"
                       :disabled="invalid"
-                      :class="{disabled:invalid}"
-                    >廠商登入</button>
+                      :class="{disabled: invalid}"
+                    >
+                      廠商登入
+                    </button>
                   </div>
                 </form>
               </ValidationObserver>
@@ -160,40 +189,40 @@
 
 <script>
 /* global $ */
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import 'sweetalert2/src/sweetalert2.scss'
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import 'sweetalert2/src/sweetalert2.scss';
 
 export default {
-  data () {
+  data() {
     return {
       login: {
         email: '',
-        password: ''
-      }
-    }
+        password: '',
+      },
+    };
   },
-  created () {
+  created() {
     $('html, body').animate(
       {
-        scrollTop: $('#app').offset().top
+        scrollTop: $('#app').offset().top,
       },
       0
-    )
+    );
   },
   methods: {
-    firmLogin: function () {
-      const vm = this
-      vm.$emit('loadAction', true)
+    firmLogin() {
+      const vm = this;
+      vm.$emit('loadAction', true);
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Company/Login',
         data: {
           email: `${this.login.email}`,
-          pwd: `${this.login.password}`
-        }
-      }
+          pwd: `${this.login.password}`,
+        },
+      };
       this.$http(config)
-        .then(function (response) {
+        .then(function(response) {
           if (response.data.result === '登入成功') {
             Swal.fire({
               toast: true,
@@ -201,13 +230,12 @@ export default {
               icon: 'success',
               title: '登入成功',
               showConfirmButton: false,
-              timer: 2000
-            })
-            const token = response.data.token
-            document.cookie = `pet=${token};expires=${
-              new Date() * 1000
-            }; path=/`
-            vm.$emit('page-refresh', '廠商')
+              timer: 2000,
+            });
+            const token = response.data.token;
+            document.cookie = `pet=${token};expires=${new Date() *
+              1000}; path=/`;
+            vm.$emit('page-refresh', '廠商');
           } else {
             Swal.fire({
               toast: true,
@@ -215,36 +243,36 @@ export default {
               icon: 'error',
               title: response.data.result,
               showConfirmButton: false,
-              timer: 2000
-            })
-            vm.$emit('loadAction', false)
+              timer: 2000,
+            });
+            vm.$emit('loadAction', false);
           }
         })
-        .catch(function () {
+        .catch(function() {
           Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'error',
             title: '登入失敗',
             timer: 2000,
-            showConfirmButton: false
-          })
-          vm.$emit('loadAction', false)
-        })
+            showConfirmButton: false,
+          });
+          vm.$emit('loadAction', false);
+        });
     },
-    memberLogin: function () {
-      const vm = this
-      vm.$emit('loadAction', true)
+    memberLogin() {
+      const vm = this;
+      vm.$emit('loadAction', true);
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Member/Login',
         data: {
           email: `${this.login.email}`,
-          pwd: `${this.login.password}`
-        }
-      }
+          pwd: `${this.login.password}`,
+        },
+      };
       this.$http(config)
-        .then(function (response) {
+        .then(function(response) {
           if (response.data.result === '登入成功') {
             Swal.fire({
               toast: true,
@@ -252,13 +280,12 @@ export default {
               icon: 'success',
               title: '登入成功',
               showConfirmButton: false,
-              timer: 2000
-            })
-            const token = response.data.token
-            document.cookie = `pet=${token};expires=${
-              new Date() * 1000
-            }; path=/`
-            vm.$emit('page-refresh', '會員')
+              timer: 2000,
+            });
+            const token = response.data.token;
+            document.cookie = `pet=${token};expires=${new Date() *
+              1000}; path=/`;
+            vm.$emit('page-refresh', '會員');
           } else {
             Swal.fire({
               toast: true,
@@ -266,23 +293,23 @@ export default {
               icon: 'error',
               title: response.data.result,
               showConfirmButton: false,
-              timer: 2000
-            })
-            vm.$emit('loadAction', false)
+              timer: 2000,
+            });
+            vm.$emit('loadAction', false);
           }
         })
-        .catch(function () {
+        .catch(function() {
           Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'error',
             title: '登入失敗',
             timer: 2000,
-            showConfirmButton: false
-          })
-          vm.$emit('loadAction', false)
-        })
-    }
-  }
-}
+            showConfirmButton: false,
+          });
+          vm.$emit('loadAction', false);
+        });
+    },
+  },
+};
 </script>

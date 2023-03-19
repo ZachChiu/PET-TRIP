@@ -1,5 +1,5 @@
 <template>
-  <div id="bookingModal" class="modal" tabindex="-1" v-if="room != null">
+  <div v-if="room != null" id="bookingModal" class="modal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -14,11 +14,11 @@
           </button>
         </div>
         <div class="modal-body">
-          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <ul id="pills-tab" class="nav nav-pills mb-3" role="tablist">
             <li class="nav-item w-50" role="presentation">
               <button
-                class="nav-link w-100 active btn"
                 id="bookingInfo-tab"
+                class="nav-link w-100 active btn"
                 data-toggle="tab"
                 href="#bookingInfo"
                 role="tab"
@@ -31,8 +31,8 @@
             </li>
             <li class="nav-item w-50" role="presentation">
               <button
-                class="nav-link w-100 btn"
                 id="orderCheck-tab"
+                class="nav-link w-100 btn"
                 data-toggle="tab"
                 href="#orderCheck"
                 role="tab"
@@ -44,18 +44,18 @@
               </button>
             </li>
           </ul>
-          <div class="tab-content" id="pills-tabContent">
+          <div id="pills-tabContent" class="tab-content">
             <div
-              class="tab-pane fade show active"
               id="bookingInfo"
+              class="tab-pane fade show active"
               role="tabpanel"
               aria-labelledby="bookingInfo-tab"
             >
-              <ValidationObserver v-slot="{ invalid }">
+              <ValidationObserver v-slot="{invalid}">
                 <form @submit.prevent="nextStep">
                   <ValidationProvider
+                    v-slot="{errors, classes}"
                     rules="required"
-                    v-slot="{ errors, classes }"
                   >
                     <div class="form-group">
                       <label for="name">
@@ -63,18 +63,18 @@
                         <span class="text-danger">{{ errors[0] }}</span>
                       </label>
                       <input
-                        type="text"
                         id="name"
+                        v-model.trim="bookingList.booker"
+                        type="text"
                         class="form-control"
                         required
-                        v-model.trim="bookingList.booker"
                         :class="classes"
                       />
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
+                    v-slot="{errors, classes}"
                     rules="required|numeric"
-                    v-slot="{ errors, classes }"
                   >
                     <div class="form-group">
                       <label for="電話">
@@ -82,17 +82,17 @@
                         <span class="text-danger">{{ errors[0] }}</span>
                       </label>
                       <input
-                        type="text"
                         id="電話"
-                        class="form-control"
                         v-model.trim="bookingList.phone"
+                        type="text"
+                        class="form-control"
                         :class="classes"
                       />
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
+                    v-slot="{errors, classes}"
                     rules="required"
-                    v-slot="{ errors, classes }"
                   >
                     <div class="form-group">
                       <label for="type">
@@ -100,17 +100,17 @@
                         <span class="text-danger">{{ errors[0] }}</span>
                       </label>
                       <input
-                        type="text"
                         id="type"
-                        class="form-control"
                         v-model.trim="bookingList.petType"
+                        type="text"
+                        class="form-control"
                         :class="classes"
                       />
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
+                    v-slot="{errors, classes}"
                     rules="required"
-                    v-slot="{ errors, classes }"
                   >
                     <div class="form-group">
                       <label for="">
@@ -118,13 +118,13 @@
                         <span class="text-danger">{{ errors[0] }}</span>
                       </label>
                       <input
-                      name="重量"
-                        type="number"
                         id="weight"
-                        class="form-control"
                         v-model.trim="bookingList.weight"
+                        name="重量"
+                        type="number"
+                        class="form-control"
                         :class="classes"
-                        min=0
+                        min="0"
                       />
                     </div>
                   </ValidationProvider>
@@ -137,13 +137,13 @@
                     <div class="col-12">
                       <div class="form-check form-check-inline">
                         <input
+                          id="inside"
+                          v-model="bookingList.addInfeed"
                           class="form-check-input"
                           type="checkbox"
-                          id="inside"
                           value="飼料內"
-                          @change="addService"
-                          v-model="bookingList.addInfeed"
                           :disabled="!room.medicine_infeed"
+                          @change="addService"
                         />
                         <label class="form-check-label" for="inside"
                           >飼料內(${{
@@ -154,13 +154,13 @@
                       </div>
                       <div class="form-check form-check-inline">
                         <input
+                          id="pill"
+                          v-model="bookingList.addPill"
                           class="form-check-input"
                           type="checkbox"
-                          id="pill"
                           value="藥丸"
-                          @change="addService"
-                          v-model="bookingList.addPill"
                           :disabled="!room.medicine_pill"
+                          @change="addService"
                         />
                         <label class="form-check-label" for="pill">
                           藥丸
@@ -175,13 +175,13 @@
                       </div>
                       <div class="form-check form-check-inline">
                         <input
+                          id="outside"
+                          v-model="bookingList.addPaste"
                           class="form-check-input"
                           type="checkbox"
-                          id="outside"
                           value="外用"
-                          @change="addService"
-                          v-model="bookingList.addPaste"
                           :disabled="!room.medicine_paste"
+                          @change="addService"
                         />
                         <label class="form-check-label" for="outside">
                           外用
@@ -203,13 +203,13 @@
                     <div class="col-12">
                       <div class="form-check form-check-inline">
                         <input
+                          id="bath"
+                          v-model="bookingList.addBath"
                           class="form-check-input"
                           type="checkbox"
-                          id="bath"
                           value="洗澡"
-                          @change="addService"
-                          v-model="bookingList.addBath"
                           :disabled="!room.bath"
+                          @change="addService"
                         />
                         <label class="form-check-label" for="bath">
                           洗澡
@@ -222,13 +222,13 @@
                       </div>
                       <div class="form-check form-check-inline">
                         <input
+                          id="cutNails"
+                          v-model="bookingList.addNails"
                           class="form-check-input"
                           type="checkbox"
-                          id="cutNails"
                           value="剪指甲"
-                          @change="addService"
-                          v-model="bookingList.addNails"
                           :disabled="!room.nails"
+                          @change="addService"
                         />
                         <label class="form-check-label" for="cutNails">
                           剪指甲
@@ -241,13 +241,13 @@
                       </div>
                       <div class="form-check form-check-inline">
                         <input
+                          id="cutHair"
+                          v-model="bookingList.addHair"
                           class="form-check-input"
                           type="checkbox"
-                          id="cutHair"
                           value="剪毛"
-                          @change="addService"
-                          v-model="bookingList.addHair"
                           :disabled="!room.hair"
+                          @change="addService"
                         />
                         <label class="form-check-label" for="cutHair">
                           剪毛
@@ -266,10 +266,10 @@
                     >
                     <div class="col-12">
                       <textarea
-                        class="form-control"
                         id="remarks"
-                        rows="3"
                         v-model.trim="bookingList.comment"
+                        class="form-control"
+                        rows="3"
                       ></textarea>
                     </div>
                   </div>
@@ -281,7 +281,7 @@
                       type="submit"
                       class="btn btn-primary"
                       :disabled="invalid"
-                      :class="{ disabled: invalid }"
+                      :class="{disabled: invalid}"
                     >
                       下一步
                     </button>
@@ -290,8 +290,8 @@
               </ValidationObserver>
             </div>
             <div
-              class="tab-pane fade"
               id="orderCheck"
+              class="tab-pane fade"
               role="tabpanel"
               aria-labelledby="orderCheck-tab"
             >
@@ -317,12 +317,12 @@
                     (room.medicine_infeed_amt * quantity) | currencyStyle
                   }})</span
                 >
-                <span class="ml-1" v-if="bookingList.addPill"
+                <span v-if="bookingList.addPill" class="ml-1"
                   >藥丸(${{
                     (room.medicine_pill_amt * quantity) | currencyStyle
                   }})</span
                 >
-                <span class="ml-1" v-if="bookingList.addPaste"
+                <span v-if="bookingList.addPaste" class="ml-1"
                   >外用(${{
                     (room.medicine_paste_amt * quantity) | currencyStyle
                   }})</span
@@ -330,8 +330,8 @@
                 <span
                   v-if="
                     !bookingList.addPaste &&
-                    !bookingList.addPill &&
-                    !bookingList.addInfeed
+                      !bookingList.addPill &&
+                      !bookingList.addInfeed
                   "
                   >無</span
                 >
@@ -341,19 +341,19 @@
                 <span v-if="bookingList.addBath"
                   >洗澡(${{ (room.bath_amt * quantity) | currencyStyle }})</span
                 >
-                <span class="ml-1" v-if="bookingList.addNails"
+                <span v-if="bookingList.addNails" class="ml-1"
                   >剪指甲(${{
                     (room.nails_amt * quantity) | currencyStyle
                   }})</span
                 >
-                <span class="ml-1" v-if="bookingList.addHair"
+                <span v-if="bookingList.addHair" class="ml-1"
                   >剪毛(${{ (room.hair_amt * quantity) | currencyStyle }})</span
                 >
                 <span
                   v-if="
                     !bookingList.addHair &&
-                    !bookingList.addNails &&
-                    !bookingList.addBath
+                      !bookingList.addNails &&
+                      !bookingList.addBath
                   "
                   >無</span
                 >
@@ -375,7 +375,7 @@
                 </button>
                 <button
                   class="d-flex align-items-center btn btn-primary"
-                  :class="{ disabled: paying }"
+                  :class="{disabled: paying}"
                   :disabled="paying"
                   @click="pay"
                 >
@@ -398,10 +398,10 @@
       method="POST"
       action="https://ccore.spgateway.com/MPG/mpg_gateway"
     >
-      <input type="text" :name="payData[0].Key" v-model="payData[0].Value" />
-      <input type="text" :name="payData[1].Key" v-model="payData[1].Value" />
-      <input type="text" :name="payData[2].Key" v-model="payData[2].Value" />
-      <input type="text" :name="payData[3].Key" v-model="payData[3].Value" />
+      <input v-model="payData[0].Value" type="text" :name="payData[0].Key" />
+      <input v-model="payData[1].Value" type="text" :name="payData[1].Key" />
+      <input v-model="payData[2].Value" type="text" :name="payData[2].Key" />
+      <input v-model="payData[3].Value" type="text" :name="payData[3].Key" />
       <button id="send" type="submit"></button>
     </form>
   </div>
@@ -409,77 +409,77 @@
 
 <script>
 /* global $ */
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import 'sweetalert2/src/sweetalert2.scss'
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import 'sweetalert2/src/sweetalert2.scss';
 export default {
-  data () {
+  name: 'BookingModal',
+  props: ['temData', 'room', 'quantity', 'company', 'bookingTotalPrice'],
+  data() {
     return {
       paying: false,
       bookingList: this.temData,
       payData: [
         {
           Key: '1',
-          Value: '2'
+          Value: '2',
         },
         {
           Key: '1',
-          Value: '2'
+          Value: '2',
         },
         {
           Key: '1',
-          Value: '2'
+          Value: '2',
         },
         {
           Key: '1',
-          Value: '2'
-        }
-      ]
-    }
+          Value: '2',
+        },
+      ],
+    };
   },
-  name: 'bookingModal',
-  props: ['temData', 'room', 'quantity', 'company', 'bookingTotalPrice'],
   watch: {
-    temData: function (newVal, oldVal) {
-      this.bookingList = newVal
-    }
+    temData(newVal) {
+      this.bookingList = newVal;
+    },
   },
   methods: {
-    addService: function () {
-      this.bookingList.addTotal = 0
+    addService() {
+      this.bookingList.addTotal = 0;
       if (this.bookingList.addInfeed === true) {
         this.bookingList.addTotal +=
-          this.room.medicine_infeed_amt * this.quantity
+          this.room.medicine_infeed_amt * this.quantity;
       }
       if (this.bookingList.addPill === true) {
         this.bookingList.addTotal +=
-          this.room.medicine_pill_amt * this.quantity
+          this.room.medicine_pill_amt * this.quantity;
       }
       if (this.bookingList.addPaste === true) {
         this.bookingList.addTotal +=
-          this.room.medicine_paste_amt * this.quantity
+          this.room.medicine_paste_amt * this.quantity;
       }
       if (this.bookingList.addBath === true) {
-        this.bookingList.addTotal += this.room.bath_amt * this.quantity
+        this.bookingList.addTotal += this.room.bath_amt * this.quantity;
       }
       if (this.bookingList.addNails === true) {
-        this.bookingList.addTotal += this.room.nails_amt * this.quantity
+        this.bookingList.addTotal += this.room.nails_amt * this.quantity;
       }
       if (this.bookingList.addHair === true) {
-        this.bookingList.addTotal += this.room.hair_amt * this.quantity
+        this.bookingList.addTotal += this.room.hair_amt * this.quantity;
       }
     },
-    pay: function () {
-      const vm = this
-      vm.paying = true
+    pay() {
+      const vm = this;
+      vm.paying = true;
       const token = document.cookie.replace(
         /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
         '$1'
-      )
+      );
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Pay/Getinfo',
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         data: {
           roomseq: `${this.room.roomseq}`,
@@ -496,49 +496,42 @@ export default {
           bath: this.bookingList.addBath,
           hair: this.bookingList.addHair,
           nails: this.bookingList.addNails,
-          memo: `${this.bookingList.comment}`
-        }
-      }
+          memo: `${this.bookingList.comment}`,
+        },
+      };
       this.$http(config)
-        .then(function (response) {
+        .then(function(response) {
           Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'info',
             title: '即將進入金流頁面',
             showConfirmButton: false,
-            timer: 2000
-          })
-          vm.payData = response.data
+            timer: 2000,
+          });
+          vm.payData = response.data;
           setTimeout(() => {
-            document.getElementById('send').click()
-          }, 1500)
+            document.getElementById('send').click();
+          }, 1500);
         })
-        .catch(function () {
+        .catch(function() {
           Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'error',
             title: '預定失敗',
             showConfirmButton: false,
-            timer: 2000
-          })
-          vm.paying = false
-        })
+            timer: 2000,
+          });
+          vm.paying = false;
+        });
     },
-    nextStep: function () {
-      $('.nav-pills button[href="#orderCheck"]').tab('show')
-      if (
-        this.bookingList.booker !== '' &&
-        this.bookingList.phone !== '' &&
-        this.bookingList.petType !== '' &&
-        this.bookingList.weight !== ''
-      ) {
-      }
+    nextStep() {
+      $('.nav-pills button[href="#orderCheck"]').tab('show');
     },
-    lastStep: function () {
-      $('.nav-pills button[href="#bookingInfo"]').tab('show')
-    }
-  }
-}
+    lastStep() {
+      $('.nav-pills button[href="#bookingInfo"]').tab('show');
+    },
+  },
+};
 </script>

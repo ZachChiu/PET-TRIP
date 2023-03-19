@@ -3,14 +3,14 @@
     <div
       v-if="
         (identify.identity == '廠商' || identify.identity == '會員') &&
-        noticeData.unread !== undefined
+          noticeData.unread !== undefined
       "
       class="notice position-fixed"
     >
       <a
         href="#"
-        @click.prevent="toggleNotice"
         class="noticeBtn animate__animated btn btn-dark rounded-circle"
+        @click.prevent="toggleNotice"
         ><span
           v-if="noticeData.unread != 0 && noticeData.unread != null"
           class="read position-absolute btn bg-danger btn-outline-danger text-white rounded-circle"
@@ -27,7 +27,7 @@
           >
             <button
               class="d-flex align-items-center justify-content-center btn btn-outline-secondary w-100"
-              :class="{ disabled: load }"
+              :class="{disabled: load}"
               :disabled="load"
               @click="allIsread"
             >
@@ -47,15 +47,15 @@
             無通知
           </li>
           <li
-            class="list-group-item list-group-item-action p-0"
             v-for="(item, index) in noticeData.notices"
             :key="index"
+            class="list-group-item list-group-item-action p-0"
           >
             <a
               class="d-block p-3 text-dark"
               href="#"
               @click.prevent="getTo(item)"
-              ><span class="text-danger" v-if="item.state == '未讀'"
+              ><span v-if="item.state == '未讀'" class="text-danger"
                 ><i class="mr-1 fas fa-envelope"></i>新通知：</span
               ><span v-if="item.state == '已讀'" class="mr-2 text-primary"
                 ><i class="fas fa-envelope-open"></i
@@ -72,7 +72,7 @@
         </ul>
       </div>
     </div>
-    <div class="loader" v-show="isLoading">
+    <div v-show="isLoading" class="loader">
       <hash-loader
         class="custom-class"
         :color="'#FFDE47'"
@@ -101,7 +101,7 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div id="navbarSupportedContent" class="collapse navbar-collapse">
           <ul class="hoverLine navbar-nav ml-auto align-items-md-center">
             <li class="nav-item hoveritem active">
               <router-link to="/" class="nav-link">
@@ -114,21 +114,21 @@
               </router-link>
             </li>
             <li
-              class="nav-item hoveritem"
               v-if="identify.identity != '廠商' && identify.identity != '會員'"
+              class="nav-item hoveritem"
             >
               <router-link to="/Login" class="nav-link">
                 <i class="fas fa-paw mr-1"></i>註冊 / 登入
               </router-link>
             </li>
             <li
-              class="firmDrop nav-item dropdown"
               v-if="identify.identity == '廠商'"
+              class="firmDrop nav-item dropdown"
             >
               <a
+                id="navbarDropdown"
                 class="nav-link dropdown-toggle"
                 href="#"
-                id="navbarDropdown"
                 role="button"
                 data-toggle="dropdown"
                 aria-haspopup="true"
@@ -161,17 +161,17 @@
                   >問與答</router-link
                 >
                 <div class="dropdown-divider"></div>
-                <a @click="signout" class="dropdown-item" href="#">登出</a>
+                <a class="dropdown-item" href="#" @click="signout">登出</a>
               </div>
             </li>
             <li
-              class="memberDrop nav-item dropdown"
               v-if="identify.identity == '會員'"
+              class="memberDrop nav-item dropdown"
             >
               <a
-                class="nav-link dropdown-toggle"
-                ref="#"
                 id="navbarDropdown"
+                ref="#"
+                class="nav-link dropdown-toggle"
                 role="button"
                 data-toggle="dropdown"
                 aria-haspopup="true"
@@ -205,7 +205,7 @@
                   >問與答</router-link
                 >
                 <div class="dropdown-divider"></div>
-                <a @click="signout" class="dropdown-item" href="#">登出</a>
+                <a class="dropdown-item" href="#" @click="signout">登出</a>
               </div>
             </li>
           </ul>
@@ -311,197 +311,194 @@
 
 <script>
 /* global $ */
-import { hubConnection } from 'signalr-no-jquery'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import 'sweetalert2/src/sweetalert2.scss'
+import {hubConnection} from 'signalr-no-jquery';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import 'sweetalert2/src/sweetalert2.scss';
 
 export default {
-  data () {
+  data() {
     return {
       load: false,
       identify: {},
       isLoading: false,
       noticeData: {},
       isOpen: false,
-      hub: hubConnection('http://pettrip.rocket-coding.com:80')
-    }
+      hub: hubConnection('http://pettrip.rocket-coding.com:80'),
+    };
   },
-  created () {
+  created() {
     $('html, body').animate(
       {
-        scrollTop: $('#app').offset().top
+        scrollTop: $('#app').offset().top,
       },
       0
-    )
-    this.getIdentify()
+    );
+    this.getIdentify();
   },
   methods: {
-    getIdentify: function (get) {
-      this.isLoading = true
-      const vm = this
+    getIdentify(get) {
+      this.isLoading = true;
+      const vm = this;
       const token = document.cookie.replace(
         /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
         '$1'
-      )
-      this.$http.defaults.headers.common.Authorization = `Bearer ${token}`
+      );
+      this.$http.defaults.headers.common.Authorization = `Bearer ${token}`;
       const config = {
         method: 'get',
-        url: 'http://pettrip.rocket-coding.com/api/GetIdentity'
-      }
+        url: 'http://pettrip.rocket-coding.com/api/GetIdentity',
+      };
       this.$http(config)
-        .then(function (response) {
-          vm.isLoading = false
-          vm.identify = response.data.result
+        .then(function(response) {
+          vm.isLoading = false;
+          vm.identify = response.data.result;
           if (vm.identify.avatar == null) {
-            vm.identify.avatar = 'https://upload.cc/i1/2020/09/09/wa8QmM.png'
+            vm.identify.avatar = 'https://upload.cc/i1/2020/09/09/wa8QmM.png';
           }
           if (get === '廠商') {
-            vm.$router.push('/FirmBackstage')
+            vm.$router.push('/FirmBackstage');
           } else if (get === '會員') {
-            vm.$router.push('/')
+            vm.$router.push('/');
           }
-          vm.connectHub()
+          vm.connectHub();
         })
-        .catch(function () {
-          vm.isLoading = false
-        })
+        .catch(function() {
+          vm.isLoading = false;
+        });
     },
-    allIsread: function () {
-      const vm = this
-      vm.load = true
+    allIsread() {
+      const vm = this;
+      vm.load = true;
       this.$http
         .get('http://pettrip.rocket-coding.com/api/Notice/Readall')
-        .then(function () {
+        .then(function() {
           vm.$http('http://pettrip.rocket-coding.com/api/Notice/GetNotice')
-            .then(function (response) {
-              vm.load = false
-              vm.noticeData = response.data
+            .then(function(response) {
+              vm.load = false;
+              vm.noticeData = response.data;
             })
-            .catch(function () {
-              vm.load = false
-            })
+            .catch(function() {
+              vm.load = false;
+            });
         })
-        .catch(function () {
-          vm.load = false
-        })
+        .catch(function() {
+          vm.load = false;
+        });
     },
-    toggleNotice: function () {
-      $('.noticeList').removeClass('d-none')
+    toggleNotice() {
+      $('.noticeList').removeClass('d-none');
       if (!this.isOpen) {
-        $('.noticeList').removeClass('animate__rotateOutUpRight')
-        $('.noticeList').addClass('animate__rotateInUpRight')
-        this.isOpen = !this.isOpen
+        $('.noticeList').removeClass('animate__rotateOutUpRight');
+        $('.noticeList').addClass('animate__rotateInUpRight');
+        this.isOpen = !this.isOpen;
       } else {
-        $('.noticeList').removeClass('animate__rotateInUpRight')
-        $('.noticeList').addClass('animate__rotateOutUpRight')
-        this.isOpen = !this.isOpen
+        $('.noticeList').removeClass('animate__rotateInUpRight');
+        $('.noticeList').addClass('animate__rotateOutUpRight');
+        this.isOpen = !this.isOpen;
       }
     },
-    getTo: function (item) {
-      const vm = this
+    getTo(item) {
+      const vm = this;
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Notice/Readone',
         headers: {},
         data: {
-          noticeseq: item.noticeseq
-        }
-      }
-      this.$http(config).then(function (response) {
+          noticeseq: item.noticeseq,
+        },
+      };
+      this.$http(config).then(function() {
         vm.$http('http://pettrip.rocket-coding.com/api/Notice/GetNotice').then(
-          function (response) {
-            vm.noticeData = response.data
+          function(response) {
+            vm.noticeData = response.data;
           }
-        )
-      })
-      $('.noticeList').removeClass('animate__rotateInUpRight')
-      $('.noticeList').addClass('animate__rotateOutUpRight')
-      this.isOpen = !this.isOpen
+        );
+      });
+      $('.noticeList').removeClass('animate__rotateInUpRight');
+      $('.noticeList').addClass('animate__rotateOutUpRight');
+      this.isOpen = !this.isOpen;
       if (
         item.type === '問通知' &&
         this.$route.fullPath !== '/FirmBackstage/FirmQA'
       ) {
-        this.$router.push('/FirmBackstage/FirmQA')
+        this.$router.push('/FirmBackstage/FirmQA');
       } else if (
         item.type === '答通知' &&
         this.$route.fullPath !== '/MemberBackstage/MemberQA'
       ) {
-        this.$router.push('/MemberBackstage/MemberQA')
+        this.$router.push('/MemberBackstage/MemberQA');
       } else if (
         item.type === '下單通知' &&
         this.$route.fullPath !== '/FirmBackstage'
       ) {
-        this.$router.push('/FirmBackstage')
+        this.$router.push('/FirmBackstage');
       }
     },
-    signout: function () {
-      document.cookie = `pet='';expires=${new Date(-1)}; path=/`
+    signout() {
+      document.cookie = `pet='';expires=${new Date(-1)}; path=/`;
       Swal.fire({
         toast: true,
         position: 'top-end',
         icon: 'success',
         title: '登出成功',
         showConfirmButton: false,
-        timer: 2000
-      })
+        timer: 2000,
+      });
       if (
         this.$route.path.indexOf('/FirmBackstage') !== -1 ||
         this.$route.path.indexOf('/MemberBackstage') !== -1
       ) {
-        this.$router.push('1')
+        this.$router.push('1');
       }
-      this.getIdentify()
-      this.hub.stop()
+      this.getIdentify();
+      this.hub.stop();
     },
-    connectHub: function () {
-      const vm = this
-      const proxy = this.hub.createHubProxy('DefaultHub')
-      proxy.on('Get', function (get) {
-        $('.noticeBtn').addClass('animate__bounce ')
+    connectHub() {
+      const vm = this;
+      const proxy = this.hub.createHubProxy('DefaultHub');
+      proxy.on('Get', function(get) {
+        $('.noticeBtn').addClass('animate__bounce ');
         setTimeout(() => {
-          $('.noticeBtn').removeClass('animate__bounce ')
-        }, 1500)
-        vm.noticeData = get
-      })
-      this.hub
-        .start({ jsonp: true })
-        .done(function () {
-          vm.getCall()
-          const config = {
-            method: 'post',
-            url: 'http://pettrip.rocket-coding.com/api/Notice/Sendid',
-            data: {
-              connectid: vm.hub.id
-            }
-          }
-          vm.$http(config)
-            .then(function () {})
-            .catch(function () {})
-        })
-        .fail(function () {})
+          $('.noticeBtn').removeClass('animate__bounce ');
+        }, 1500);
+        vm.noticeData = get;
+      });
+      this.hub.start({jsonp: true}).done(function() {
+        vm.getCall();
+        const config = {
+          method: 'post',
+          url: 'http://pettrip.rocket-coding.com/api/Notice/Sendid',
+          data: {
+            connectid: vm.hub.id,
+          },
+        };
+        vm.$http(config);
+        // .then(function() {})
+        // .catch(function() {});
+      });
+      // .fail(function() {});
     },
-    getCall: function () {
-      const vm = this
+    getCall() {
+      const vm = this;
       const config = {
         method: 'get',
-        url: 'http://pettrip.rocket-coding.com/api/Notice/GetNotice'
-      }
-      this.$http(config)
-        .then(function (response) {
-          vm.noticeData = response.data
-        })
-        .catch(function () {})
+        url: 'http://pettrip.rocket-coding.com/api/Notice/GetNotice',
+      };
+      this.$http(config).then(function(response) {
+        vm.noticeData = response.data;
+      });
+      // .catch(function() {});
     },
-    loading: function (data) {
+    loading(data) {
       switch (data) {
         case false:
-          this.isLoading = false
-          break
+          this.isLoading = false;
+          break;
         default:
-          this.isLoading = true
-          break
+          this.isLoading = true;
+          break;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

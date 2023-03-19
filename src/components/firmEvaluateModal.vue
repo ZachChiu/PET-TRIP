@@ -1,16 +1,21 @@
 <template>
   <div
-    class="modal fade"
     id="FirmEvaluationModal"
+    class="modal fade"
     tabindex="-1"
     aria-labelledby="evaluationModalLabel"
     aria-hidden="true"
   >
     <div class="modal-dialog">
-      <div class="modal-content" v-if="evaluationData.company != null">
+      <div v-if="evaluationData.company != null" class="modal-content">
         <div class="modal-header bg-primary">
           <h5 class="modal-title">評價</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -18,29 +23,35 @@
           <div class="d-flex align-items-center">
             <div
               class="backgroundIMG rounded-circle mx-auto overflow-hidden"
-              :style="{backgroundImage: 'url(' + evaluationData.company.avatar + ')'}"
+              :style="{
+                backgroundImage: 'url(' + evaluationData.company.avatar + ')',
+              }"
               style="max-width: 120px;"
             >
               <img
                 src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
-                :class="{opacityZero:evaluationData.company.avatar != ''}"
+                :class="{opacityZero: evaluationData.company.avatar != ''}"
                 class="w-100 img-fluid"
                 alt
               />
             </div>
             <div class="ml-3 w-100">
-              <p class="h4 mb-1">{{evaluationData.company.membername}}</p>
+              <p class="h4 mb-1">{{ evaluationData.company.membername }}</p>
               <p class="mb-1">
-                <small class="text-secondary">{{evaluationData.company.roomname}}</small>
+                <small class="text-secondary">{{
+                  evaluationData.company.roomname
+                }}</small>
               </p>
-              <p class="text-danger mb-0">$ {{evaluationData.company.amt | currencyStyle}} 元</p>
+              <p class="text-danger mb-0">
+                $ {{ evaluationData.company.amt | currencyStyle }} 元
+              </p>
             </div>
           </div>
-          <hr>
+          <hr />
           <div class="text-center my-3">
             <star-rating
-              :inline="true"
               v-model="evaluationData.evalution.star"
+              :inline="true"
               :read-only="true"
               :border-width="0"
               :rounded-corners="true"
@@ -49,11 +60,23 @@
           </div>
           <div class="form-group">
             <label for="evauationText">評論</label>
-            <textarea class="form-control" id="evauationText" rows="3" v-model="evaluationData.evalution.memo" readonly></textarea>
+            <textarea
+              id="evauationText"
+              v-model="evaluationData.evalution.memo"
+              class="form-control"
+              rows="3"
+              readonly
+            ></textarea>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">關閉</button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            data-dismiss="modal"
+          >
+            關閉
+          </button>
         </div>
       </div>
     </div>
@@ -62,10 +85,10 @@
 
 <script>
 export default {
-  data () {
-    return {}
+  name: 'FirmEvaluateModal',
+  props: ['evaluationData'],
+  data() {
+    return {};
   },
-  name: 'firmEvaluateModal',
-  props: ['evaluationData']
-}
+};
 </script>

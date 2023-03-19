@@ -1,111 +1,108 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Layout from '../views/Layout.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Layout from '../views/Layout.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
     path: '*',
-    redirect: '/'
+    redirect: '/',
   },
   {
     path: '/',
     component: Layout,
-    children:
-    [
+    children: [
       {
         path: '',
-        component: () => import('../views/Home.vue')
+        component: () => import('../views/Home.vue'),
       },
       {
         path: '/FirmList',
-        component: () => import('../views/FirmList.vue')
+        component: () => import('../views/FirmList.vue'),
       },
       {
         path: '/Login',
-        component: () => import('../views/Login.vue')
+        component: () => import('../views/Login.vue'),
       },
       {
         path: '/About',
-        component: () => import('../views/About.vue')
+        component: () => import('../views/About.vue'),
       },
       {
         path: '/Common',
-        component: () => import('../views/Common.vue')
+        component: () => import('../views/Common.vue'),
       },
       {
         path: '/Report',
-        component: () => import('../views/Report.vue')
+        component: () => import('../views/Report.vue'),
       },
       {
         path: '/Rules',
-        component: () => import('../views/Rules.vue')
+        component: () => import('../views/Rules.vue'),
       },
       {
         path: '/FirmRegister',
-        component: () => import('../views/FirmRegister.vue')
+        component: () => import('../views/FirmRegister.vue'),
       },
       {
         path: '/MemberRegister',
-        component: () => import('../views/MemberRegister.vue')
+        component: () => import('../views/MemberRegister.vue'),
       },
       {
         path: '/FirmPage/:FirmId',
-        component: () => import('../views/FirmPage.vue')
+        component: () => import('../views/FirmPage.vue'),
       },
       {
         path: '/FirmPage/:FirmId/Room/:RoomId',
-        component: () => import('../views/Room.vue')
+        component: () => import('../views/Room.vue'),
       },
       {
         path: '/FirmBackstage',
         component: () => import('../views/FirmBackstage.vue'),
-        children:
-        [
+        children: [
           {
             path: '',
-            component: () => import('../views/FirmBackstage/FirmOrder.vue')
+            component: () => import('../views/FirmBackstage/FirmOrder.vue'),
           },
           {
             path: 'FirmRoom',
-            component: () => import('../views/FirmBackstage/FirmRoom.vue')
+            component: () => import('../views/FirmBackstage/FirmRoom.vue'),
           },
           {
             path: 'FirmQA',
-            component: () => import('../views/FirmBackstage/FirmQA.vue')
+            component: () => import('../views/FirmBackstage/FirmQA.vue'),
           },
           {
             path: 'FirmSet',
-            component: () => import('../views/FirmBackstage/FirmSet.vue')
-          }
-        ]
+            component: () => import('../views/FirmBackstage/FirmSet.vue'),
+          },
+        ],
       },
       {
         path: '/MemberBackstage',
         component: () => import('../views/MemberBackstage.vue'),
-        children:
-        [
+        children: [
           {
             path: '',
-            component: () => import('../views/MemberBackstage/MemberOrder.vue')
+            component: () => import('../views/MemberBackstage/MemberOrder.vue'),
           },
           {
             path: 'MemberSet',
-            component: () => import('../views/MemberBackstage/MemberSet.vue')
+            component: () => import('../views/MemberBackstage/MemberSet.vue'),
           },
           {
             path: 'MemberQA',
-            component: () => import('../views/MemberBackstage/MemberQA.vue')
-          }
-        ]
-      }
-    ]
-  }
-]
+            component: () => import('../views/MemberBackstage/MemberQA.vue'),
+          },
+        ],
+      },
+    ],
+  },
+];
 
 const router = new VueRouter({
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

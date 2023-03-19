@@ -61,10 +61,7 @@
                 >
               </li>
               <li>
-                <a
-                  class="h5"
-                  target="_blank"
-                  href="https://github.com/ga503306"
+                <a class="h5" target="_blank" href="https://github.com/ga503306"
                   ><i class="mr-1 fab fa-github"></i>github</a
                 >
               </li>
@@ -116,13 +113,13 @@
 <script>
 /* global $ */
 export default {
-  created () {
+  created() {
     $('html, body').animate(
       {
-        scrollTop: $('#app').offset().top
+        scrollTop: $('#app').offset().top,
       },
       0
-    )
-  }
-}
+    );
+  },
+};
 </script>

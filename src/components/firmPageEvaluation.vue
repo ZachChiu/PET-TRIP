@@ -1,6 +1,6 @@
 <template>
   <div class="py-4">
-    <div class="row no-gutters" v-if="firmData.evaluation[0] != null">
+    <div v-if="firmData.evaluation[0] != null" class="row no-gutters">
       <div
         v-for="(data, index) in firmData.evaluation"
         :key="index"
@@ -10,11 +10,11 @@
           <div class="col-2">
             <div
               class="backgroundIMG rounded-circle overflow-hidden ml-1"
-              :style="{ backgroundImage: 'url(' + data.avatar + ')' }"
+              :style="{backgroundImage: 'url(' + data.avatar + ')'}"
             >
               <img
                 src="https://upload.cc/i1/2020/09/09/wa8QmM.png"
-                :class="{ opacityZero: firmData.company.avatar != '' }"
+                :class="{opacityZero: firmData.company.avatar != ''}"
                 class="w-100 h-100 img-fluid"
                 style="object-fit: cover"
                 alt
@@ -51,12 +51,11 @@
 
 <script>
 export default {
-  data () {
-    return {}
-  },
-  name: 'firmPageEvaluation',
+  name: 'FirmPageEvaluation',
   props: ['firmData'],
-  created () {},
-  methods: {}
-}
+  data() {
+    return {};
+  },
+  methods: {},
+};
 </script>

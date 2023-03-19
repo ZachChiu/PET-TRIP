@@ -10,19 +10,36 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(QA,index) in QAData" :key="index">
+        <tr v-for="(QA, index) in QAData" :key="index">
           <th scope="row">
-            <span class="font-weight-normal" :class="{'text-danger':QA.state == '未回覆'}">{{QA.state}}</span>
-            <p class="text-muted"><small>{{QA.postday}}</small></p>
-
+            <span
+              class="font-weight-normal"
+              :class="{'text-danger': QA.state == '未回覆'}"
+              >{{ QA.state }}</span
+            >
+            <p class="text-muted">
+              <small>{{ QA.postday }}</small>
+            </p>
           </th>
           <td>
-            <span style="max-width: 150px;" class="d-inline-block text-truncate">{{QA.message}}</span>
+            <span
+              style="max-width: 150px;"
+              class="d-inline-block text-truncate"
+              >{{ QA.message }}</span
+            >
           </td>
           <td>
-           <span style="max-width: 120px;" class="d-inline-block text-truncate">
-             <router-link class="linkColor" target="_blank" :to="`/FirmPage/${QA.companyseq}/Room/${QA.roomseq}`">{{QA.roomname}}</router-link>
-             </span>
+            <span
+              style="max-width: 120px;"
+              class="d-inline-block text-truncate"
+            >
+              <router-link
+                class="linkColor"
+                target="_blank"
+                :to="`/FirmPage/${QA.companyseq}/Room/${QA.roomseq}`"
+                >{{ QA.roomname }}</router-link
+              >
+            </span>
           </td>
           <td>
             <button
@@ -30,7 +47,9 @@
               class="btn btn-primary"
               data-toggle="modal"
               @click="openDetail(QA)"
-            >詳情</button>
+            >
+              詳情
+            </button>
           </td>
         </tr>
       </tbody>
@@ -41,17 +60,17 @@
 
 <script>
 export default {
-  data () {
-    return {
-      loading: false
-    }
-  },
   name: 'QAList',
   props: ['QAData'],
+  data() {
+    return {
+      loading: false,
+    };
+  },
   methods: {
-    openDetail: function (QA) {
-      this.$emit('open-detail', QA)
-    }
-  }
-}
+    openDetail(QA) {
+      this.$emit('open-detail', QA);
+    },
+  },
+};
 </script>
