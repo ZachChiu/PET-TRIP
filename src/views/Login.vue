@@ -178,6 +178,7 @@
 /* global $ */
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
+import Cookies from 'js-cookie';
 
 export default {
   data() {
@@ -220,8 +221,7 @@ export default {
               timer: 2000,
             });
             const token = response.data.token;
-            document.cookie = `pet=${token};expires=${new Date() *
-              1000}; path=/`;
+            Cookies.set('jwt', `Bearer ${token}`, {expires: 30});
             vm.$emit('page-refresh', '廠商');
           } else {
             Swal.fire({
@@ -270,8 +270,8 @@ export default {
               timer: 2000,
             });
             const token = response.data.token;
-            document.cookie = `pet=${token};expires=${new Date() *
-              1000}; path=/`;
+
+            Cookies.set('jwt', `Bearer ${token}`, {expires: 30});
             vm.$emit('page-refresh', '會員');
           } else {
             Swal.fire({

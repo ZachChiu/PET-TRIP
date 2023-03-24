@@ -276,7 +276,6 @@ export default {
       const config = {
         method: 'post',
         url: 'http://pettrip.rocket-coding.com/api/Company/Register',
-        // url: 'https://9409bc01ef8b.ngrok.io/api/Company/Register',
 
         data: {
           companyname: `${this.register.companyname}`,

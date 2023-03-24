@@ -30,7 +30,8 @@
     "vue-owl-carousel": "^2.0.3",
     "vue-parallaxy": "^1.1.1",
     "vue-router": "^3.2.0",
-    "vue-star-rating": "^1.6.1"
+    "vue-star-rating": "^1.6.1",
+    "js-cookie": "^2.2.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

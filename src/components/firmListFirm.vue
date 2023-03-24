@@ -125,114 +125,11 @@
     </form>
     <div v-if="firmList[0] != null" class="row">
       <div
-        v-for="(firm, index) in firmList"
-        :key="index"
+        v-for="firm in firmList"
+        :key="firm.companyseq"
         class="col-12 col-sm-6 col-lg-6 "
       >
-        <div class="firmCard shadow card mb-4">
-          <router-link
-            class="text-reset text-decoration-none"
-            :to="`/FirmPage/${firm.companyseq}`"
-          >
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <div
-                  class="firmPic backgroundIMG h-100"
-                  :style="{backgroundImage: 'url(' + firm.bannerimg + ')'}"
-                >
-                  <img
-                    src="https://upload.cc/i1/2020/09/09/GIaohq.jpg"
-                    :class="{opacityZero: firm.bannerimg != ''}"
-                    class="card-img"
-                    alt
-                  />
-                </div>
-              </div>
-              <div class="col-md-8">
-                <div class="card-body w-100 h-100">
-                  <div
-                    class="row align-items-md-end align-items-start flex-md-row-reverse flex-row"
-                  >
-                    <div class="col-4 d-sm-none d-block">
-                      <div
-                        class="backgroundIMG rounded-circle mx-auto overflow-hidden"
-                        :style="{backgroundImage: 'url(' + firm.avatar + ')'}"
-                        style="max-width: 300px;"
-                      >
-                        <img
-                          src="https://upload.cc/i1/2020/09/09/wa8QmM.png"
-                          :class="{opacityZero: firm.avatar != ''}"
-                          class="w-100 img-fluid"
-                          alt
-                        />
-                      </div>
-                    </div>
-                    <div class="col-8 col-sm-12 ">
-                      <h6
-                        class="my-0 mr-1 card-title text-truncate font-weight-bold"
-                      >
-                        <p class="mb-0">
-                          {{ firm.companybrand }}
-                        </p>
-                      </h6>
-                      <p class="my-1 d-flex align-items-end flex-wrap">
-                        <star-rating
-                          v-model="firm.evaluation"
-                          :inline="true"
-                          :increment="0.1"
-                          :rounded-corners="true"
-                          :read-only="true"
-                          :star-size="20"
-                        ></star-rating>
-                        <small class="ml-1"
-                          >({{ firm.evaluation_count }}筆)</small
-                        >
-                      </p>
-
-                      <p class="my-1 card-text">
-                        <i class="mr-1 fas fa-map-marker-alt"></i>
-                        {{ firm.country }}、{{ firm.area }}
-                      </p>
-                      <p class="my-1 card-text">{{ firm.pettype }}</p>
-                      <p class="my-1 text-truncate">
-                        <i class="mr-1 fas fa-paw"></i>
-                        <span v-if="firm.pettype_cat">貓</span>
-                        <span v-if="firm.pettype_cat && firm.pettype_dog"
-                          >、</span
-                        >
-                        <span v-if="firm.pettype_dog">狗</span>
-                        <span v-if="firm.pettype_dog && firm.pettype_other"
-                          >、</span
-                        >
-                        <span
-                          v-if="
-                            firm.pettype_cat &&
-                              !firm.pettype_dog &&
-                              firm.pettype_other
-                          "
-                          >、</span
-                        >
-                        <span v-if="firm.pettype_other">其他</span>
-                      </p>
-                      <p class="my-1 card-text text-secondary">
-                        <i class="mr-1 fas fa-tag"></i>
-                        共有{{ firm.rooms }}間房間
-                      </p>
-                      <p class="my-1 card-text text-danger">
-                        <i class="mr-1 fas fa-barcode"></i>
-                        $ {{ firm.roomprice_min | currencyStyle }}
-                        <span v-if="firm.roomprice_min != firm.roomprice_max"
-                          >~{{ firm.roomprice_max | currencyStyle }}</span
-                        >
-                        / 天
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </router-link>
-        </div>
+        <FirmCard :firm="firm" />
       </div>
     </div>
     <div
@@ -247,9 +144,10 @@
 <script>
 /* global $ */
 import taiwan from '@/taiwan_districts.json';
+import FirmCard from '@/components/FirmCard.vue';
 
 export default {
-  name: 'FirmListFirm',
+  components: {FirmCard},
   props: ['firmList'],
   data() {
     return {

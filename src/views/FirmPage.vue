@@ -273,6 +273,7 @@
 /* global $ */
 import firmPageRoom from '@/components/firmPageRoom.vue';
 import firmPageEvaluation from '@/components/firmPageEvaluation.vue';
+import {getFirm} from '@/lib/service/room.js';
 
 export default {
   components: {
@@ -291,34 +292,30 @@ export default {
     this.getData();
   },
   methods: {
-    getData() {
-      const vm = this;
-      vm.$emit('loadAction', true);
+    async getData() {
+      try {
+        this.$emit('loadAction', true);
 
-      const url = `http://pettrip.rocket-coding.com/api/Room/GetRoomslist?id=${this.id.FirmId}`;
-      this.$http
-        .get(url)
-        .then((res) => {
-          this.firmData = res.data;
-          if (
-            this.firmData.company.morning &&
-            this.firmData.company.afternoon &&
-            this.firmData.company.night &&
-            this.firmData.company.midnight
-          ) {
-            this.all = true;
-          }
-          vm.$emit('loadAction', false);
-          $('html, body').animate(
-            {
-              scrollTop: $('#app').offset().top,
-            },
-            0
-          );
-        })
-        .catch(() => {
-          vm.$emit('loadAction', false);
-        });
+        this.firmData = await getFirm({id: this.id.FirmId});
+
+        if (
+          this.firmData.company.morning &&
+          this.firmData.company.afternoon &&
+          this.firmData.company.night &&
+          this.firmData.company.midnight
+        ) {
+          this.all = true;
+        }
+        this.$emit('loadAction', false);
+        $('html, body').animate(
+          {
+            scrollTop: $('#app').offset().top,
+          },
+          0
+        );
+      } finally {
+        this.$emit('loadAction', false);
+      }
     },
   },
 };

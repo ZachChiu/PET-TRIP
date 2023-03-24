@@ -329,6 +329,9 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 import LayoutBg from '@/assets/img/Layout/layout-bg.png';
 import LOGO from '@/assets/img/Pet Trip LOGO.png';
+import Cookies from 'js-cookie';
+import AvatarDefault from '@/assets/img/Home/Avatar-default.png';
+import {getIdentity} from '@/lib/service/identity.js';
 export default {
   data() {
     return {
@@ -357,38 +360,37 @@ export default {
       },
       0
     );
-    this.getIdentify();
+    const jwt = Cookies.get('jwt');
+    if (jwt) {
+      this.getIdentify();
+    }
   },
   methods: {
-    getIdentify(get) {
-      this.isLoading = true;
-      const vm = this;
-      const token = document.cookie.replace(
-        /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
-        '$1'
-      );
-      this.$http.defaults.headers.common.Authorization = `Bearer ${token}`;
-      const config = {
-        method: 'get',
-        url: 'http://pettrip.rocket-coding.com/api/GetIdentity',
-      };
-      this.$http(config)
-        .then(function(response) {
-          vm.isLoading = false;
-          vm.identify = response.data.result;
-          if (vm.identify.avatar == null) {
-            vm.identify.avatar = 'https://upload.cc/i1/2020/09/09/wa8QmM.png';
-          }
-          if (get === '廠商') {
-            vm.$router.push('/FirmBackstage');
-          } else if (get === '會員') {
-            vm.$router.push('/');
-          }
-          vm.connectHub();
-        })
-        .catch(function() {
-          vm.isLoading = false;
-        });
+    async getIdentify(type) {
+      try {
+        this.isLoading = true;
+
+        const res = await getIdentity();
+        if (res.result === '無授權') {
+          throw new Error('no auth');
+        }
+        this.identify = res;
+
+        if (this.identify.avatar == null) {
+          this.identify.avatar = AvatarDefault;
+        }
+        if (type === '廠商') {
+          this.$router.push('/FirmBackstage');
+        } else if (type === '會員') {
+          this.$router.push('/');
+        }
+        this.connectHub();
+        this.isLoading = false;
+      } catch (error) {
+        Cookies.remove('jwt');
+      } finally {
+        this.isLoading = false;
+      }
     },
     allIsread() {
       const vm = this;

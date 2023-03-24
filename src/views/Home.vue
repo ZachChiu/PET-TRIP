@@ -95,6 +95,7 @@
     <div class="position-relative">
       <div
         class="promise d-flex align-items-center justify-content-center position-absolute text-white h1 mb-0 font-weight-bold"
+        :style="[{backgroundImage: `url(${PromiseBg})`}]"
       >
         <div
           data-aos="zoom-out-up"
@@ -149,71 +150,11 @@
           data-aos-delay="50"
           data-aos-duration="1000"
         >
-          <div v-for="(room, index) in homeData.rooms" :key="index">
-            <div class="backgroundIMG roomCard shadow card mb-3">
-              <div
-                class="h-100"
-                :style="{backgroundImage: 'url(' + room.img1 + ')'}"
-              >
-                <img
-                  :src="FeaturedBg"
-                  :class="{opacityZero: room.bannerimg != ''}"
-                  class="card-img"
-                  alt
-                />
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">
-                  <router-link
-                    target="_blank"
-                    :to="`/FirmPage/${room.companyseq}/Room/${room.roomseq}`"
-                    class="text-truncate text-body stretched-link"
-                  >
-                    <i class="text-warning fas fa-star"></i>
-                    {{ room.roomname }}
-                  </router-link>
-                </h5>
-                <p class="card-text">
-                  <i class="mr-1 fas fa-paw"></i>可接受：
-                  <span v-if="room.pettype_cat">貓</span>
-                  <span v-if="room.pettype_cat && room.pettype_dog">、</span>
-                  <span v-if="room.pettype_dog">狗</span>
-                  <span v-if="room.pettype_dog && room.pettype_other">、</span>
-                  <span
-                    v-if="
-                      room.pettype_cat &&
-                        !room.pettype_dog &&
-                        room.pettype_other
-                    "
-                    >、</span
-                  >
-                  <span v-if="room.pettype_other">其他</span>
-                </p>
-                <p class="card-text">
-                  <i class="mr-1 fas fa-sort-numeric-down"></i>
-                  可容納：{{ room.roomamount }}隻
-                </p>
-                <p class="card-text">
-                  <i class="mr-1 fas fa-expand-alt"></i>接受重量：
-                  <span>{{ room.petsizes }}</span>
-                  <span v-if="room.petsizes != room.petsizee">~</span>
-                  <span v-if="room.petsizes != room.petsizee">{{
-                    room.petsizee
-                  }}</span
-                  >公斤
-                </p>
-                <p class="card-text text-danger h5 text-right">
-                  $ {{ room.roomprice | currencyStyle }} / 天
-                </p>
-                <p
-                  class="text-center card-text p-2 rounded text-light bg-secondary"
-                >
-                  <i class="mr-1 fas fa-hashtag"></i>
-                  {{ room.companybrand }}
-                </p>
-              </div>
-            </div>
-          </div>
+          <RoomCard
+            v-for="room in homeData.rooms"
+            :key="room.roomseq"
+            :room="room"
+          />
         </carousel>
       </div>
     </div>
@@ -344,114 +285,11 @@
         data-aos-delay="50"
         data-aos-duration="1000"
       >
-        <div v-for="(firm, index) in homeData.company" :key="index">
-          <div class="firmCard shadow card mb-4">
-            <router-link
-              class="text-reset text-decoration-none"
-              :to="`/FirmPage/${firm.companyseq}`"
-            >
-              <div class="row no-gutters">
-                <div class="col-md-4">
-                  <div
-                    class="backgroundIMG firmPic h-100"
-                    :style="{backgroundImage: 'url(' + firm.bannerimg + ')'}"
-                  >
-                    <img
-                      :src="FeaturedBg"
-                      :class="{opacityZero: firm.bannerimg != ''}"
-                      class="card-img"
-                      alt
-                    />
-                  </div>
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body w-100 h-100">
-                    <div
-                      class="row align-items-md-end align-items-start flex-md-row-reverse flex-row"
-                    >
-                      <div class="col-4 d-sm-none d-block">
-                        <div
-                          class="backgroundIMG rounded-circle mx-auto"
-                          :style="{
-                            backgroundImage: 'url(' + firm.avatar + ')',
-                          }"
-                          style="max-width: 300px"
-                        >
-                          <img
-                            :src="AvatarDefault"
-                            :class="{opacityZero: firm.avatar != ''}"
-                            class="w-100 img-fluid"
-                            alt
-                          />
-                        </div>
-                      </div>
-                      <div class="col-8 col-sm-12">
-                        <h6
-                          class="my-0 mr-1 card-title text-truncate font-weight-bold"
-                        >
-                          <p class="mb-0">
-                            {{ firm.companybrand }}
-                          </p>
-                        </h6>
-                        <p class="my-1 d-flex align-items-end flex-wrap">
-                          <star-rating
-                            v-model="firm.evaluation"
-                            :inline="true"
-                            :increment="0.1"
-                            :rounded-corners="true"
-                            :read-only="true"
-                            :star-size="20"
-                          ></star-rating>
-                          <small class="ml-1"
-                            >({{ firm.evaluation_count }}筆)</small
-                          >
-                        </p>
-
-                        <p class="my-1 card-text">
-                          <i class="mr-1 fas fa-map-marker-alt"></i>
-                          {{ firm.country }}、{{ firm.area }}
-                        </p>
-                        <p class="my-1 card-text">{{ firm.pettype }}</p>
-                        <p class="my-1 text-truncate">
-                          <i class="mr-1 fas fa-paw"></i>
-                          <span v-if="firm.pettype_cat">貓</span>
-                          <span v-if="firm.pettype_cat && firm.pettype_dog"
-                            >、</span
-                          >
-                          <span v-if="firm.pettype_dog">狗</span>
-                          <span v-if="firm.pettype_dog && firm.pettype_other"
-                            >、</span
-                          >
-                          <span
-                            v-if="
-                              firm.pettype_cat &&
-                                !firm.pettype_dog &&
-                                firm.pettype_other
-                            "
-                            >、</span
-                          >
-                          <span v-if="firm.pettype_other">其他</span>
-                        </p>
-                        <p class="my-1 card-text text-secondary">
-                          <i class="mr-1 fas fa-tag"></i>
-                          共有{{ firm.rooms }}間房間
-                        </p>
-                        <p class="my-1 card-text text-danger">
-                          <i class="mr-1 fas fa-barcode"></i>
-                          $ {{ firm.roomprice_min | currencyStyle }}
-                          <span v-if="firm.roomprice_min != firm.roomprice_max"
-                            >~{{ firm.roomprice_max | currencyStyle }}</span
-                          >
-                          / 天
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </router-link>
-          </div>
-        </div>
+        <FirmCard
+          v-for="firm in homeData.company"
+          :key="firm.companyseq"
+          :firm="firm"
+        />
       </carousel>
     </div>
   </div>
@@ -469,12 +307,14 @@ import step1 from '@/assets/img/Home/step-1.png';
 import step2 from '@/assets/img/Home/step-2.png';
 import step3 from '@/assets/img/Home/step-3.png';
 import Target from '@/assets/img/Home/target.png';
-import FeaturedBg from '@/assets/img/Home/featured-bg.jpg';
-import AvatarDefault from '@/assets/img/Home/Avatar-default.png';
+import PromiseBg from '@/assets/img/Home/promise-bg.jpg';
+import {getHomeAllInfo} from '@/lib/service/home.js';
+import FirmCard from '@/components/FirmCard.vue';
+import RoomCard from '@/components/RoomCard.vue';
 
 AOS.init({once: true});
 export default {
-  components: {carousel},
+  components: {carousel, FirmCard, RoomCard},
   data() {
     return {
       homeData: {},
@@ -501,8 +341,7 @@ export default {
         },
       },
       Target,
-      FeaturedBg,
-      AvatarDefault,
+      PromiseBg,
       carousels: [
         {
           key: 'carousel-1',
@@ -552,21 +391,13 @@ export default {
     this.getData();
   },
   methods: {
-    getData() {
-      const vm = this;
-      vm.$emit('loadAction', true);
-      const config = {
-        method: 'get',
-        url: 'http://pettrip.rocket-coding.com/api/Home/GetAllInfo',
-      };
-      this.$http(config)
-        .then(function(response) {
-          vm.$emit('loadAction', false);
-          vm.homeData = response.data;
-        })
-        .catch(function() {
-          vm.$emit('loadAction', false);
-        });
+    async getData() {
+      try {
+        this.$emit('loadAction', true);
+        this.homeData = await getHomeAllInfo();
+      } finally {
+        this.$emit('loadAction', false);
+      }
     },
   },
 };

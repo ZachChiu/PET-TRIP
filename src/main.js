@@ -22,6 +22,8 @@ import animated from 'animate.css';
 import 'bootstrap';
 localize('zh_TW', zhTW);
 
+axios.defaults.baseURL = '/api';
+
 Vue.config.productionTip = false;
 Vue.use(VueSpinners);
 Vue.use(VueAxios, axios);
