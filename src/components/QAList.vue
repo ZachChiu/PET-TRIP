@@ -54,7 +54,9 @@
         </tr>
       </tbody>
     </table>
-    <p v-if="QAData[0] == null" class="h1 text-center text-muted">暫無資料</p>
+    <p v-if="QAData[0] == null" class="h1 text-center text-muted m-0">
+      暫無資料
+    </p>
   </div>
 </template>
 

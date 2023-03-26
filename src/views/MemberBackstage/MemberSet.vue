@@ -142,7 +142,7 @@ export default {
       this.$emit('checkStatus');
       const config = {
         method: 'get',
-        url: 'http://pettrip.rocket-coding.com/api/Member/GetOne',
+        url: 'Member/GetOne',
       };
 
       this.$http(config)
@@ -172,7 +172,7 @@ export default {
       const vm = this;
       const config = {
         method: 'patch',
-        url: 'http://pettrip.rocket-coding.com/api/Member/Resetpwd',
+        url: 'Member/Resetpwd',
         data: {
           pwd: `${this.memberData.pwd}`,
         },
@@ -206,7 +206,7 @@ export default {
       const uploadedFile = event.target.files[0];
       const formData = new FormData();
       formData.append('file', uploadedFile);
-      const url = 'http://pettrip.rocket-coding.com/api/Member/Uploadimg';
+      const url = 'Member/Uploadimg';
       this.MemberPicUploading = true;
       this.$http
         .post(url, formData, {

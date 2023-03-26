@@ -646,11 +646,11 @@ export default {
       vm.loading = true;
       const config = {
         method: 'post',
-        url: 'http://pettrip.rocket-coding.com/api/Room/Create',
+        url: 'Room/Create',
       };
       if (this.modalStatus === 'edit') {
         config.method = 'patch';
-        config.url = 'http://pettrip.rocket-coding.com/api/Room/Edit';
+        config.url = 'Room/Edit';
       }
       config.data = data;
       // {
@@ -751,7 +751,7 @@ export default {
         this.load[`imgLoad${num}`] = true;
         const formData = new FormData();
         formData.append('file', uploadedFile);
-        const url = 'http://pettrip.rocket-coding.com/api/Uploadimg';
+        const url = 'Uploadimg';
         this.FirmPicUploading = true;
         this.$http
           .post(url, formData, {

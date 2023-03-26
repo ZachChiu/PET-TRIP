@@ -121,7 +121,7 @@ export default {
       vm.load = true;
       const config = {
         method: 'post',
-        url: 'http://pettrip.rocket-coding.com/api/Evaluation/Set',
+        url: 'Evaluation/Set',
         headers: {},
         data: {
           orderseq: this.dataList.company.orderseq,

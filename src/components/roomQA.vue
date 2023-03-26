@@ -49,8 +49,9 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie';
+
 export default {
-  name: 'RoomQA',
   props: ['QA', 'identify', 'room'],
   data() {
     return {
@@ -90,15 +91,13 @@ export default {
         });
       } else {
         this.loading = true;
-        const token = document.cookie.replace(
-          /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
-          '$1'
-        );
+        const jwt = Cookies.get('jwt');
+
         const config = {
           method: 'post',
-          url: 'http://pettrip.rocket-coding.com/api/Qa/PostQuestion',
+          url: 'Qa/PostQuestion',
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: jwt,
           },
           data: {
             roomseq: this.room.roomseq,

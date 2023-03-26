@@ -161,7 +161,7 @@
                   >問與答</router-link
                 >
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" @click="signout">登出</a>
+                <a class="dropdown-item" href="#" @click="signOut">登出</a>
               </div>
             </li>
             <li
@@ -205,7 +205,7 @@
                   >問與答</router-link
                 >
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" @click="signout">登出</a>
+                <a class="dropdown-item" href="#" @click="signOut">登出</a>
               </div>
             </li>
           </ul>
@@ -329,7 +329,6 @@ import LayoutBg from '@/assets/img/Layout/layout-bg.png';
 import LOGO from '@/assets/img/Pet Trip LOGO.png';
 import Cookies from 'js-cookie';
 import AvatarDefault from '@/assets/img/Home/Avatar-default.png';
-import {getIdentity} from '@/lib/service/identity.js';
 export default {
   data() {
     return {
@@ -358,39 +357,47 @@ export default {
     }
   },
   methods: {
-    async getIdentify(type) {
-      try {
-        this.isLoading = true;
+    getIdentify(type) {
+      this.isLoading = true;
+      const vm = this;
 
-        const res = await getIdentity();
-        if (res.result === '無授權') {
-          throw new Error('no auth');
-        }
-        this.identify = res;
+      const jwt = Cookies.get('jwt');
 
-        if (this.identify.avatar == null) {
-          this.identify.avatar = AvatarDefault;
-        }
-        if (type === '廠商') {
-          this.$router.push('/FirmBackstage');
-        } else if (type === '會員') {
-          this.$router.push('/');
-        }
-        this.connectHub();
-        this.isLoading = false;
-      } catch (error) {
-        Cookies.remove('jwt');
-      } finally {
-        this.isLoading = false;
-      }
+      this.$http.defaults.headers.common.Authorization = jwt;
+      const config = {
+        method: 'get',
+        url: '/GetIdentity',
+      };
+      this.$http(config)
+        .then(function(response) {
+          vm.isLoading = false;
+
+          if (response.data.result === '無授權') {
+            return Cookies.remove('jwt');
+          }
+          vm.identify = response.data.result;
+          if (vm.identify.avatar == null) {
+            vm.identify.avatar = AvatarDefault;
+          }
+          if (type === '廠商') {
+            vm.$router.push('/FirmBackstage');
+          } else if (type === '會員') {
+            vm.$router.push('/');
+          }
+          vm.connectHub();
+        })
+        .catch(function() {
+          Cookies.remove('jwt');
+          vm.isLoading = false;
+        });
     },
     allIsread() {
       const vm = this;
       vm.load = true;
       this.$http
-        .get('http://pettrip.rocket-coding.com/api/Notice/Readall')
+        .get('Notice/Readall')
         .then(function() {
-          vm.$http('http://pettrip.rocket-coding.com/api/Notice/GetNotice')
+          vm.$http('Notice/GetNotice')
             .then(function(response) {
               vm.load = false;
               vm.noticeData = response.data;
@@ -419,18 +426,16 @@ export default {
       const vm = this;
       const config = {
         method: 'post',
-        url: 'http://pettrip.rocket-coding.com/api/Notice/Readone',
+        url: 'Notice/Readone',
         headers: {},
         data: {
           noticeseq: item.noticeseq,
         },
       };
       this.$http(config).then(function() {
-        vm.$http('http://pettrip.rocket-coding.com/api/Notice/GetNotice').then(
-          function(response) {
-            vm.noticeData = response.data;
-          }
-        );
+        vm.$http('Notice/GetNotice').then(function(response) {
+          vm.noticeData = response.data;
+        });
       });
       $('.noticeList').removeClass('animate__rotateInUpRight');
       $('.noticeList').addClass('animate__rotateOutUpRight');
@@ -452,8 +457,9 @@ export default {
         this.$router.push('/FirmBackstage');
       }
     },
-    signout() {
-      document.cookie = `pet='';expires=${new Date(-1)}; path=/`;
+    signOut() {
+      Cookies.remove('jwt');
+      this.identify = {};
       this.Swal.fire({
         toast: true,
         position: 'top-end',
@@ -485,7 +491,7 @@ export default {
         vm.getCall();
         const config = {
           method: 'post',
-          url: 'http://pettrip.rocket-coding.com/api/Notice/Sendid',
+          url: 'Notice/Sendid',
           data: {
             connectid: vm.hub.id,
           },
@@ -500,7 +506,7 @@ export default {
       const vm = this;
       const config = {
         method: 'get',
-        url: 'http://pettrip.rocket-coding.com/api/Notice/GetNotice',
+        url: 'Notice/GetNotice',
       };
       this.$http(config).then(function(response) {
         vm.noticeData = response.data;

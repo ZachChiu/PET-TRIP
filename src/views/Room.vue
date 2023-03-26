@@ -278,7 +278,6 @@ import bookingModal from '@/components/bookingModal.vue';
 import roomInfo from '@/components/roomInfo.vue';
 import roomQA from '@/components/roomQA.vue';
 import page from '@/components/page.vue';
-import {getRoom} from '@/lib/service/room.js';
 import Cookies from 'js-cookie';
 import AvatarDefault from '@/assets/img/Home/Avatar-default.png';
 
@@ -357,47 +356,49 @@ export default {
     this.getData();
   },
   methods: {
-    async getData(page = 1) {
-      try {
-        this.$emit('loadAction', true);
+    getData(page = 1) {
+      this.$emit('loadAction', true);
+      const vm = this;
+      const config = {
+        method: 'get',
+        url: `Room/GetRoomsFront?id=${this.id.RoomId}&page=${page}`,
+      };
 
-        const params = {
-          id: this.id.RoomId,
-          page,
-        };
-        const res = await getRoom(params);
-
-        this.company = res.company;
-        this.room = res.room;
-        this.removeDate = res.remove;
-        this.QA = res.qa;
-        this.page = res.meta;
-        this.removeDate.forEach((item) => {
-          this.disabledDate.push({
-            start: item.orderdates,
-            end: item.orderdatee,
+      this.$http(config)
+        .then(function(response) {
+          vm.company = response.data.company;
+          vm.room = response.data.room;
+          vm.removeDate = response.data.remove;
+          vm.QA = response.data.qa;
+          vm.page = response.data.meta;
+          vm.removeDate.forEach(function(item) {
+            vm.disabledDate.push({
+              start: item.orderdates,
+              end: item.orderdatee,
+            });
           });
-        });
-        if (
-          this.company.morning &&
-          this.company.afternoon &&
-          this.company.night &&
-          this.company.midnight
-        ) {
-          this.all = true;
-        }
-        for (let i = 1; i <= 4; i++) {
           if (
-            this.room[`img${i}`] !== '' &&
-            this.room[`img${i}`] !== undefined &&
-            this.room[`img${i}`] !== null
+            vm.company.morning &&
+            vm.company.afternoon &&
+            vm.company.night &&
+            vm.company.midnight
           ) {
-            this.imgList.push(this.room[`img${i}`]);
+            vm.all = true;
           }
-        }
-      } finally {
-        this.$emit('loadAction', false);
-      }
+          for (let i = 1; i <= 4; i++) {
+            if (
+              vm.room[`img${i}`] !== '' &&
+              vm.room[`img${i}`] !== undefined &&
+              vm.room[`img${i}`] !== null
+            ) {
+              vm.imgList.push(vm.room[`img${i}`]);
+            }
+          }
+          vm.$emit('loadAction', false);
+        })
+        .catch(function() {
+          vm.$emit('loadAction', false);
+        });
     },
     checkNumber(num) {
       if (num === 'plus' && this.quantity < this.room.roomamount) {
@@ -420,9 +421,9 @@ export default {
       this.priceAdd = this.room.roomamount_amt * this.pricePlus;
     },
     booking() {
-      const token = Cookies.get('jwt');
+      const jwt = Cookies.get('jwt');
 
-      if (!token) {
+      if (!jwt) {
         this.Swal.fire({
           toast: true,
           position: 'top-end',

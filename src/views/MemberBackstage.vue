@@ -68,6 +68,8 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie';
+
 export default {
   props: ['identify'],
   data() {
@@ -82,13 +84,10 @@ export default {
   methods: {
     getMemberBackstageData() {
       this.pageCurrent = this.$route.path;
-      const token = document.cookie.replace(
-        /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
-        '$1'
-      );
-      this.$http.defaults.headers.common.Authorization = `Bearer ${token}`;
-      if (token === '' || token == null || token === undefined) {
-        this.$router.push('/');
+      const jwt = Cookies.get('jwt');
+
+      if (jwt) {
+        this.$http.defaults.headers.common.Authorization = jwt;
       }
     },
     loading(data) {

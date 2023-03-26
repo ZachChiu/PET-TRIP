@@ -182,7 +182,7 @@ export default {
       this.$emit('loadAction', true);
       const config = {
         method: 'get',
-        url: `http://pettrip.rocket-coding.com/api/Room/GetRooms?page=${page}&roomname=${this.searchBox}`,
+        url: `Room/GetRooms?page=${page}&roomname=${this.searchBox}`,
       };
       this.$http(config)
         .then(function(response) {
@@ -216,7 +216,7 @@ export default {
       this.$emit('loadAction', true);
       const config = {
         method: 'post',
-        url: ` http://pettrip.rocket-coding.com/api/Room/Clone?id=${item.roomseq}`,
+        url: ` Room/Clone?id=${item.roomseq}`,
       };
 
       this.$http(config)
@@ -287,7 +287,7 @@ export default {
         this.$emit('loadAction', true);
         const config = {
           method: 'get',
-          url: `http://pettrip.rocket-coding.com/api/Room/GetRooms?id=${data.roomseq}`,
+          url: `Room/GetRooms?id=${data.roomseq}`,
         };
         this.$http(config)
           .then(function(response) {
@@ -313,7 +313,7 @@ export default {
       this.$emit('loadAction', true);
       const config = {
         method: 'post',
-        url: `http://pettrip.rocket-coding.com/api/Room/StateUpdate?id=${item.roomseq}`,
+        url: `Room/StateUpdate?id=${item.roomseq}`,
       };
       this.$http(config)
         .then(function() {

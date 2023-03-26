@@ -119,7 +119,7 @@
         <div
           v-if="!isLoading"
           id="whole"
-          class="tab-pane p-3 fade show active"
+          class="tab-pane px-3 py-5 fade show active"
           role="tabpanel"
           aria-labelledby="whole-tab"
         >
@@ -242,7 +242,7 @@ export default {
       const vm = this;
       const config = {
         method: 'get',
-        url: `http://pettrip.rocket-coding.com/api/Order/Getorder?state=${this.state}&page=${page}&paged=6&roomname=${this.searchBox}&datetimes=${this.searchDate.start}&datetimee=${this.searchDate.end}`,
+        url: `Order/Getorder?state=${this.state}&page=${page}&paged=6&roomname=${this.searchBox}&datetimes=${this.searchDate.start}&datetimee=${this.searchDate.end}`,
       };
       this.$http(config)
         .then(function(response) {
@@ -305,7 +305,7 @@ export default {
       const vm = this;
       const config = {
         method: 'get',
-        url: `http://pettrip.rocket-coding.com/api/Order/Getorder?id=${order.orderseq}`,
+        url: `Order/Getorder?id=${order.orderseq}`,
       };
       this.$http(config)
         .then(function(response) {
@@ -322,7 +322,7 @@ export default {
       vm.load = true;
       const config = {
         method: 'get',
-        url: `http://pettrip.rocket-coding.com/api/Evaluation/Get?id=${order.orderseq}`,
+        url: `Evaluation/Get?id=${order.orderseq}`,
       };
       this.$http(config)
         .then(function(response) {

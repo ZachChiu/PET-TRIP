@@ -266,7 +266,7 @@ export default {
       vm.$emit('loadAction', true);
       const config = {
         method: 'post',
-        url: 'http://pettrip.rocket-coding.com/api/Company/Register',
+        url: 'Company/Register',
 
         data: {
           companyname: `${this.register.companyname}`,

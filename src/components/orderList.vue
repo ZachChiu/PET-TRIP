@@ -70,7 +70,7 @@
         </tr>
       </tbody>
     </table>
-    <p v-if="orderList[0] == null" class="h1 text-center text-muted">
+    <p v-if="orderList[0] == null" class="h1 text-center text-muted m-0">
       暫無資料
     </p>
   </div>

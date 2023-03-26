@@ -408,6 +408,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie';
 /* global $ */
 export default {
   name: 'BookingModal',
@@ -469,15 +470,14 @@ export default {
     pay() {
       const vm = this;
       vm.paying = true;
-      const token = document.cookie.replace(
-        /(?:(?:^|.*;\s*)pet\s*=\s*([^;]*).*$)|^.*$/,
-        '$1'
-      );
+
+      const jwt = Cookies.get('jwt');
+
       const config = {
         method: 'post',
-        url: 'http://pettrip.rocket-coding.com/api/Pay/Getinfo',
+        url: 'Pay/Getinfo',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: jwt,
         },
         data: {
           roomseq: `${this.room.roomseq}`,

@@ -273,9 +273,9 @@
 // /* global $ */
 import firmPageRoom from '@/components/firmPageRoom.vue';
 import firmPageEvaluation from '@/components/firmPageEvaluation.vue';
-import {getFirm} from '@/lib/service/room.js';
 import AvatarDefault from '@/assets/img/Home/Avatar-default.png';
 import FeaturedBg from '@/assets/img/Home/featured-bg.jpg';
+import {scrollToTop} from '@/lib/scrollToTop.js';
 
 export default {
   components: {
@@ -297,23 +297,28 @@ export default {
   },
   methods: {
     async getData() {
-      try {
-        this.$emit('loadAction', true);
+      const vm = this;
+      vm.$emit('loadAction', true);
 
-        this.firmData = await getFirm({id: this.id.FirmId});
-
-        if (
-          this.firmData.company.morning &&
-          this.firmData.company.afternoon &&
-          this.firmData.company.night &&
-          this.firmData.company.midnight
-        ) {
-          this.all = true;
-        }
-        this.$emit('loadAction', false);
-      } finally {
-        this.$emit('loadAction', false);
-      }
+      const url = `Room/GetRoomslist?id=${this.id.FirmId}`;
+      this.$http
+        .get(url)
+        .then((res) => {
+          this.firmData = res.data;
+          if (
+            this.firmData.company.morning &&
+            this.firmData.company.afternoon &&
+            this.firmData.company.night &&
+            this.firmData.company.midnight
+          ) {
+            this.all = true;
+          }
+          vm.$emit('loadAction', false);
+          scrollToTop();
+        })
+        .catch(() => {
+          vm.$emit('loadAction', false);
+        });
     },
   },
 };

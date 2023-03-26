@@ -61,7 +61,7 @@
       <div
         v-if="!isLoading"
         id="whole"
-        class="tab-pane p-3 fade show active"
+        class="tab-pane px-3 py-5 fade show active"
         role="tabpanel"
         aria-labelledby="whole-tab"
       >
@@ -137,7 +137,7 @@ export default {
       this.$emit('loadAction', true);
       const config = {
         method: 'get',
-        url: `http://pettrip.rocket-coding.com/api/Qa/GetQuestion?page=${page}&state=${this.state}`,
+        url: `Qa/GetQuestion?page=${page}&state=${this.state}`,
       };
       this.$http(config)
         .then(function(response) {
@@ -183,7 +183,7 @@ export default {
       const vm = this;
       const config = {
         method: 'get',
-        url: `http://pettrip.rocket-coding.com/api/Qa/GetQuestionDetail?queseq=${QA.queseq}`,
+        url: `Qa/GetQuestionDetail?queseq=${QA.queseq}`,
       };
 
       this.$http(config)

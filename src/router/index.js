@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Layout from '../views/Layout.vue';
-import $ from 'jquery';
+import {scrollToTop} from '@/lib/scrollToTop.js';
+import Cookies from 'js-cookie';
 
 Vue.use(VueRouter);
 
@@ -96,23 +97,36 @@ const routes = [
         meta: {
           hasLayoutBanner: true,
           title: '廠商後台',
+          requireAuth: true,
         },
         children: [
           {
             path: '',
             component: () => import('../views/FirmBackstage/FirmOrder.vue'),
+            meta: {
+              requireAuth: true,
+            },
           },
           {
             path: 'FirmRoom',
             component: () => import('../views/FirmBackstage/FirmRoom.vue'),
+            meta: {
+              requireAuth: true,
+            },
           },
           {
             path: 'FirmQA',
             component: () => import('../views/FirmBackstage/FirmQA.vue'),
+            meta: {
+              requireAuth: true,
+            },
           },
           {
             path: 'FirmSet',
             component: () => import('../views/FirmBackstage/FirmSet.vue'),
+            meta: {
+              requireAuth: true,
+            },
           },
         ],
       },
@@ -122,19 +136,29 @@ const routes = [
         meta: {
           hasLayoutBanner: true,
           title: '會員後台',
+          requireAuth: true,
         },
         children: [
           {
             path: '',
             component: () => import('../views/MemberBackstage/MemberOrder.vue'),
+            meta: {
+              requireAuth: true,
+            },
           },
           {
             path: 'MemberSet',
             component: () => import('../views/MemberBackstage/MemberSet.vue'),
+            meta: {
+              requireAuth: true,
+            },
           },
           {
             path: 'MemberQA',
             component: () => import('../views/MemberBackstage/MemberQA.vue'),
+            meta: {
+              requireAuth: true,
+            },
           },
         ],
       },
@@ -146,12 +170,19 @@ const router = new VueRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    const jwt = Cookies.get('jwt');
+    if (jwt) {
+      return next();
+    } else {
+      return next('/');
+    }
+  }
+  next();
+});
+
 router.afterEach(() => {
-  $('html, body').animate(
-    {
-      scrollTop: $('#app').offset().top,
-    },
-    0
-  );
+  scrollToTop();
 });
 export default router;

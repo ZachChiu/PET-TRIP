@@ -114,7 +114,7 @@ export default {
       vm.$emit('loadAction', true);
       const config = {
         method: 'post',
-        url: 'http://pettrip.rocket-coding.com/api/Member/Register',
+        url: 'Member/Register',
         data: {
           membername: `${this.register.membername}`,
           email: `${this.register.email}`,

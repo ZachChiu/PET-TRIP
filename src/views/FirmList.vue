@@ -72,7 +72,6 @@
 import page from '@/components/page.vue';
 import firmListFirm from '@/components/firmListFirm.vue';
 import firmListRoom from '@/components/firmListRoom.vue';
-import {getRooms, getCompanies} from '@/lib/service/room.js';
 import {scrollToTop} from '@/lib/scrollToTop.js';
 export default {
   components: {page, firmListFirm, firmListRoom},
@@ -108,73 +107,63 @@ export default {
   },
   methods: {
     async getPageData() {
-      try {
-        const params = {page: 1, paged: 6};
-        const apis = [getRooms(params), getCompanies(params)];
-        const results = await Promise.all(apis);
+      const vm = this;
+      vm.$emit('loadAction', true);
 
-        this.firmList = results[1].companies;
-        this.firmPageObj = results[1].meta;
-        this.roomList = results[0].rooms;
-        results[0].remove.forEach((item) => {
-          this.disabledDate.push({
-            start: item.orderdates,
-            end: item.orderdatee,
+      this.$http
+        .all([
+          this.$http('Room/GetRoom?page=1paged=6'),
+          this.$http('Room/GetCompanys?page=1paged=6'),
+        ])
+        .then(function(results) {
+          vm.firmList = results[1].data.companies;
+          vm.firmPageObj = results[1].data.meta;
+          vm.roomList = results[0].data.rooms;
+          results[0].data.remove.forEach(function(item) {
+            vm.disabledDate.push({
+              start: item.orderdates,
+              end: item.orderdatee,
+            });
           });
+          vm.roomPageObj = results[0].data.meta;
+          vm.$emit('loadAction', false);
         });
-        this.roomPageObj = results[0].meta;
-      } finally {
-        this.$emit('loadAction', false);
-      }
     },
     async getFirmData(page = 1) {
-      try {
-        this.$emit('loadAction', true);
-        const params = {
-          page,
-          paged: 6,
-          keyword: this.searchFirmConfig.keyword,
-          money: this.searchFirmConfig.money,
-          evaluation: this.searchFirmConfig.evaluation,
-          country: this.searchFirmConfig.country,
-          area: this.searchFirmConfig.area,
-        };
-
-        const res = await getCompanies(params);
-        scrollToTop();
-
-        this.firmList = res.companies;
-        this.firmPageObj = res.meta;
-        this.$emit('loadAction', false);
-      } finally {
-        this.$emit('loadAction', false);
-      }
+      const vm = this;
+      vm.$emit('loadAction', true);
+      const config = {
+        method: 'get',
+        url: `Room/GetCompanys?page=${page}&paged=6&keyword=${this.searchFirmConfig.keyword}&money=${this.searchFirmConfig.money}&evaluation=${this.searchFirmConfig.evaluation}&country=${this.searchFirmConfig.country}&area=${this.searchFirmConfig.area}`,
+      };
+      this.$http(config)
+        .then(function(response) {
+          vm.firmList = response.data.companies;
+          vm.firmPageObj = response.data.meta;
+          vm.$emit('loadAction', false);
+        })
+        .catch(function() {
+          vm.$emit('loadAction', false);
+        });
     },
     async getRoomData(page = 1) {
-      try {
-        this.$emit('loadAction', true);
-        const params = {
-          page,
-          paged: 6,
-          chk_cat: this.searchRoomConfig.chk_cat,
-          chk_dog: this.searchRoomConfig.chk_dog,
-          chk_other: this.searchRoomConfig.chk_other,
-          dates: this.searchRoomConfig.dates,
-          datee: this.searchRoomConfig.datee,
-          size: this.searchRoomConfig.size,
-          amount: this.searchRoomConfig.amount,
-          money: this.searchRoomConfig.money,
-        };
+      const vm = this;
+      vm.$emit('loadAction', true);
 
-        const res = await getRooms(params);
-        scrollToTop();
-
-        this.roomList = res.rooms;
-        this.roomPageObj = res.meta;
-        this.$emit('loadAction', false);
-      } finally {
-        this.$emit('loadAction', false);
-      }
+      const config = {
+        method: 'get',
+        url: `Room/GetRoom?page=${page}&paged=6&chk_cat=${this.searchRoomConfig.chk_cat}&chk_dog=${this.searchRoomConfig.chk_dog}&chk_other=${this.searchRoomConfig.chk_other}&dates=${this.searchRoomConfig.dates}&datee=${this.searchRoomConfig.datee}&size=${this.searchRoomConfig.size}&amount=${this.searchRoomConfig.amount}&money=${this.searchRoomConfig.money}`,
+      };
+      this.$http(config)
+        .then(function(response) {
+          vm.roomList = response.data.rooms;
+          vm.roomPageObj = response.data.meta;
+          vm.$emit('loadAction', false);
+          scrollToTop();
+        })
+        .catch(function() {
+          vm.$emit('loadAction', false);
+        });
     },
     searchFirm(data) {
       this.searchFirmConfig = data;

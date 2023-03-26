@@ -203,7 +203,7 @@ export default {
       vm.$emit('loadAction', true);
       const config = {
         method: 'post',
-        url: 'http://pettrip.rocket-coding.com/api/Company/Login',
+        url: 'Company/Login',
         data: {
           email: `${this.login.email}`,
           pwd: `${this.login.password}`,
@@ -252,7 +252,7 @@ export default {
       vm.$emit('loadAction', true);
       const config = {
         method: 'post',
-        url: 'http://pettrip.rocket-coding.com/api/Member/Login',
+        url: 'Member/Login',
         data: {
           email: `${this.login.email}`,
           pwd: `${this.login.password}`,

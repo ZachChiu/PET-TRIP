@@ -45,7 +45,7 @@
       >
         <div
           id="firmIntroduce"
-          class="tab-pane p-3 fade show active"
+          class="tab-pane px-3 py-5 fade show active"
           role="tabpanel"
           aria-labelledby="firmIntroduce-tab"
         >
@@ -404,7 +404,6 @@ export default {
         pwd: '',
         pwdCheck: '',
       },
-      token: '',
       FirmPicUploading: false,
       FirmAvatarUploading: false,
     };
@@ -417,7 +416,7 @@ export default {
       const uploadedFile = event.target.files[0];
       const formData = new FormData();
       formData.append('file', uploadedFile);
-      const url = 'http://pettrip.rocket-coding.com/api/Company/Uploadimg';
+      const url = 'Company/Uploadimg';
       this.FirmAvatarUploading = true;
       const vm = this;
       this.$http
@@ -437,7 +436,7 @@ export default {
               timer: 2000,
             });
           } else if (
-            response.data.result === 'Uploadimg錯誤，請至伺服器log查詢錯誤訊息'
+            response.data.result === '上傳圖片錯誤，請至伺服器log查詢錯誤訊息'
           ) {
             vm.Swal.fire({
               toast: true,
@@ -487,7 +486,7 @@ export default {
       } else {
         const formData = new FormData();
         formData.append('file', uploadedFile);
-        const url = 'http://pettrip.rocket-coding.com/api/Uploadimg';
+        const url = 'Uploadimg';
         this.FirmPicUploading = true;
         this.$http
           .post(url, formData, {
@@ -497,8 +496,7 @@ export default {
           })
           .then((response) => {
             if (
-              response.data.result ===
-              'Uploadimg錯誤，請至伺服器log查詢錯誤訊息'
+              response.data.result === '上傳圖片錯誤，請至伺服器log查詢錯誤訊息'
             ) {
               vm.Swal.fire({
                 toast: true,
@@ -539,7 +537,7 @@ export default {
       const vm = this;
       const config = {
         method: 'patch',
-        url: 'http://pettrip.rocket-coding.com/api/Company/Patchcompany',
+        url: 'Company/Patchcompany',
         headers: {},
         data: {
           introduce: `${this.companyData.introduce}`,
@@ -579,7 +577,7 @@ export default {
       const vm = this;
       const config = {
         method: 'patch',
-        url: 'http://pettrip.rocket-coding.com/api/Company/Resetpwd',
+        url: 'Company/Resetpwd',
         data: {
           pwd: `${this.updatePwd.pwd}`,
         },
@@ -594,7 +592,8 @@ export default {
             showConfirmButton: false,
             timer: 2000,
           });
-          vm.getOne();
+          vm.updatePwd.pwd = '';
+          (vm.updatePwd.pwdCheck = ''), vm.getOne();
         })
         .catch(function() {
           vm.Swal.fire({
@@ -614,7 +613,7 @@ export default {
       const vm = this;
       const config = {
         method: 'get',
-        url: 'http://pettrip.rocket-coding.com/api/Company/GetOne',
+        url: 'Company/GetOne',
       };
       this.$http(config)
         .then(function(res) {

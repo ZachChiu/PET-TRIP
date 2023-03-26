@@ -6,7 +6,7 @@
 
 1. Vue 2 前端框架
 2. Axios
-3. SingalR 即時通知系統
+3. SignalR 即時通知系統
 4. RESTful API 介接
 5. Bootstrap + SCSS 版面設計
 6. Veevalidate 資料驗證

@@ -93,7 +93,7 @@ export default {
       const vm = this;
       const config = {
         method: 'post',
-        url: 'http://pettrip.rocket-coding.com/api/Qa/PostAnswer',
+        url: 'Qa/PostAnswer',
         data: {
           queseq: this.QADetail.queseq,
           message: this.answerBox,

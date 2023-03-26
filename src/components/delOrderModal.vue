@@ -129,7 +129,7 @@ export default {
       vm.load = true;
       const config = {
         method: 'POST',
-        url: 'http://pettrip.rocket-coding.com/api/Order/Cancelorder',
+        url: 'Order/Cancelorder',
         data: {
           orderseq: `${this.delData.order.orderseq}`,
           reason: `${this.reason}`,

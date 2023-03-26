@@ -307,7 +307,6 @@ import step2 from '@/assets/img/Home/step-2.png';
 import step3 from '@/assets/img/Home/step-3.png';
 import Target from '@/assets/img/Home/target.png';
 import PromiseBg from '@/assets/img/Home/promise-bg.jpg';
-import {getHomeAllInfo} from '@/lib/service/home.js';
 import FirmCard from '@/components/FirmCard.vue';
 import RoomCard from '@/components/RoomCard.vue';
 
@@ -384,13 +383,21 @@ export default {
     this.getData();
   },
   methods: {
-    async getData() {
-      try {
-        this.$emit('loadAction', true);
-        this.homeData = await getHomeAllInfo();
-      } finally {
-        this.$emit('loadAction', false);
-      }
+    getData() {
+      const vm = this;
+      vm.$emit('loadAction', true);
+      const config = {
+        method: 'get',
+        url: 'Home/GetAllInfo',
+      };
+      this.$http(config)
+        .then(function(response) {
+          vm.$emit('loadAction', false);
+          vm.homeData = response.data;
+        })
+        .catch(function() {
+          vm.$emit('loadAction', false);
+        });
     },
   },
 };

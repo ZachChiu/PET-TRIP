@@ -67,7 +67,7 @@ export default {
       vm.load = true;
       const config = {
         method: 'delete',
-        url: `http://pettrip.rocket-coding.com/api/Room/Delete?id=${this.temData.roomseq}`,
+        url: `Room/Delete?id=${this.temData.roomseq}`,
       };
       this.$http(config)
         .then(function() {
