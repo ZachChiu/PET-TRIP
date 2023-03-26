@@ -161,7 +161,7 @@
               :style="{backgroundImage: 'url(' + companyData.bannerimg + ')'}"
             >
               <img
-                src="https://upload.cc/i1/2020/09/04/0MY4iy.png"
+                :src="ImageInputImg"
                 :class="{opacityZero: companyData.bannerimg != ''}"
                 class="w-100 img-fluid"
                 alt
@@ -195,7 +195,7 @@
                 style="max-width: 300px;"
               >
                 <img
-                  src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
+                  :src="NoImageImg"
                   :class="{opacityZero: companyData.avatar != ''}"
                   class="w-100 img-fluid"
                   alt
@@ -386,11 +386,14 @@
 <script>
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
-
+import NoImageImg from '@/assets/img/no-image.png';
+import ImageInputImg from '@/assets/img/image-input.png';
 export default {
   props: ['identify'],
   data() {
     return {
+      NoImageImg,
+      ImageInputImg,
       companyData: {
         introduce: '',
         morning: false,

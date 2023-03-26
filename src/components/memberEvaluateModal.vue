@@ -27,7 +27,7 @@
               style="max-width: 120px;"
             >
               <img
-                src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
+                :src="NoImageImg"
                 :class="{opacityZero: dataList.company.avatar != ''}"
                 class="w-100 img-fluid"
                 alt
@@ -101,14 +101,15 @@
 /* global $ */
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
+import NoImageImg from '@/assets/img/no-image.png';
 
 export default {
-  name: 'MemberEvaluateModal',
   props: ['evaluationData'],
   data() {
     return {
       dataList: this.evaluationData,
       load: false,
+      NoImageImg,
     };
   },
   watch: {

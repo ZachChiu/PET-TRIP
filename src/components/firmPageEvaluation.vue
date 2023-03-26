@@ -13,7 +13,7 @@
               :style="{backgroundImage: 'url(' + data.avatar + ')'}"
             >
               <img
-                src="https://upload.cc/i1/2020/09/09/wa8QmM.png"
+                :src="AvatarDefault"
                 :class="{opacityZero: firmData.company.avatar != ''}"
                 class="w-100 h-100 img-fluid"
                 style="object-fit: cover"
@@ -50,11 +50,12 @@
 </template>
 
 <script>
+import AvatarDefault from '@/assets/img/Home/Avatar-default.png';
+
 export default {
-  name: 'FirmPageEvaluation',
   props: ['firmData'],
   data() {
-    return {};
+    return {AvatarDefault};
   },
   methods: {},
 };

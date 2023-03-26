@@ -7,7 +7,7 @@
         :style="{backgroundImage: 'url(' + firmData.company.bannerimg + ')'}"
       >
         <img
-          src="https://upload.cc/i1/2020/09/09/GIaohq.jpg"
+          :src="FeaturedBg"
           :class="{opacityZero: firmData.company.bannerimg != ''}"
           class="w-100 img-fluid"
           style="height: 300px;object-fit: cover;"
@@ -32,7 +32,7 @@
                 style="width:80px; height:80px"
               >
                 <img
-                  src="https://upload.cc/i1/2020/09/09/wa8QmM.png"
+                  :src="AvatarDefault"
                   :class="{opacityZero: firmData.company.avatar != ''}"
                   class="w-100 h-100 img-fluid"
                   style="object-fit: cover;"
@@ -274,6 +274,8 @@
 import firmPageRoom from '@/components/firmPageRoom.vue';
 import firmPageEvaluation from '@/components/firmPageEvaluation.vue';
 import {getFirm} from '@/lib/service/room.js';
+import AvatarDefault from '@/assets/img/Home/Avatar-default.png';
+import FeaturedBg from '@/assets/img/Home/featured-bg.jpg';
 
 export default {
   components: {
@@ -285,6 +287,8 @@ export default {
       firmData: {},
       id: {},
       all: false,
+      AvatarDefault,
+      FeaturedBg,
     };
   },
   created() {

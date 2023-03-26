@@ -481,7 +481,7 @@
                   :style="{backgroundImage: 'url(' + dataList.img1 + ')'}"
                 >
                   <img
-                    src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
+                    :src="NoImageImg"
                     :class="{opacityZero: dataList.img1 != ''}"
                     class="w-100 img-fluid"
                   />
@@ -513,7 +513,7 @@
                   :style="{backgroundImage: 'url(' + dataList.img2 + ')'}"
                 >
                   <img
-                    src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
+                    :src="NoImageImg"
                     :class="{opacityZero: dataList.img2 != ''}"
                     class="w-100 img-fluid"
                   />
@@ -545,7 +545,7 @@
                   :style="{backgroundImage: 'url(' + dataList.img3 + ')'}"
                 >
                   <img
-                    src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
+                    :src="NoImageImg"
                     :class="{opacityZero: dataList.img3 != ''}"
                     class="w-100 img-fluid"
                   />
@@ -577,7 +577,7 @@
                   :style="{backgroundImage: 'url(' + dataList.img4 + ')'}"
                 >
                   <img
-                    src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
+                    :src="NoImageImg"
                     :class="{opacityZero: dataList.img4 != ''}"
                     class="w-100 img-fluid"
                   />
@@ -618,11 +618,14 @@
 /* global $ */
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
+import NoImageImg from '@/assets/img/no-image.png';
+
 export default {
   name: 'RoomModal',
   props: ['temData', 'modalStatus'],
   data() {
     return {
+      NoImageImg,
       load: {
         imgLoad1: false,
         imgLoad2: false,

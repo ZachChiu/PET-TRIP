@@ -29,7 +29,7 @@
               style="max-width: 120px;"
             >
               <img
-                src="https://upload.cc/i1/2020/09/01/IaZYfp.png"
+                :src="NoImageImg"
                 :class="{opacityZero: evaluationData.company.avatar != ''}"
                 class="w-100 img-fluid"
                 alt
@@ -84,11 +84,12 @@
 </template>
 
 <script>
+import NoImageImg from '@/assets/img/no-image.png';
+
 export default {
-  name: 'FirmEvaluateModal',
   props: ['evaluationData'],
   data() {
-    return {};
+    return {NoImageImg};
   },
 };
 </script>

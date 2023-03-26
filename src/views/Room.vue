@@ -138,7 +138,7 @@
                   style="max-width: 300px;"
                 >
                   <img
-                    src="https://upload.cc/i1/2020/09/09/wa8QmM.png"
+                    :src="AvatarDefault"
                     :class="{opacityZero: company.avatar != ''}"
                     class="img-fluid"
                     alt
@@ -278,6 +278,7 @@ import roomQA from '@/components/roomQA.vue';
 import page from '@/components/page.vue';
 import {getRoom} from '@/lib/service/room.js';
 import Cookies from 'js-cookie';
+import AvatarDefault from '@/assets/img/Home/Avatar-default.png';
 
 export default {
   components: {
@@ -289,6 +290,7 @@ export default {
   props: ['identify'],
   data() {
     return {
+      AvatarDefault,
       removeDate: [],
       disabledDate: [],
       imgList: [],
