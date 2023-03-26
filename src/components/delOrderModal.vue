@@ -113,8 +113,6 @@
 
 <script>
 /* global $ */
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
 export default {
   name: 'DelOrderModal',
   props: ['delData', 'who'],
@@ -140,7 +138,7 @@ export default {
       };
       this.$http(config)
         .then(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'success',

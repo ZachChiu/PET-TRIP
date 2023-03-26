@@ -54,9 +54,6 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
-
 export default {
   data() {
     return {
@@ -73,7 +70,7 @@ export default {
       this.email = '';
       this.title = '';
       this.question = '';
-      Swal.fire({
+      this.Swal.fire({
         icon: 'success',
         title: '回報成功',
         timer: 2000,

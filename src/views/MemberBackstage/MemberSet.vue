@@ -122,8 +122,6 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
 import NoImageImg from '@/assets/img/no-image.png';
 export default {
   props: ['identify'],
@@ -153,7 +151,7 @@ export default {
           vm.$emit('loadAction', false);
           setTimeout(() => {
             if (vm.identify.identity !== '會員') {
-              Swal.fire({
+              vm.Swal.fire({
                 toast: true,
                 position: 'top-end',
                 icon: 'error',
@@ -181,7 +179,7 @@ export default {
       };
       this.$http(config)
         .then(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'success',
@@ -192,7 +190,7 @@ export default {
           vm.getData();
         })
         .catch(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'error',
@@ -219,7 +217,7 @@ export default {
         .then((response) => {
           this.MemberPicUploading = false;
           if (response.data.result === '圖片格式錯誤') {
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'error',
@@ -230,7 +228,7 @@ export default {
           } else if (
             response.data.result === 'Uploadimg錯誤，請至伺服器log查詢錯誤訊息'
           ) {
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'info',
@@ -240,7 +238,7 @@ export default {
             });
           } else {
             vm.getData();
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'success',
@@ -251,7 +249,7 @@ export default {
           }
         })
         .catch(() => {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'error',

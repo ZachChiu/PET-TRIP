@@ -616,8 +616,6 @@
 
 <script>
 /* global $ */
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
 import NoImageImg from '@/assets/img/no-image.png';
 
 export default {
@@ -692,7 +690,7 @@ export default {
       this.$http(config)
         .then(function(response) {
           if (response.data.result === '修改成功') {
-            Swal.fire({
+            vm.Swal.fire({
               icon: 'success',
               title: '修改成功',
               toast: true,
@@ -703,7 +701,7 @@ export default {
             $('#editModal').modal('hide');
             vm.$emit('get-data');
           } else if (response.data.result === '上架成功') {
-            Swal.fire({
+            vm.Swal.fire({
               icon: 'success',
               title: '上架成功',
               toast: true,
@@ -714,7 +712,7 @@ export default {
             $('#editModal').modal('hide');
             vm.$emit('get-data');
           } else {
-            Swal.fire({
+            vm.Swal.fire({
               icon: 'error',
               title: response.data.result,
               toast: true,
@@ -726,7 +724,7 @@ export default {
           vm.loading = false;
         })
         .catch(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'error',
@@ -741,7 +739,7 @@ export default {
       const vm = this;
       const uploadedFile = event.target.files[0];
       if (uploadedFile === undefined) {
-        Swal.fire({
+        vm.Swal.fire({
           toast: true,
           position: 'top-end',
           icon: 'info',
@@ -768,7 +766,7 @@ export default {
               response.data.result ===
               'Uploadimg錯誤，請至伺服器log查詢錯誤訊息'
             ) {
-              Swal.fire({
+              vm.Swal.fire({
                 toast: true,
                 position: 'top-end',
                 icon: 'error',
@@ -778,7 +776,7 @@ export default {
               });
             } else {
               this.dataList[`img${num}`] = response.data.result;
-              Swal.fire({
+              vm.Swal.fire({
                 toast: true,
                 position: 'top-end',
                 icon: 'success',
@@ -789,7 +787,7 @@ export default {
             }
           })
           .catch(() => {
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'error',

@@ -1,5 +1,5 @@
 <template>
-  <div class="border border-top-0 rounded p-3">
+  <div class="border border-top-0 rounded-bottom p-3">
     <h5 class="text-center">
       關於{{ company.companybrand }}的
       <b>{{ room.roomname }}</b>

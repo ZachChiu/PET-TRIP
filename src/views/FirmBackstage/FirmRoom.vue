@@ -146,8 +146,6 @@
 
 <script>
 /* global $ */
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
 import roomModal from '@/components/roomModal.vue';
 import delModal from '@/components/delRoomModal.vue';
 import page from '@/components/page.vue';
@@ -193,7 +191,7 @@ export default {
           vm.$emit('loadAction', false);
           setTimeout(() => {
             if (vm.identify.identity !== '廠商') {
-              Swal.fire({
+              vm.Swal.fire({
                 toast: true,
                 position: 'top-end',
                 icon: 'error',
@@ -223,7 +221,7 @@ export default {
 
       this.$http(config)
         .then(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'success',
@@ -234,7 +232,7 @@ export default {
           vm.getData(vm.pagelist.total_page);
         })
         .catch(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'error',
@@ -298,7 +296,7 @@ export default {
             vm.$emit('loadAction', false);
           })
           .catch(function() {
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'error',
@@ -319,7 +317,7 @@ export default {
       };
       this.$http(config)
         .then(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'success',
@@ -330,7 +328,7 @@ export default {
           vm.getData(vm.pagelist.current_page);
         })
         .catch(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'error',

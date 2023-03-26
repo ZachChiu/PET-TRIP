@@ -14,6 +14,8 @@ import {
   localize,
   configure,
 } from 'vee-validate';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import 'sweetalert2/src/sweetalert2.scss';
 import * as rules from 'vee-validate/dist/rules';
 import {required, email} from 'vee-validate/dist/rules';
 import zhTW from 'vee-validate/dist/locale/zh_TW.json';
@@ -73,6 +75,8 @@ configure({
     invalid: 'is-invalid',
   },
 });
+
+Vue.prototype.Swal = Swal;
 
 Vue.component('star-rating', StarRating);
 Vue.component('ValidationObserver', ValidationObserver);

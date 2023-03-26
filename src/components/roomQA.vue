@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-3">
+  <div class="pt-3 border border-top-0">
     <div v-for="(data, index) in QA" :key="index" class="QA px-3">
       <div class="row no-gutters">
         <div class="col-12 col-sm-2 text-center">
@@ -49,8 +49,6 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
 export default {
   name: 'RoomQA',
   props: ['QA', 'identify', 'room'],
@@ -64,7 +62,7 @@ export default {
     ask() {
       const vm = this;
       if (this.identify === '無授權') {
-        Swal.fire({
+        vm.Swal.fire({
           toast: true,
           position: 'top-end',
           icon: 'info',
@@ -73,7 +71,7 @@ export default {
           timer: 2000,
         });
       } else if (this.identify.identity === '廠商') {
-        Swal.fire({
+        vm.Swal.fire({
           toast: true,
           position: 'top-end',
           icon: 'info',
@@ -82,7 +80,7 @@ export default {
           timer: 2000,
         });
       } else if (this.msg === '') {
-        Swal.fire({
+        vm.Swal.fire({
           toast: true,
           position: 'top-end',
           icon: 'info',
@@ -111,7 +109,7 @@ export default {
         this.$http(config)
           .then(function(response) {
             console.log(response);
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'success',
@@ -126,7 +124,7 @@ export default {
           })
           .catch(function(error) {
             console.log(error);
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'error',

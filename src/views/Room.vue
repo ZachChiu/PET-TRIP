@@ -259,7 +259,11 @@
               :room="room"
               @refresh="getData"
             ></roomQA>
-            <page :page-data="page" @page-change="getData"></page>
+            <page
+              v-if="page.count !== 0"
+              :page-data="page"
+              @page-change="getData"
+            ></page>
           </div>
         </div>
       </div>
@@ -270,8 +274,6 @@
 <script>
 /* global $ */
 import 'vue-form-wizard/dist/vue-form-wizard.min.css';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
 import bookingModal from '@/components/bookingModal.vue';
 import roomInfo from '@/components/roomInfo.vue';
 import roomQA from '@/components/roomQA.vue';
@@ -405,7 +407,7 @@ export default {
         this.quantity -= 1;
         this.pricePlus -= 1;
       } else {
-        Swal.fire({
+        this.Swal.fire({
           toast: true,
           position: 'top-end',
           icon: 'info',
@@ -421,7 +423,7 @@ export default {
       const token = Cookies.get('jwt');
 
       if (!token) {
-        Swal.fire({
+        this.Swal.fire({
           toast: true,
           position: 'top-end',
           icon: 'info',
@@ -430,7 +432,7 @@ export default {
           timer: 2000,
         });
       } else if (this.dates === null) {
-        Swal.fire({
+        this.Swal.fire({
           toast: true,
           position: 'top-end',
           icon: 'info',
@@ -439,7 +441,7 @@ export default {
           timer: 2000,
         });
       } else if (this.identify.identity === '廠商') {
-        Swal.fire({
+        this.Swal.fire({
           toast: true,
           position: 'top-end',
           icon: 'info',

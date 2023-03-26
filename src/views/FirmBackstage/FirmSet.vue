@@ -384,8 +384,6 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
 import NoImageImg from '@/assets/img/no-image.png';
 import ImageInputImg from '@/assets/img/image-input.png';
 export default {
@@ -421,6 +419,7 @@ export default {
       formData.append('file', uploadedFile);
       const url = 'http://pettrip.rocket-coding.com/api/Company/Uploadimg';
       this.FirmAvatarUploading = true;
+      const vm = this;
       this.$http
         .post(url, formData, {
           headers: {
@@ -429,7 +428,7 @@ export default {
         })
         .then((response) => {
           if (response.data.result === '圖片格式錯誤') {
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'error',
@@ -440,7 +439,7 @@ export default {
           } else if (
             response.data.result === 'Uploadimg錯誤，請至伺服器log查詢錯誤訊息'
           ) {
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'info',
@@ -449,7 +448,7 @@ export default {
               timer: 2000,
             });
           } else {
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'success',
@@ -462,7 +461,7 @@ export default {
           this.FirmAvatarUploading = false;
         })
         .catch(() => {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'error',
@@ -475,8 +474,9 @@ export default {
     },
     updateFirmPic(event) {
       const uploadedFile = event.target.files[0];
+      const vm = this;
       if (uploadedFile === undefined) {
-        Swal.fire({
+        vm.Swal.fire({
           toast: true,
           position: 'top-end',
           icon: 'info',
@@ -500,7 +500,7 @@ export default {
               response.data.result ===
               'Uploadimg錯誤，請至伺服器log查詢錯誤訊息'
             ) {
-              Swal.fire({
+              vm.Swal.fire({
                 toast: true,
                 position: 'top-end',
                 icon: 'info',
@@ -509,7 +509,7 @@ export default {
                 timer: 2000,
               });
             } else {
-              Swal.fire({
+              vm.Swal.fire({
                 toast: true,
                 position: 'top-end',
                 icon: 'success',
@@ -522,7 +522,7 @@ export default {
             this.FirmPicUploading = false;
           })
           .catch(() => {
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'error',
@@ -552,7 +552,7 @@ export default {
       };
       this.$http(config)
         .then(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'success',
@@ -563,7 +563,7 @@ export default {
           vm.getOne();
         })
         .catch(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'error',
@@ -586,7 +586,7 @@ export default {
       };
       this.$http(config)
         .then(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'success',
@@ -597,7 +597,7 @@ export default {
           vm.getOne();
         })
         .catch(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'error',
@@ -622,7 +622,7 @@ export default {
           vm.$emit('loadAction', false);
           setTimeout(() => {
             if (vm.identify.identity !== '廠商') {
-              Swal.fire({
+              vm.Swal.fire({
                 toast: true,
                 position: 'top-end',
                 icon: 'error',

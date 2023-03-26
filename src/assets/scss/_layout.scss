@@ -5,6 +5,11 @@
   h1 {
     font-family: 'Patrick Hand', cursive;
   }
+  .layout {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
   main {
     flex: 1;
     background: rgb(252, 252, 252);

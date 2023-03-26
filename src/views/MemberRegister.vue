@@ -97,9 +97,6 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
-
 export default {
   data() {
     return {
@@ -128,7 +125,7 @@ export default {
         .then(function(response) {
           if (response.data.result === '註冊成功') {
             vm.$emit('loadAction', false);
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'success',
@@ -139,7 +136,7 @@ export default {
             vm.$router.push('/Login');
           } else {
             vm.$emit('loadAction', false);
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'error',
@@ -150,7 +147,7 @@ export default {
           }
         })
         .catch(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'error',

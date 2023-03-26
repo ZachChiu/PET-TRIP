@@ -235,8 +235,6 @@
 
 <script>
 /* global $ */
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
 import page from '@/components/page.vue';
 import order from '@/components/orderList.vue';
 import orderModal from '@/components/orderModal.vue';
@@ -293,7 +291,7 @@ export default {
 
           setTimeout(() => {
             if (vm.identify.identity !== '會員') {
-              Swal.fire({
+              vm.Swal.fire({
                 toast: true,
                 position: 'top-end',
                 icon: 'error',

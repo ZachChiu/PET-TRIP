@@ -76,7 +76,12 @@
                         placeholder="Password"
                         :class="classes"
                       />
-                      <a class="text-danger" href="#">忘記密碼?</a>
+                      <a
+                        class="text-danger"
+                        href="#"
+                        @click.prevent="onClickForgetPassword"
+                        >忘記密碼?</a
+                      >
                     </div>
                   </ValidationProvider>
 
@@ -145,7 +150,12 @@
                         placeholder="Password"
                         :class="classes"
                       />
-                      <a class="text-danger" href="#">忘記密碼?</a>
+                      <a
+                        class="text-danger"
+                        href="#"
+                        @click.prevent="onClickForgetPassword"
+                        >忘記密碼?</a
+                      >
                     </div>
                   </ValidationProvider>
 
@@ -175,8 +185,6 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
 import Cookies from 'js-cookie';
 
 export default {
@@ -204,7 +212,7 @@ export default {
       this.$http(config)
         .then(function(response) {
           if (response.data.result === '登入成功') {
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'success',
@@ -216,7 +224,7 @@ export default {
             Cookies.set('jwt', `Bearer ${token}`, {expires: 30});
             vm.$emit('page-refresh', '廠商');
           } else {
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'error',
@@ -228,7 +236,7 @@ export default {
           }
         })
         .catch(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'error',
@@ -253,7 +261,7 @@ export default {
       this.$http(config)
         .then(function(response) {
           if (response.data.result === '登入成功') {
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'success',
@@ -266,7 +274,7 @@ export default {
             Cookies.set('jwt', `Bearer ${token}`, {expires: 30});
             vm.$emit('page-refresh', '會員');
           } else {
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'error',
@@ -278,7 +286,7 @@ export default {
           }
         })
         .catch(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'error',
@@ -288,6 +296,16 @@ export default {
           });
           vm.$emit('loadAction', false);
         });
+    },
+    onClickForgetPassword() {
+      this.Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'info',
+        title: '還沒有這個功能QQ',
+        timer: 2000,
+        showConfirmButton: false,
+      });
     },
   },
 };

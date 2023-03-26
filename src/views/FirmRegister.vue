@@ -232,8 +232,6 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
 import taiwan from '@/taiwan_districts.json';
 
 export default {
@@ -289,7 +287,7 @@ export default {
         .then(function(response) {
           if (response.data.result === '註冊成功') {
             vm.$router.push('/Login');
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'success',
@@ -298,7 +296,7 @@ export default {
               timer: 2000,
             });
           } else {
-            Swal.fire({
+            vm.Swal.fire({
               toast: true,
               position: 'top-end',
               icon: 'error',

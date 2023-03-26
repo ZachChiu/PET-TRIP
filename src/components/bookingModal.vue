@@ -409,8 +409,6 @@
 
 <script>
 /* global $ */
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
 export default {
   name: 'BookingModal',
   props: ['temData', 'room', 'quantity', 'company', 'bookingTotalPrice'],
@@ -501,7 +499,7 @@ export default {
       };
       this.$http(config)
         .then(function(response) {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'info',
@@ -515,7 +513,7 @@ export default {
           }, 1500);
         })
         .catch(function() {
-          Swal.fire({
+          vm.Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'error',

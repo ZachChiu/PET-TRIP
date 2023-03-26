@@ -325,8 +325,6 @@
 <script>
 /* global $ */
 import {hubConnection} from 'signalr-no-jquery';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
 import LayoutBg from '@/assets/img/Layout/layout-bg.png';
 import LOGO from '@/assets/img/Pet Trip LOGO.png';
 import Cookies from 'js-cookie';
@@ -456,7 +454,7 @@ export default {
     },
     signout() {
       document.cookie = `pet='';expires=${new Date(-1)}; path=/`;
-      Swal.fire({
+      this.Swal.fire({
         toast: true,
         position: 'top-end',
         icon: 'success',
