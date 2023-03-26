@@ -101,7 +101,7 @@
 import LogoDesigner from '@/assets/img/authors/logo-designer.png';
 import Backend from '@/assets/img/authors/backend.png';
 import Frontend from '@/assets/img/authors/frontend.png';
-/* global $ */
+
 export default {
   data() {
     return {
@@ -109,14 +109,6 @@ export default {
       Backend,
       Frontend,
     };
-  },
-  created() {
-    $('html, body').animate(
-      {
-        scrollTop: $('#app').offset().top,
-      },
-      0
-    );
   },
 };
 </script>

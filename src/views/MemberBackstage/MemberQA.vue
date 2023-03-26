@@ -105,7 +105,6 @@
 
 <script>
 /* global $ */
-
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 import page from '@/components/page.vue';
@@ -157,12 +156,6 @@ export default {
             });
             vm.$router.push('/');
           }
-          $('html, body').animate(
-            {
-              scrollTop: $('.headerNav').offset().top,
-            },
-            10
-          );
         })
         .catch(function() {
           vm.$emit('loadAction', false);

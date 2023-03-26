@@ -11,7 +11,6 @@
     <div class="card-body">
       <h5 class="card-title">
         <router-link
-          target="_blank"
           :to="`/FirmPage/${room.companyseq}/Room/${room.roomseq}`"
           class="text-truncate text-body stretched-link"
         >

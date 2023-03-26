@@ -351,12 +351,6 @@ export default {
   created() {
     this.id = this.$route.params;
     this.getData();
-    $('html, body').animate(
-      {
-        scrollTop: $('#app').offset().top,
-      },
-      0
-    );
   },
   methods: {
     async getData(page = 1) {

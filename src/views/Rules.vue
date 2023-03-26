@@ -46,15 +46,5 @@
 </template>
 
 <script>
-/* global $ */
-export default {
-  created() {
-    $('html, body').animate(
-      {
-        scrollTop: $('#app').offset().top,
-      },
-      0
-    );
-  },
-};
+export default {};
 </script>

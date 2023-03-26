@@ -354,12 +354,6 @@ export default {
     },
   },
   created() {
-    $('html, body').animate(
-      {
-        scrollTop: $('#app').offset().top,
-      },
-      0
-    );
     const jwt = Cookies.get('jwt');
     if (jwt) {
       this.getIdentify();

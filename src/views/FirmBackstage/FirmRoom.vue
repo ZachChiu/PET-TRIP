@@ -204,12 +204,6 @@ export default {
               vm.$router.push('/');
             }
           }, 500);
-          $('html, body').animate(
-            {
-              scrollTop: $('.headerNav').offset().top,
-            },
-            0
-          );
         })
         .catch(function() {
           vm.$emit('loadAction', false);

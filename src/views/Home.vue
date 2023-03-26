@@ -296,7 +296,6 @@
 </template>
 
 <script>
-/* global $ */
 import carousel from 'vue-owl-carousel';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -382,12 +381,6 @@ export default {
     };
   },
   created() {
-    $('html, body').animate(
-      {
-        scrollTop: $('#app').offset().top,
-      },
-      0
-    );
     this.getData();
   },
   methods: {

@@ -175,7 +175,6 @@
 </template>
 
 <script>
-/* global $ */
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 import Cookies from 'js-cookie';
@@ -189,14 +188,7 @@ export default {
       },
     };
   },
-  created() {
-    $('html, body').animate(
-      {
-        scrollTop: $('#app').offset().top,
-      },
-      0
-    );
-  },
+
   methods: {
     firmLogin() {
       const vm = this;

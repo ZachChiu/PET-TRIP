@@ -49,7 +49,6 @@
 </template>
 
 <script>
-/* global $ */
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 export default {
@@ -122,12 +121,7 @@ export default {
             });
             vm.$emit('refresh');
             vm.msg = '';
-            $('html, body').animate(
-              {
-                scrollTop: $('#roomCenter').offset().top,
-              },
-              1000
-            );
+
             vm.loading = false;
           })
           .catch(function(error) {

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Layout from '../views/Layout.vue';
+import $ from 'jquery';
 
 Vue.use(VueRouter);
 
@@ -145,4 +146,12 @@ const router = new VueRouter({
   routes,
 });
 
+router.afterEach(() => {
+  $('html, body').animate(
+    {
+      scrollTop: $('#app').offset().top,
+    },
+    0
+  );
+});
 export default router;

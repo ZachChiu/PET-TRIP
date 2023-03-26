@@ -233,12 +233,6 @@ export default {
   },
   created() {
     this.getData();
-    $('html, body').animate(
-      {
-        scrollTop: $('#app').offset().top,
-      },
-      0
-    );
   },
   methods: {
     getData(page = 1) {

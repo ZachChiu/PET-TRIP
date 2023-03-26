@@ -54,7 +54,6 @@
 </template>
 
 <script>
-/* global $ */
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 
@@ -67,14 +66,7 @@ export default {
       question: '',
     };
   },
-  created() {
-    $('html, body').animate(
-      {
-        scrollTop: $('#app').offset().top,
-      },
-      0
-    );
-  },
+
   methods: {
     send() {
       this.name = '';

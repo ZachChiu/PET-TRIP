@@ -270,7 +270,7 @@
 </template>
 
 <script>
-/* global $ */
+// /* global $ */
 import firmPageRoom from '@/components/firmPageRoom.vue';
 import firmPageEvaluation from '@/components/firmPageEvaluation.vue';
 import {getFirm} from '@/lib/service/room.js';
@@ -307,12 +307,6 @@ export default {
           this.all = true;
         }
         this.$emit('loadAction', false);
-        $('html, body').animate(
-          {
-            scrollTop: $('#app').offset().top,
-          },
-          0
-        );
       } finally {
         this.$emit('loadAction', false);
       }
