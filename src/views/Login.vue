@@ -13,8 +13,10 @@
                 role="tab"
                 aria-controls="member"
                 aria-selected="true"
-                >會員登入</a
+                @click="onClickChangeMode('member')"
               >
+                會員登入
+              </a>
             </li>
             <li class="nav-item w-50">
               <a
@@ -25,8 +27,10 @@
                 role="tab"
                 aria-controls="firm"
                 aria-selected="false"
-                >廠商登入</a
+                @click="onClickChangeMode('frim')"
               >
+                廠商登入
+              </a>
             </li>
           </ul>
           <div id="myTabContent" class="tab-content">
@@ -191,13 +195,27 @@ export default {
   data() {
     return {
       login: {
-        email: '',
-        password: '',
+        email: 'test-member@gmail.com',
+        password: '12345678',
       },
+      mode: 'member',
     };
   },
-
   methods: {
+    onClickChangeMode(mode) {
+      this.mode = mode;
+      if (this.mode === 'member') {
+        this.login = {
+          email: 'test-member@gmail.com',
+          password: '12345678',
+        };
+      } else {
+        this.login = {
+          email: 'PAPA@gmail.com',
+          password: '12345678',
+        };
+      }
+    },
     firmLogin() {
       const vm = this;
       vm.$emit('loadAction', true);

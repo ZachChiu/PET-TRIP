@@ -77,12 +77,12 @@
                     rules="required|numeric"
                   >
                     <div class="form-group">
-                      <label for="電話">
+                      <label for="phone">
                         電話
                         <span class="text-danger">{{ errors[0] }}</span>
                       </label>
                       <input
-                        id="電話"
+                        id="phone"
                         v-model.trim="bookingList.phone"
                         type="text"
                         class="form-control"
@@ -113,7 +113,7 @@
                     rules="required"
                   >
                     <div class="form-group">
-                      <label for="">
+                      <label for="weight">
                         寵物重量(kg)
                         <span class="text-danger">{{ errors[0] }}</span>
                       </label>
@@ -393,17 +393,6 @@
         </div>
       </div>
     </div>
-    <form
-      class="d-none"
-      method="POST"
-      action="https://ccore.spgateway.com/MPG/mpg_gateway"
-    >
-      <input v-model="payData[0].Value" type="text" :name="payData[0].Key" />
-      <input v-model="payData[1].Value" type="text" :name="payData[1].Key" />
-      <input v-model="payData[2].Value" type="text" :name="payData[2].Key" />
-      <input v-model="payData[3].Value" type="text" :name="payData[3].Key" />
-      <button id="send" type="submit"></button>
-    </form>
   </div>
 </template>
 
@@ -411,30 +400,11 @@
 import Cookies from 'js-cookie';
 /* global $ */
 export default {
-  name: 'BookingModal',
   props: ['temData', 'room', 'quantity', 'company', 'bookingTotalPrice'],
   data() {
     return {
       paying: false,
       bookingList: this.temData,
-      payData: [
-        {
-          Key: '1',
-          Value: '2',
-        },
-        {
-          Key: '1',
-          Value: '2',
-        },
-        {
-          Key: '1',
-          Value: '2',
-        },
-        {
-          Key: '1',
-          Value: '2',
-        },
-      ],
     };
   },
   watch: {
@@ -507,10 +477,7 @@ export default {
             showConfirmButton: false,
             timer: 2000,
           });
-          vm.payData = response.data;
-          setTimeout(() => {
-            document.getElementById('send').click();
-          }, 1500);
+          vm.sendFormPost(response.data);
         })
         .catch(function() {
           vm.Swal.fire({
@@ -523,6 +490,27 @@ export default {
           });
           vm.paying = false;
         });
+    },
+    sendFormPost(payData) {
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'https://ccore.newebpay.com/MPG/mpg_gateway';
+      form.style.display = 'none';
+
+      payData.forEach((data) => {
+        const inputFirst = document.createElement('input');
+        inputFirst.value = data.Value;
+        inputFirst.type = 'text';
+        inputFirst.name = data.Key;
+        form.appendChild(inputFirst);
+      });
+      const sendBtn = document.createElement('button');
+      sendBtn.type = 'submit';
+      sendBtn.id = 'send';
+      form.appendChild(sendBtn);
+      document.body.appendChild(form);
+
+      sendBtn.click();
     },
     nextStep() {
       $('.nav-pills button[href="#orderCheck"]').tab('show');

@@ -339,7 +339,7 @@ export default {
       isLoading: false,
       noticeData: {},
       isOpen: false,
-      hub: hubConnection('http://pettrip.rocket-coding.com:80'),
+      hub: hubConnection('https://pettrip.ddns.net/'),
     };
   },
   computed: {
@@ -379,6 +379,7 @@ export default {
           if (vm.identify.avatar == null) {
             vm.identify.avatar = AvatarDefault;
           }
+
           if (type === '廠商') {
             vm.$router.push('/FirmBackstage');
           } else if (type === '會員') {
@@ -387,7 +388,7 @@ export default {
           vm.connectHub();
         })
         .catch(function() {
-          Cookies.remove('jwt');
+          // Cookies.remove('jwt');
           vm.isLoading = false;
         });
     },
@@ -480,6 +481,7 @@ export default {
     connectHub() {
       const vm = this;
       const proxy = this.hub.createHubProxy('DefaultHub');
+
       proxy.on('Get', function(get) {
         $('.noticeBtn').addClass('animate__bounce ');
         setTimeout(() => {
@@ -487,20 +489,23 @@ export default {
         }, 1500);
         vm.noticeData = get;
       });
-      this.hub.start({jsonp: true}).done(function() {
-        vm.getCall();
-        const config = {
-          method: 'post',
-          url: 'Notice/Sendid',
-          data: {
-            connectid: vm.hub.id,
-          },
-        };
-        vm.$http(config);
-        // .then(function() {})
-        // .catch(function() {});
-      });
-      // .fail(function() {});
+
+      this.hub
+        .start({jsonp: true})
+        .done(function() {
+          vm.getCall();
+          const config = {
+            method: 'post',
+            url: 'Notice/Sendid',
+            data: {
+              connectid: vm.hub.id,
+            },
+          };
+          vm.$http(config);
+        })
+        .fail(function(err) {
+          console.log(err);
+        });
     },
     getCall() {
       const vm = this;

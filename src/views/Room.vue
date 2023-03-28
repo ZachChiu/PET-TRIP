@@ -65,7 +65,7 @@
               <div class="col-lg-12 col-md-6 text-center col-12">
                 <vc-date-picker
                   v-model="dates"
-                  :disabled-dates="this.disabledDate"
+                  :disabled-dates="disabledDate"
                   is-expanded
                   mode="range"
                   is-inline
@@ -259,11 +259,6 @@
               :room="room"
               @refresh="getData"
             ></roomQA>
-            <page
-              v-if="page.count !== 0"
-              :page-data="page"
-              @page-change="getData"
-            ></page>
           </div>
         </div>
       </div>
@@ -277,7 +272,6 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css';
 import bookingModal from '@/components/bookingModal.vue';
 import roomInfo from '@/components/roomInfo.vue';
 import roomQA from '@/components/roomQA.vue';
-import page from '@/components/page.vue';
 import Cookies from 'js-cookie';
 import AvatarDefault from '@/assets/img/Home/Avatar-default.png';
 
@@ -286,7 +280,6 @@ export default {
     roomQA,
     roomInfo,
     bookingModal,
-    page,
   },
   props: ['identify'],
   data() {
@@ -301,24 +294,7 @@ export default {
       QA: [],
       id: {},
       page: {},
-      payData: [
-        {
-          Key: '1',
-          Value: '2',
-        },
-        {
-          Key: '1',
-          Value: '2',
-        },
-        {
-          Key: '1',
-          Value: '2',
-        },
-        {
-          Key: '1',
-          Value: '2',
-        },
-      ],
+
       bookingList: {
         booker: '',
         phone: '',

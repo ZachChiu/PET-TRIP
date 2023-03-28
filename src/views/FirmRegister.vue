@@ -194,7 +194,6 @@
                   <vc-date-picker
                     v-model="register.effectivedate"
                     :min-date="new Date()"
-                    :value="Object"
                   >
                     <input
                       id="date"
