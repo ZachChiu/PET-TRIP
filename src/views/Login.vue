@@ -96,7 +96,6 @@
                       >會員註冊</router-link
                     >
                     <button
-                      type="submit"
                       class="w-50 ml-2 btn btn-primary"
                       :disabled="invalid"
                       :class="{disabled: invalid}"
@@ -170,7 +169,6 @@
                       >廠商註冊</router-link
                     >
                     <button
-                      type="submit"
                       class="w-50 ml-2 btn btn-primary"
                       :disabled="invalid"
                       :class="{disabled: invalid}"

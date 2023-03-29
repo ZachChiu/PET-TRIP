@@ -369,6 +369,9 @@
               <p class="text-center h4 text-danger my-3">
                 訂單總額：共 $ {{ bookingTotalPrice | currencyStyle }} 元
               </p>
+              <p>測試卡號：4311-9522-2222-2222</p>
+              <p>安全碼：222</p>
+              <p>有效月/年：大於現在</p>
               <div class="d-flex justify-content-between">
                 <button class="btn btn-outline-secondary" @click="lastStep">
                   上一步
@@ -397,8 +400,9 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie';
 /* global $ */
+import Cookies from 'js-cookie';
+
 export default {
   props: ['temData', 'room', 'quantity', 'company', 'bookingTotalPrice'],
   data() {
@@ -445,7 +449,7 @@ export default {
 
       const config = {
         method: 'post',
-        url: 'Pay/Getinfo',
+        url: 'Pay/ECPayGetinfo',
         headers: {
           Authorization: jwt,
         },
@@ -494,23 +498,36 @@ export default {
     sendFormPost(payData) {
       const form = document.createElement('form');
       form.method = 'POST';
-      form.action = 'https://ccore.newebpay.com/MPG/mpg_gateway';
       form.style.display = 'none';
 
-      payData.forEach((data) => {
+      // 綠界
+      form.action = 'https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5';
+      for (const [key, value] of Object.entries(payData)) {
         const inputFirst = document.createElement('input');
-        inputFirst.value = data.Value;
+        inputFirst.value = value;
         inputFirst.type = 'text';
-        inputFirst.name = data.Key;
+        inputFirst.name = key;
         form.appendChild(inputFirst);
-      });
-      const sendBtn = document.createElement('button');
-      sendBtn.type = 'submit';
-      sendBtn.id = 'send';
-      form.appendChild(sendBtn);
+      }
+
+      // 藍星
+      // form.action = 'https://ccore.newebpay.com/MPG/mpg_gateway';
+      // payData.forEach((data) => {
+      //   const inputFirst = document.createElement('input');
+      //   inputFirst.value = data.Value;
+      //   inputFirst.type = 'text';
+      //   inputFirst.name = data.Key;
+      //   form.appendChild(inputFirst);
+      // });
+      // const sendBtn = document.createElement('button');
+      // sendBtn.type = 'submit';
+      // sendBtn.id = 'send';
+      // sendBtn.textContent = '點我';
+      // form.appendChild(sendBtn);
       document.body.appendChild(form);
 
-      sendBtn.click();
+      form.submit();
+      // sendBtn.click();
     },
     nextStep() {
       $('.nav-pills button[href="#orderCheck"]').tab('show');
