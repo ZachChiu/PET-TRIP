@@ -5,9 +5,31 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <meta name="description" content="2020 台灣寵物寄宿平台，簡單下訂、流程簡便、空間遍佈全台，廠商合法並附有執照，絕無非法寵物寄宿廠商。">
+  <meta name="description" content="2023 台灣寵物寄宿平台，簡單下訂、流程簡便、空間遍佈全台，廠商合法並附有執照，絕無非法寵物寄宿廠商。">
   <meta name="keywords" content="寵物寄宿, 寵物旅館, Pet Trip, 寵物住宿, 狗狗寄宿, 貓咪寄宿">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:site_name" content="<%= VUE_APP_PRODUCT_NAME %>" />
+  <meta property="og:title" content="<%= VUE_APP_PRODUCT_NAME %>" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="<%= VUE_APP_PRODUCT_DESCRIPTION %>" />
+  <meta property="og:image" content="/img/og.jpg" />
+  <meta property="og:image:width" content="1199" />
+  <meta property="og:image:height" content="629" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="<%= VUE_APP_PRODUCT_URL %>" />
+  <meta property="twitter:title" content="<%= VUE_APP_PRODUCT_NAME %>" />
+  <meta property="twitter:description" content="<%= VUE_APP_PRODUCT_DESCRIPTION %>" />
+  <meta property="twitter:image" content="/img/og.jpg" />
+
+
+  <meta name="title" property="og:title" content="<%= VUE_APP_PRODUCT_NAME %>" />
+  <meta name="description" content="<%= VUE_APP_PRODUCT_DESCRIPTION %>" />
+  <meta name="image" property="og:image" content="/img/og.jpg" />
+  <meta name="twitter:image" content="/img/og.jpg" />
+
   <title>
     <%= htmlWebpackPlugin.options.title %>
   </title>

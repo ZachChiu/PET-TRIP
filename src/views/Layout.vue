@@ -284,8 +284,8 @@
         <div class="row">
           <div class="col-md-8 col-sm-6 col-xs-12">
             <p class="text-muted">
-              Copyright &copy; 2020 All Rights Reserved by Pet Trip.
-              <br />本網站僅供火箭隊專題使用
+              Copyright &copy; {{ new Date().getFullYear() }} All Rights
+              Reserved by Pet Trip. <br />本網站僅供火箭隊專題使用
             </p>
           </div>
 
