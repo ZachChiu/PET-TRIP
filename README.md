@@ -9,12 +9,15 @@
 但資料只存在自己的瀏覽器裡。下訂不會進入綠界付款頁，會直接成立一筆已付款訂單；SignalR 即時通知改成載入時查詢一次。
 
 ```bash
-nvm use        # Node 16
+nvm use        # Node 22（16 ~ 24 都可以）
 npm install
 npm run serve  # 本機開發
 npm run build  # 產出 dist/，放到任何靜態主機即可
-PUBLIC_PATH=/PET-TRIP/ npm run build  # 部署在子路徑時（例如 GitHub Pages）
+PUBLIC_PATH=/PET-TRIP/ npm run build  # 部署在子路徑時
 ```
+
+部署到 Cloudflare Pages / Netlify / Vercel：連結這個 repo，build 指令填 `npm run build`，輸出資料夾填 `dist`。
+SPA 路由已經用 `public/_redirects`（Cloudflare Pages、Netlify）和 `vercel.json`（Vercel）設定好了。
 
 若有一天要接回真的後端，build 時加上 `VUE_APP_MOCK=false` 即可關掉假資料。
 
