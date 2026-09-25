@@ -476,10 +476,17 @@ export default {
         this.$router.push('1');
       }
       this.getIdentify();
-      this.hub.stop();
+      if (process.env.VUE_APP_MOCK === 'false') {
+        this.hub.stop();
+      }
     },
     connectHub() {
       const vm = this;
+      // mock 模式下沒有 SignalR server，只在載入時抓一次通知
+      if (process.env.VUE_APP_MOCK !== 'false') {
+        vm.getCall();
+        return;
+      }
       const proxy = this.hub.createHubProxy('DefaultHub');
 
       proxy.on('Get', function(get) {

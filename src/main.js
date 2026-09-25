@@ -5,6 +5,7 @@ import * as filters from './assets/filters';
 import jQuery from 'jquery';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import mockAdapter from './mock';
 import StarRating from 'vue-star-rating';
 import VCalendar from 'v-calendar';
 import {
@@ -25,6 +26,11 @@ import 'bootstrap';
 localize('zh_TW', zhTW);
 
 axios.defaults.baseURL = '/api';
+
+// 原本的後端已經停止服務，預設改用前端內建的假資料（見 src/mock）
+if (process.env.VUE_APP_MOCK !== 'false') {
+  axios.defaults.adapter = mockAdapter;
+}
 
 Vue.config.productionTip = false;
 Vue.use(VueSpinners);

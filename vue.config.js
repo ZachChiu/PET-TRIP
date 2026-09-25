@@ -3,6 +3,8 @@ process.env.VUE_APP_PRODUCT_DESCRIPTION = `${new Date().getFullYear()} 台灣寵
 process.env.VUE_APP_PRODUCT_URL = 'https://pettrip.ddns.net/';
 
 module.exports = {
+  // 部署在子路徑時（例如 GitHub Pages 的 /PET-TRIP/）用 PUBLIC_PATH 指定
+  publicPath: process.env.PUBLIC_PATH || '/',
   pages: {
     index: {
       entry: 'src/main.js',

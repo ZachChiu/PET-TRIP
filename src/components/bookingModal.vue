@@ -496,6 +496,13 @@ export default {
         });
     },
     sendFormPost(payData) {
+      // mock 模式：訂單已直接成立，不進綠界付款頁
+      if (payData.mock) {
+        this.paying = false;
+        $('#bookingModal').modal('hide');
+        this.$router.push('/MemberBackstage');
+        return;
+      }
       const form = document.createElement('form');
       form.method = 'POST';
       form.style.display = 'none';
