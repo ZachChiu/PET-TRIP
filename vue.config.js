@@ -6,7 +6,7 @@ crypto.createHash = (algorithm) =>
 
 process.env.VUE_APP_PRODUCT_NAME = 'Pet Trip 寵物寄宿平台';
 process.env.VUE_APP_PRODUCT_DESCRIPTION = `${new Date().getFullYear()} 台灣寵物寄宿平台，簡單下訂、流程簡便、空間遍佈全台，廠商合法並附有執照，絕無非法寵物寄宿廠商。`;
-process.env.VUE_APP_PRODUCT_URL = 'https://pettrip.ddns.net/';
+process.env.VUE_APP_PRODUCT_URL = 'https://pet-trip.kamee.workers.dev/';
 
 module.exports = {
   // 部署在子路徑時（例如 GitHub Pages 的 /PET-TRIP/）用 PUBLIC_PATH 指定

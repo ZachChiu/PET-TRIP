@@ -4,6 +4,8 @@
 
 ### 2026 復活說明
 
+線上網址：https://pet-trip.kamee.workers.dev/
+
 原本的後端（pettrip.ddns.net）已經停止服務，現在網站改用前端內建的假資料（`src/mock`）運作：
 所有 API 請求都由 axios adapter 攔截，資料存在瀏覽器的 localStorage，所以登入、下訂、上架、問答都還能操作，
 但資料只存在自己的瀏覽器裡。下訂不會進入綠界付款頁，會直接成立一筆已付款訂單；SignalR 即時通知改成載入時查詢一次。
