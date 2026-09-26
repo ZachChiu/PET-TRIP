@@ -1,0 +1,10 @@
+// Cloudflare Workers 靜態網站設定
+{
+  "name": "pet-trip",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    // 找不到的路徑都回 index.html，交給 vue-router（history mode）處理
+    "not_found_handling": "single-page-application"
+  }
+}

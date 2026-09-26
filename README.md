@@ -16,8 +16,8 @@ npm run build  # 產出 dist/，放到任何靜態主機即可
 PUBLIC_PATH=/PET-TRIP/ npm run build  # 部署在子路徑時
 ```
 
-部署到 Cloudflare Pages / Netlify / Vercel：連結這個 repo，build 指令填 `npm run build`，輸出資料夾填 `dist`。
-SPA 路由已經用 `public/_redirects`（Cloudflare Pages、Netlify）和 `vercel.json`（Vercel）設定好了。
+部署到 Cloudflare / Netlify / Vercel：連結這個 repo，build 指令填 `npm run build`，輸出資料夾填 `dist`。
+SPA 路由已經用 `wrangler.jsonc`（Cloudflare Workers）、`netlify.toml`（Netlify）和 `vercel.json`（Vercel）設定好了。
 
 若有一天要接回真的後端，build 時加上 `VUE_APP_MOCK=false` 即可關掉假資料。
 
